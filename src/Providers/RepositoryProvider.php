@@ -23,9 +23,7 @@ final readonly class RepositoryProvider extends Provider implements Factory
     public function make(string $abstract): RawBuilder|EloquentBuilder|Transform|null
     {
         return match ($abstract) {
-            'rawQuery'  => $this->queryBuilderProvider
-                ->make('query')
-                ->from($this->queryBuilderProvider->make('table')),
+            'rawQuery'  => $this->queryBuilderProvider->make('model')->newQuery(),
             'transform' => $this->resolve($abstract),
             default     => $this->queryBuilderProvider->make($abstract),
         };
