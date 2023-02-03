@@ -1,0 +1,61 @@
+<?php
+
+namespace Xgbnl\Cloud\Providers;
+
+use ReflectionException;
+use Xgbnl\Cloud\Contacts\Factory;
+use Xgbnl\Cloud\Exceptions\FailedResolveException;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+
+readonly class QueryBuilderProvider extends Provider implements Factory
+{
+
+    /**
+     * @throws ReflectionException
+     */
+    public function make(string $abstract): Model|EloquentBuilder|string
+    {
+        return match ($abstract) {
+            'table' => $this->resolve($abstract)->getTable(),
+            'model' => $this->resolve($abstract),
+            'query' => $this->resolveClass()::query(),
+        };
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    protected function resolve(string $abstract, array $parameters = []): mixed
+    {
+        $class = $this->resolveClass();
+
+        return $this->build($class);
+    }
+
+    public function resolveClass(string $abstract = null): mixed
+    {
+        if (!$this->current->isNull()) {
+            return $this->current->getModelName();
+        }
+
+        ['namespace' => $ns, 'class' => $baseName] = $this->explode();
+
+        $class = $ns . '\\Models\\' . $baseName;
+
+        if (!class_exists($class)) {
+            $this->failedResolved($class, true);
+        }
+
+        if (!is_subclass_of($class, Model::class)) {
+            $this->failedResolved($class);
+        }
+
+        return $this->current->assign($class);
+    }
+
+    protected function failedResolved(string $class = null, bool $exists = false): void
+    {
+        throw new FailedResolveException($exists ? '缺少模型[ ' . $class . ' ]' : '模型文件[' . $class . '必须继承[' . Model::class . ']');
+    }
+}

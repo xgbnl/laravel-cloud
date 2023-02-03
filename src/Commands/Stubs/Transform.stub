@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+use Xgbnl\Cloud\Contacts\Transform;
+use Illuminate\Database\Eloquent\Model;
+
+class DummyClass implements Transform
+{
+    public function transformers(Model $model): array
+    {
+        // To Do
+    }
+}

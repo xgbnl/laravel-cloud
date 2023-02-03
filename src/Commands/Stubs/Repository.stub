@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+use Xgbnl\Cloud\Repositories\Repository;
+
+class DummyClass extends Repository
+{
+
+}

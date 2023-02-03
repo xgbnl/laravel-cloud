@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+use Xgbnl\Cloud\Services\Service;
+
+class DummyClass extends Service
+{
+
+    final protected function configure(): void
+    {
+        // To Do
+    }
+
+}

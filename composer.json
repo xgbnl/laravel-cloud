@@ -1,0 +1,32 @@
+{
+  "name": "xgbnl/laravel-cloud",
+  "description": "Laravel微脚手架，整合了Service、Repository、Cache、Transform分层结构",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Xgbnl\\Cloud\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "df",
+      "email": "745502274@qq.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "ext-redis": "*",
+    "ext-http": "*"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Xgbnl\\Cloud\\FleetServiceProvider"
+      ]
+    }
+  }
+}
