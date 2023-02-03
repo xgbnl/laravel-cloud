@@ -50,7 +50,7 @@ final readonly class ControllerProvider extends Provider implements Factory
         $ns = match ($abstract) {
             'service'    => array_shift($parts) . '\\Services\\',
             'repository' => array_shift($parts) . '\\Repositories\\',
-            'request'    => array_shift($parts) . '\\Request\\',
+            'request'    => array_shift($parts) . '\\Http\\Requests\\',
             'cache'      => array_shift($parts) . '\\Cache\\',
         };
 
