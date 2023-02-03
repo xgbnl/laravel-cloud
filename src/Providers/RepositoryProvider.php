@@ -34,7 +34,7 @@ final readonly class RepositoryProvider extends Provider implements Factory
     {
         $class = $this->resolveClass($abstract);
 
-        if (!is_null($class)) {
+        if (is_null($class)) {
             return null;
         }
 
