@@ -27,6 +27,7 @@ final readonly class RepositoryProvider extends Provider implements Factory
                 ->make('query')
                 ->from($this->queryBuilderProvider->make('table')),
             'transform' => $this->resolve($abstract),
+            default     => $this->queryBuilderProvider->make($abstract),
         };
     }
 
