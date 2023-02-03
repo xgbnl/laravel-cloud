@@ -14,8 +14,8 @@ final readonly class ControllerProvider extends Provider implements Factory
     public function make(string $abstract): Service|Repository|Cacheable
     {
         return match ($abstract) {
-            'repository', 'service' => $this->resolve($abstract),
-            'cache'                 => $this->resolve($abstract, ['repository' => $this->dominator->repository]),
+            'repository', 'service', => $this->resolve($abstract),
+            'cache'                  => $this->resolve($abstract, ['repository' => $this->dominator->repository]),
         };
     }
 
@@ -25,7 +25,7 @@ final readonly class ControllerProvider extends Provider implements Factory
 
         [$parent, $name] = match ($abstract) {
             'repository' => [Repositories::class, '仓库'],
-            'Service'    => [Service::class, '服务'],
+            'service'    => [Service::class, '服务'],
             'cache'      => [Cacheable::class, '缓存'],
         };
 
@@ -66,7 +66,7 @@ final readonly class ControllerProvider extends Provider implements Factory
         return $this->dominator->assign($class);
     }
 
-    protected function failedResolved(string $abstract = null, string $controller = null,bool $exists = false): void
+    protected function failedResolved(string $abstract = null, string $controller = null, bool $exists = false): void
     {
         $modelType = match (true) {
             str_ends_with($abstract, 'Request')    => '验证器',
