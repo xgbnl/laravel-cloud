@@ -47,8 +47,8 @@ final readonly class RepositoryProvider extends Provider implements Factory
 
     public function resolveClass(string $abstract = null): ?string
     {
-        if ($this->current->isNull()) {
-            return $this->current->getModelName();
+        if ($this->dominator->isNull()) {
+            return $this->dominator->getModelName();
         }
 
         ['namespace' => $ns, 'class' => $class] = $this->explode();
@@ -59,7 +59,7 @@ final readonly class RepositoryProvider extends Provider implements Factory
             return null;
         }
 
-        return $this->current->assign($class);
+        return $this->dominator->assign($class);
     }
 
     protected function failedResolved(string $class = null, bool $exists = false): void

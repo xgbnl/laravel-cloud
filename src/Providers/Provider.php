@@ -10,11 +10,11 @@ use Xgbnl\Cloud\Exceptions\FailedResolveException;
 
 readonly abstract class Provider
 {
-    protected Properties $current;
+    protected Properties $dominator;
 
-    public function __construct(Properties $current)
+    public function __construct(Properties $dominator)
     {
-        $this->current = $current;
+        $this->dominator = $dominator;
     }
 
     final public static function bind(Properties $properties): Factory
@@ -76,7 +76,7 @@ readonly abstract class Provider
 
     final protected function explode(): array
     {
-        $splice = explode('\\', $this->current->getCalledClass());
+        $splice = explode('\\', $this->dominator->getCalledClass());
 
         return ['namespace' => array_shift($splice), 'class' => array_pop($splice)];
     }

@@ -28,8 +28,8 @@ readonly class QueryBuilderProvider extends Provider implements Factory
 
     public function resolveClass(string $abstract = null): mixed
     {
-        if (!$this->current->isNull()) {
-            return $this->current->getModelName();
+        if (!$this->dominator->isNull()) {
+            return $this->dominator->getModelName();
         }
 
         ['namespace' => $ns, 'class' => $baseName] = $this->explode();
@@ -44,7 +44,7 @@ readonly class QueryBuilderProvider extends Provider implements Factory
             $this->failedResolved($class);
         }
 
-        return $this->current->assign($class);
+        return $this->dominator->assign($class);
     }
 
     protected function failedResolved(string $class = null, bool $exists = false): void

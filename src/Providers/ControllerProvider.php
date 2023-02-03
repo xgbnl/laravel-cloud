@@ -16,7 +16,7 @@ final readonly class ControllerProvider extends Provider implements Factory
     {
         return match ($abstract) {
             'repository', 'service' => $this->resolve($abstract),
-            'cache'                 => $this->resolve($abstract, ['repository' => $this->current->repository]),
+            'cache'                 => $this->resolve($abstract, ['repository' => $this->dominator->repository]),
         };
     }
 
@@ -39,11 +39,11 @@ final readonly class ControllerProvider extends Provider implements Factory
 
     final public function resolveClass(string $abstract = null): string
     {
-        if (!$this->current->isNull() && str_ends_with($this->current->getModelName(), $abstract)) {
-            return $this->current->getModelName();
+        if (!$this->dominator->isNull() && str_ends_with($this->dominator->getModelName(), $abstract)) {
+            return $this->dominator->getModelName();
         }
 
-        $clazz = str_replace('\\http\\Controllers\\', '\\', $this->current->getCalledClass());
+        $clazz = str_replace('\\http\\Controllers\\', '\\', $this->dominator->getCalledClass());
 
         $parts = explode('\\', $clazz);
 
@@ -64,7 +64,7 @@ final readonly class ControllerProvider extends Provider implements Factory
             $this->failedResolved($class, $controller);
         }
 
-        return $this->current->assign($class);
+        return $this->dominator->assign($class);
     }
 
     protected function failedResolved(string $abstract = null, string $controller = null,bool $exists = false): void
