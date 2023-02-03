@@ -23,12 +23,7 @@ class CloudServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->installCommand($this->commands);
-    }
-
-    protected function installCommand(array $commands): void
-    {
         $this->publishes([__DIR__ . '/Commands/Stubs/BaseController.stub' => app_path('Http/Controllers/BaseController.php')]);
-        $this->commands($commands);
+        $this->commands($this->commands);
     }
 }
