@@ -20,7 +20,7 @@ final readonly class RepositoryProvider extends Provider implements Factory
         parent::__construct($current);
     }
 
-    public function make(string $abstract): RawBuilder|EloquentBuilder|Transform|null
+    public function make(string $abstract): RawBuilder|EloquentBuilder|Transform|string|null
     {
         return match ($abstract) {
             'rawQuery'  => $this->queryBuilderProvider->make('model')->newQuery(),
@@ -58,7 +58,7 @@ final readonly class RepositoryProvider extends Provider implements Factory
 
         $class = $ns . '\\Transforms\\' . $class . ucwords($abstract);
 
-        return !class_exists($class) ? null: $this->dominator->assign($class);
+        return !class_exists($class) ? null : $this->dominator->assign($class);
     }
 
     protected function failedResolved(string $class = null, bool $exists = false): void
