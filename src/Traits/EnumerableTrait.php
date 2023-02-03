@@ -36,6 +36,11 @@ trait EnumerableTrait
         return array_map(fn($enum) => $enum->convert(), self::cases());
     }
 
+    public static function implode(): string
+    {
+        return implode(',', self::values());
+    }
+
     protected static function filter(\Closure $closure, int $returns = self::FILTER_RETURNS_CONVERT): array
     {
         return array_reduce(self::cases(), function (mixed $carry, Enumerable $enum) use ($closure, $returns) {

@@ -21,4 +21,6 @@ interface Enumerable
      * @return array<string>
      */
     public static function values(): array;
+
+    public static function implode(): string;
 }
