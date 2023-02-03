@@ -2,7 +2,6 @@
 
 namespace Xgbnl\Cloud\Providers;
 
-use ReflectionException;
 use Xgbnl\Cloud\Contacts\Factory;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Illuminate\Database\Eloquent\Model;

@@ -6,10 +6,7 @@ use ReflectionClass;
 use ReflectionException;
 use Xgbnl\Cloud\Contacts\Properties;
 use Xgbnl\Cloud\Contacts\Factory;
-use Xgbnl\Cloud\Controllers\Controller;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
-use Xgbnl\Cloud\Repositories\Repositories;
-use Xgbnl\Cloud\Services\Service;
 
 readonly abstract class Provider
 {
@@ -24,8 +21,8 @@ readonly abstract class Provider
     {
         return match (true) {
             self::endWith($properties, 'Controller') => new ControllerProvider($properties),
-            self::endWith($properties, 'Repository'),
-            self::endWith($properties, 'Service')    => new RepositoryProvider($properties),
+            self::endWith($properties, 'Repository') => new RepositoryProvider($properties),
+            self::endWith($properties, 'Service')    => new QueryBuilderProvider($properties),
         };
     }
 
