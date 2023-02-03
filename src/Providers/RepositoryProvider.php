@@ -15,7 +15,7 @@ final readonly class RepositoryProvider extends Provider implements Factory
 
     public function __construct(Properties $current)
     {
-        $this->queryBuilderProvider = self::bind($current);
+        $this->queryBuilderProvider = new QueryBuilderProvider($current);
 
         parent::__construct($current);
     }
