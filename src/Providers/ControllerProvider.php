@@ -12,10 +12,6 @@ use Xgbnl\Cloud\Services\Service;
 
 final readonly class ControllerProvider extends Provider implements Factory
 {
-
-    /**
-     * @throws ReflectionException
-     */
     public function make(string $abstract): Service|Repository|Cacheable
     {
         return match ($abstract) {
@@ -24,9 +20,6 @@ final readonly class ControllerProvider extends Provider implements Factory
         };
     }
 
-    /**
-     * @throws ReflectionException
-     */
     protected function resolve(string $abstract, array $parameters = []): Service|Repository|Cacheable
     {
         $class = $this->resolveClass($abstract);

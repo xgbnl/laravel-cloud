@@ -34,9 +34,6 @@ readonly abstract class Provider
         return str_ends_with(get_class($haystack), $needle);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     protected function build(string $abstract, array $parameters = []): mixed
     {
         try {
@@ -49,7 +46,13 @@ readonly abstract class Provider
             throw new FailedResolveException('目标类[' . $abstract . ']无法被实例化');
         }
 
-        return empty($parameters) ? $refClass->newInstance() : $refClass->newInstance(...$parameters);
+        try {
+            $instance = empty($parameters) ? $refClass->newInstance() : $refClass->newInstance(...$parameters);
+        } catch (ReflectionException $e) {
+            throw new FailedResolveException('目标类[' . $abstract . ']实例化失败:' . $e->getMessage());
+        }
+
+        return $instance;
     }
 
     final protected function splice(string $haystack, string|array $needle): string

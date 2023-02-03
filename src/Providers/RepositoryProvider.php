@@ -2,7 +2,6 @@
 
 namespace Xgbnl\Cloud\Providers;
 
-use ReflectionException;
 use Xgbnl\Cloud\Contacts\Factory;
 use Xgbnl\Cloud\Contacts\Properties;
 use Xgbnl\Cloud\Contacts\Transform;
@@ -21,9 +20,6 @@ final readonly class RepositoryProvider extends Provider implements Factory
         parent::__construct($current);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function make(string $abstract): RawBuilder|EloquentBuilder|Transform|null
     {
         return match ($abstract) {
@@ -34,9 +30,6 @@ final readonly class RepositoryProvider extends Provider implements Factory
         };
     }
 
-    /**
-     * @throws ReflectionException
-     */
     protected function resolve(string $abstract, array $parameters = []): mixed
     {
         $class = $this->resolveClass($abstract);

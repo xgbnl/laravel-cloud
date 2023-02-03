@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 readonly class QueryBuilderProvider extends Provider implements Factory
 {
 
-    /**
-     * @throws ReflectionException
-     */
     public function make(string $abstract): Model|EloquentBuilder|string
     {
         return match ($abstract) {
@@ -23,9 +20,6 @@ readonly class QueryBuilderProvider extends Provider implements Factory
         };
     }
 
-    /**
-     * @throws ReflectionException
-     */
     protected function resolve(string $abstract, array $parameters = []): mixed
     {
         $class = $this->resolveClass();
