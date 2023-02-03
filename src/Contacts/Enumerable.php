@@ -22,5 +22,10 @@ interface Enumerable
      */
     public static function values(): array;
 
-    public static function implode(): string;
+    /**
+     * 将枚举值数组使用给定字符进行拼接
+     * @param string $haystack
+     * @return string
+     */
+    public static function join(string $haystack): string;
 }

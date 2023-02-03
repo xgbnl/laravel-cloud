@@ -36,9 +36,9 @@ trait EnumerableTrait
         return array_map(fn($enum) => $enum->convert(), self::cases());
     }
 
-    public static function implode(): string
+    public static function join(string $haystack = ','): string
     {
-        return implode(',', self::values());
+        return implode($haystack, self::values());
     }
 
     protected static function filter(\Closure $closure, int $returns = self::FILTER_RETURNS_CONVERT): array
