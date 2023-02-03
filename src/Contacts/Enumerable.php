@@ -11,13 +11,6 @@ interface Enumerable
     public function convert(): array;
 
     /**
-     * 利用给定值解析一个枚举实例
-     * @param string $value
-     * @return Enumerable
-     */
-    public static function resolve(string $value): Enumerable;
-
-    /**
      * 将所有枚举项转换为数组并返回
      * @return array<array>
      */
