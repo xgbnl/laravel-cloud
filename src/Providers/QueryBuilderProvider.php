@@ -34,10 +34,7 @@ final readonly class QueryBuilderProvider extends Provider implements Factory
 
         ['namespace' => $ns, 'class' => $baseName] = $this->explode();
 
-        $baseName = match (true) {
-            str_ends_with($baseName, 'Repository') => $this->splice($baseName, 'Repository'),
-            str_ends_with($baseName, 'Services')   => $this->splice($baseName, 'Service'),
-        };
+        $baseName = $this->splice($baseName, ['Repository', 'Service']);
 
         $class = $ns . '\\Models\\' . $baseName;
 
