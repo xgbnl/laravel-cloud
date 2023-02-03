@@ -10,7 +10,7 @@ use Xgbnl\Cloud\Commands\MakeRepositoryCommand;
 use Xgbnl\Cloud\Commands\MakeServiceCommand;
 use Xgbnl\Cloud\Commands\MakeTransformCommand;
 
-class FleetServiceProvider extends ServiceProvider
+class CloudServiceProvider extends ServiceProvider
 {
     protected array $commands = [
         InstallCommand::class,
