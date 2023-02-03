@@ -26,7 +26,7 @@ trait PropertiesTrait
         return $this->class = $abstract;
     }
 
-    public function getModelName(): string
+    public function getModelName(): ?string
     {
         return $this->class;
     }

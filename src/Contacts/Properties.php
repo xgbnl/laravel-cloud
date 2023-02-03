@@ -8,7 +8,7 @@ interface Properties
 
     public function assign(string $abstract): string;
 
-    public function getModelName(): string;
+    public function getModelName(): ?string;
 
     public function getCalledClass(): string;
 }
