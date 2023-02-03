@@ -52,9 +52,7 @@ final readonly class RepositoryProvider extends Provider implements Factory
 
         ['namespace' => $ns, 'class' => $class] = $this->explode();
 
-        if (str_ends_with($class, 'Repository')) {
-            $class = $this->splice($class, 'Repository');
-        }
+        $class = $this->splice($class,'Repository');
 
         $class = $ns . '\\Transforms\\' . $class . ucwords($abstract);
 
