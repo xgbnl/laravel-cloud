@@ -58,11 +58,7 @@ final readonly class RepositoryProvider extends Provider implements Factory
 
         $class = $ns . '\\Transforms\\' . $class . ucwords($abstract);
 
-        if (!class_exists($class)) {
-            return null;
-        }
-
-        return $this->dominator->assign($class);
+        return !class_exists($class) ? null: $this->dominator->assign($class);
     }
 
     protected function failedResolved(string $class = null, bool $exists = false): void
