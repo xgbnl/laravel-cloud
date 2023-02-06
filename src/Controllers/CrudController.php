@@ -16,20 +16,9 @@ use Xgbnl\Cloud\Paginator\Paginator;
  */
 abstract class CrudController extends Controller
 {
-    public function index(): JsonResponse
-    {
-        $models = $this->repository->values($this->request->all());
-
-        $pagesData = $this->customPaginate($models);
-
-        return $this->json($pagesData);
-    }
-
     public function store(): JsonResponse
     {
-        if (empty($validated = $this->filter($this->validatedForm()))) {
-            $this->triggerValidate('创建的数据不能为空');
-        }
+        $validated = $this->validatedForm();
 
         $this->service->createOrUpdate($validated);
 
@@ -44,6 +33,7 @@ abstract class CrudController extends Controller
     public function destroy(): JsonResponse
     {
         $this->service->destroy($this->request->input('id'));
+
         return $this->json('删除成功', 204);
     }
 }

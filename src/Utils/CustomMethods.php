@@ -54,16 +54,6 @@ readonly class CustomMethods
     }
 
     /**
-     * 过滤为空的项
-     * @param array $origin
-     * @return array
-     */
-    static public function filter(array $origin): array
-    {
-        return array_filter($origin, fn($data) => !empty($data));
-    }
-
-    /**
      * 过滤不需要的字段
      * @param array $haystack
      * @param array|string $fields

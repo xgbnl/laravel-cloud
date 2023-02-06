@@ -6,7 +6,6 @@ use Xgbnl\Cloud\Attributes\OAName;
 use Xgbnl\Cloud\Utils\CustomMethods;
 
 /**
- * @method array filter(array $arrays) 过滤数组中值为空的项
  * @method array filterFields(array $haystack, string|array $fields, bool $returnOrigin = true) 过滤移除指定字段，returnOrigin为true时返回移除指定字段后的原数组，给定false时返回参数fields的值
  * @method void  trigger(int $code, string $message) 触发一个自定义的异常
  * @method mixed endpoint(mixed $needle, string $domain, bool $replace = false) 为图像添加或移除域名
