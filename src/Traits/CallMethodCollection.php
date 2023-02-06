@@ -11,7 +11,6 @@ use Xgbnl\Cloud\Utils\CustomMethods;
  * @method mixed endpoint(mixed $needle, string $domain, bool $replace = false) 为图像添加或移除域名
  * @method array customMerge(array $haystack, array $needle) 自定义合并数组
  * @method string customSubStr(string $haystack, string $symbol, bool $tail = false) 截取字符串开头或结尾的串
- * @method array generateTree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
  */
 #[OAName(CustomMethods::class)]
 trait CallMethodCollection

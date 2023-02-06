@@ -21,6 +21,7 @@ use Xgbnl\Cloud\Traits\PropertiesTrait;
  * @property-read EloquentBuilder $query
  * @property-read QueryBuilder $rawQuery
  * @property-read Transform|null $transform
+ * @method array generateTree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
  */
 abstract class Repositories implements Properties
 {

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Redis as FacadesRedis;
  * @method static void destroyCache(string $key = null) 销毁缓存
  * @method static void storeCache(mixed ...$params) 存储缓存
  * @method static mixed resourcesCache(string $key = null) 获取缓存
+ * @method array generateTree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
  */
 abstract class Cacheable
 {
