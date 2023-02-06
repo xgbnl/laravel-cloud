@@ -23,6 +23,7 @@ readonly abstract class Provider
             self::endWith($properties, 'Controller') => new ControllerProvider($properties),
             self::endWith($properties, 'Repository') => new RepositoryProvider($properties),
             self::endWith($properties, 'Service')    => new QueryBuilderProvider($properties),
+            self::endWith($properties, 'Cache')      => new CacheProvider($properties),
         };
     }
 

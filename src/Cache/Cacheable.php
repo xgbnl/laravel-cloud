@@ -5,35 +5,56 @@ namespace Xgbnl\Cloud\Cache;
 use HttpException;
 use Redis;
 use RedisException;
-use Xgbnl\Cloud\Repositories\Repositories;
+use Xgbnl\Cloud\Contacts\Factory;
+use Xgbnl\Cloud\Contacts\Properties;
+use Xgbnl\Cloud\Providers\CacheProvider;
+use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
 use Illuminate\Support\Facades\Redis as FacadesRedis;
+use Xgbnl\Cloud\Traits\PropertiesTrait;
 
 /**
  * @method static void destroyCache(string $key = null) 销毁缓存
  * @method static void storeCache(mixed ...$params) 存储缓存
  * @method static mixed resourcesCache(string $key = null) 获取缓存
- * @method array generateTree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
+ * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
+ * @property Repository $repository
  */
-abstract class Cacheable
+abstract class Cacheable implements Properties
 {
-    use CallMethodCollection;
-
-    protected readonly ?Repositories $repositories;
+    use CallMethodCollection, PropertiesTrait;
 
     protected readonly ?Redis $redis;
 
+    protected readonly Factory $factory;
+
     protected ?string $primary = null;
 
-    final public function __construct(Repositories $repositories = null)
+    final public function __construct()
     {
-        $this->repositories = $repositories ?? $this->resolve();
+        $this->factory = CacheProvider::bind($this);
 
+        $this->configure();
+    }
+
+    private function configure(): void
+    {
         try {
             $this->redis = FacadesRedis::connection(env('CACHEABLE', 'default'))->client();
         } catch (RedisException $e) {
-            $this->trigger(500, '缓存服务初始化失败:[ ' . $e->getMessage() . ' ]');
+            $this->abort(500, '缓存服务初始化失败:[ ' . $e->getMessage() . ' ]');
         }
+
+        if (!$this->primary) {
+            $class = get_called_class();
+
+            $class = str_ends_with($class, 'Cache')
+                ? substr($class, 0, strpos($class, 'Cache'))
+                : $class;
+
+            $this->primary = 'cache:' . strtolower($class);
+        }
+
     }
 
     final public function destroy(string $key = null): void
@@ -43,23 +64,8 @@ abstract class Cacheable
                 $this->redis->del($this->primary ?? $key);
             }
         } catch (RedisException $e) {
-            $this->trigger(500, '删除缓存失败:[ ' . $e->getMessage() . ' ]');
+            $this->abort(500, '删除缓存失败:[ ' . $e->getMessage() . ' ]');
         }
-    }
-
-    private function resolve(): ?Repositories
-    {
-        $clazz = $this->customSubStr(get_class($this), '\\', true);
-
-        $clazz = strEndWith($clazz, 'Cache');
-
-        if (is_null($this->primary)) {
-            $this->primary = 'cache:' . strtolower($clazz);
-        }
-
-        $class = 'App\\Repositories\\' . $clazz . 'Repository';
-
-        return !class_exists($class) ? null : app($class);
     }
 
     /**

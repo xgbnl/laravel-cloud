@@ -9,9 +9,6 @@ use Xgbnl\Cloud\Paginator\Paginator;
 
 /**
  * @method JsonResponse json(mixed $data = null, int $code = 200) 自定义Json返回
- * @method JsonResponse triggerValidate(string $message) 触发422表单验证异常
- * @method JsonResponse triggerAuthorization(string $message) 触发401授权异常
- * @method JsonResponse triggerForbidden(string $message) 触发403权限异常
  * @method Paginator customPaginate(array $list = [], bool $isPaginate = true) 自定义分页
  */
 abstract class CrudController extends Controller
