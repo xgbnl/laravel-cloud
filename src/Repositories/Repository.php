@@ -53,7 +53,9 @@ abstract class Repository extends Repositories
 
         $columns = $this->columns($columns);
 
-        if (!empty($params = $this->filter($params))) {
+        $params = array_filter($params, fn(mixed $value) => !empty($value));
+
+        if (!empty($params)) {
             $builder = $this->query($params, $builder);
         }
 
