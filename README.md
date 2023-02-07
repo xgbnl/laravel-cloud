@@ -2,19 +2,12 @@
 
 > Laravel微脚手架，整合了Service、Repository、Cache、Transform分层结构
 
-#### 环境及扩展要求
-
-- `^php8.2`
-- `redis`
-- `ext-redis`
-- `ext-http`
-
 #### 安装
 
 ```shell
 composer require xgbnl/laravel-cloud
 
-php artisan install:cloud 
+php artisan cloud:install 
 ```
 #### 配置缓存层
 
