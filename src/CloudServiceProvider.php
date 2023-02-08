@@ -5,6 +5,7 @@ namespace Xgbnl\Cloud;
 use Illuminate\Support\ServiceProvider;
 use Xgbnl\Cloud\Commands\InstallCommand;
 use Xgbnl\Cloud\Commands\MakeCacheCommand;
+use Xgbnl\Cloud\Commands\MakeExporterCommand;
 use Xgbnl\Cloud\Commands\MakeObserverCommand;
 use Xgbnl\Cloud\Commands\MakeRepositoryCommand;
 use Xgbnl\Cloud\Commands\MakeServiceCommand;
@@ -19,6 +20,7 @@ class CloudServiceProvider extends ServiceProvider
         MakeTransformCommand::class,
         MakeObserverCommand::class,
         MakeServiceCommand::class,
+        MakeExporterCommand::class,
     ];
 
     public function boot(): void

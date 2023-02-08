@@ -20,7 +20,8 @@
   "minimum-stability": "stable",
   "require": {
     "ext-redis": "*",
-    "ext-http": "*"
+    "ext-http": "*",
+    "ext-xlswriter": "*"
   },
   "extra": {
     "laravel": {
