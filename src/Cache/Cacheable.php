@@ -73,7 +73,9 @@ abstract class Cacheable implements Properties
      */
     public static function __callStatic(string $method, mixed $parameters): mixed
     {
-        $method = strEndWith($method, 'Cache');
+        if (str_ends_with($method, 'Cache')) {
+            $method = substr($method, 0, -strlen('Cache'));
+        }
 
         if (!method_exists(static::class, $method)) {
             throw new HttpException('缓存模型调用静态代理时失败，不存在方法：[' . $method . ' ]');
