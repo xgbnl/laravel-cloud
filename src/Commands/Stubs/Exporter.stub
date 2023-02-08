@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DummyNamespace;
 
+use Xgbnl\Cloud\Exporter\Exporter;
 use Xgbnl\Cloud\Contacts\Exporter as ExportContact;
 
 class DummyClass extends Exporter implements ExportContact
