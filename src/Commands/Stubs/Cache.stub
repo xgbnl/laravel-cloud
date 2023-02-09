@@ -8,8 +8,13 @@ use Xgbnl\Cloud\Cache\Cacheable;
 
 class DummyClass extends Cacheable
 {
-    protected function configure(): void
+    public function resources(string $key = null): mixed
     {
-      // TODO: Implement configure() method.
+        // TODO: Implement resources() method.
+    }
+
+    public function store(...$params): void
+    {
+        // TODO: Implement store() method.
     }
 }
