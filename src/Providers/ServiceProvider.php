@@ -39,7 +39,7 @@ final readonly class ServiceProvider extends Provider implements Factory
             throw new FailedResolveException('导出类[' . $class . ']未实现接口[' . Exporter::class . ']');
         }
 
-        return $this->build($abstract, $parameters);
+        return $this->build($class, $parameters);
     }
 
     public function resolveClass(string $abstract = null): string
