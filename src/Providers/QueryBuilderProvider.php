@@ -28,7 +28,11 @@ final readonly class QueryBuilderProvider extends Provider implements Factory
 
     public function resolveClass(string $abstract = null): mixed
     {
-        if (!$this->dominator->isNull()) {
+        if (
+            !$this->dominator->isNull()
+            && (str_ends_with($this->dominator->getModelName(), 'Service')
+                || str_ends_with($this->dominator->getModelName(), 'Repository'))
+        ) {
             return $this->dominator->getModelName();
         }
 
