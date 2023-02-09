@@ -22,7 +22,7 @@ readonly abstract class Provider
         return match (true) {
             self::endWith($properties, 'Controller') => new ControllerProvider($properties),
             self::endWith($properties, 'Repository') => new RepositoryProvider($properties),
-            self::endWith($properties, 'Service')    => new QueryBuilderProvider($properties),
+            self::endWith($properties, 'Service')    => new ServiceProvider($properties),
             self::endWith($properties, 'Cache')      => new CacheProvider($properties),
         };
     }
