@@ -58,7 +58,7 @@ final readonly class ServiceProvider extends Provider implements Factory
             $this->failedResolved($class);
         }
 
-        return $this->dominator->assign($abstract);
+        return $this->dominator->assign($class);
     }
 
     protected function failedResolved(string $class = null): void
