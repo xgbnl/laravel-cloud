@@ -14,8 +14,8 @@ final readonly class ControllerProvider extends Provider implements Factory
     public function make(string $abstract): Service|Repository|Cacheable
     {
         return match ($abstract) {
-            'repository', 'service', => $this->resolve($abstract),
-            'cache'                  => $this->resolve($abstract, ['repository' => $this->dominator->repository]),
+            'repository', 'service', 'cache' => $this->resolve($abstract),
+            default                          => throw new FailedResolveException('错误的属性调用，或属性[' . $abstract . ']不存在'),
         };
     }
 
@@ -33,7 +33,7 @@ final readonly class ControllerProvider extends Provider implements Factory
             throw new FailedResolveException('控制器分层' . $name . '模型[ ' . $class . ' ]必须继承[ ' . $parent . ' ]');
         }
 
-        return $this->build($class, $parameters);
+        return $this->build($class);
     }
 
     final public function resolveClass(string $abstract = null): string

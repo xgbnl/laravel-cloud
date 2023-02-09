@@ -11,13 +11,13 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 final readonly class RepositoryProvider extends Provider implements Factory
 {
-    protected readonly QueryBuilderProvider|Factory $queryBuilderProvider;
+    protected QueryBuilderProvider|Factory $queryBuilderProvider;
 
-    public function __construct(Properties $current)
+    public function __construct(Properties $dominator)
     {
-        $this->queryBuilderProvider = new QueryBuilderProvider($current);
+        $this->queryBuilderProvider = new QueryBuilderProvider($dominator);
 
-        parent::__construct($current);
+        parent::__construct($dominator);
     }
 
     public function make(string $abstract): RawBuilder|EloquentBuilder|Transform|string|null
