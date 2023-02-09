@@ -19,7 +19,7 @@ final readonly class CacheProvider extends Provider implements Factory
     {
         $class = $this->resolveClass($abstract);
 
-        if (is_subclass_of($class, Repository::class)) {
+        if (!is_subclass_of($class, Repository::class)) {
             throw new FailedResolveException('仓库层文件[' . $class . ']必须继承[' . Repository::class);
         }
 
