@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Vtiful\Kernel\Excel;
+use Xgbnl\Cloud\Services\Service;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
 use Xgbnl\Cloud\Contacts\Exporter as ExporterContact;
 
@@ -17,6 +18,13 @@ abstract class Exporter
     use CallMethodCollection;
 
     protected string $outputDir = 'exports';
+
+    protected readonly Service $service;
+
+    public function __construct(Service $service)
+    {
+        $this->service = $service;
+    }
 
     final protected function getExcel(): Excel
     {
