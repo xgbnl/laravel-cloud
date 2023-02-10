@@ -31,6 +31,11 @@ trait EnumerableTrait
         ];
     }
 
+    public function label(): string
+    {
+        return $this->convert()['label'];
+    }
+
     public static function toArray(): array
     {
         return array_map(fn($enum) => $enum->convert(), self::cases());

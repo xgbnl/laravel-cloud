@@ -28,4 +28,10 @@ interface Enumerable
      * @return string
      */
     public static function join(string $haystack): string;
+
+    /**
+     * 获取枚举label名称
+     * @return string
+     */
+    public function label(): string;
 }
