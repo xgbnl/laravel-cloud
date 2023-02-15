@@ -4,21 +4,21 @@ namespace Xgbnl\Cloud\Providers;
 
 use Xgbnl\Cloud\Contacts\Exporter;
 use Xgbnl\Cloud\Contacts\Factory;
-use Xgbnl\Cloud\Contacts\Properties;
+use Xgbnl\Cloud\Contacts\Dominator;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Services\Service;
 
-final readonly class ServiceProvider extends Provider implements Factory
+final class ServiceProvider extends Provider implements Factory
 {
     protected QueryBuilderProvider|Factory $queryBuilderProvider;
 
-    protected Service|Properties $properties;
+    protected Service|Dominator $properties;
 
-    public function __construct(Properties $dominator)
+    public function __construct(Dominator $dominator, QueryBuilderProvider $provider)
     {
         $this->properties = $dominator;
 
-        $this->queryBuilderProvider = new QueryBuilderProvider($dominator);
+        $this->queryBuilderProvider = $provider;
 
         parent::__construct($dominator);
     }

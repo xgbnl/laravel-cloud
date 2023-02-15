@@ -2,15 +2,13 @@
 
 namespace Xgbnl\Cloud\Cache;
 
-use HttpException;
 use Redis;
+use HttpException;
 use RedisException;
 use Xgbnl\Cloud\Contacts\Factory;
-use Xgbnl\Cloud\Contacts\Properties;
-use Xgbnl\Cloud\Providers\CacheProvider;
+use Xgbnl\Cloud\Contacts\Dominator;
 use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
-use Illuminate\Support\Facades\Redis as FacadesRedis;
 use Xgbnl\Cloud\Traits\PropertiesTrait;
 
 /**
@@ -20,7 +18,7 @@ use Xgbnl\Cloud\Traits\PropertiesTrait;
  * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
  * @property Repository $repository
  */
-abstract class Cacheable implements Properties
+abstract class Cacheable implements Dominator
 {
     use CallMethodCollection, PropertiesTrait;
 
@@ -30,23 +28,14 @@ abstract class Cacheable implements Properties
 
     protected ?string $primary = null;
 
-    final public function __construct()
+    final public function __construct(Factory $factory, Redis $redis)
     {
-        $this->factory = CacheProvider::bind($this);
+        $this->factory = $factory;
 
-        $this->configure();
-    }
-
-    private function configure(): void
-    {
-        try {
-            $this->redis = FacadesRedis::connection(env('CACHEABLE', 'default'))->client();
-        } catch (RedisException $e) {
-            $this->abort(500, '缓存服务初始化失败:[ ' . $e->getMessage() . ' ]');
-        }
+        $this->redis = $redis;
 
         if (!$this->primary) {
-            $class = get_called_class();
+            $class = $this->getCalledClass();
 
             $class = str_ends_with($class, 'Cache')
                 ? substr($class, 0, strpos($class, 'Cache'))
@@ -54,7 +43,6 @@ abstract class Cacheable implements Properties
 
             $this->primary = 'cache:' . strtolower($class);
         }
-
     }
 
     final public function destroy(string $key = null): void

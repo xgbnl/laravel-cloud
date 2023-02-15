@@ -6,8 +6,9 @@ namespace Xgbnl\Cloud\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 use Xgbnl\Cloud\Contacts\Factory;
-use Xgbnl\Cloud\Contacts\Properties;
+use Xgbnl\Cloud\Contacts\Dominator;
 use Xgbnl\Cloud\Providers\Provider;
+use Xgbnl\Cloud\Providers\RepositoryProvider;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
 use Xgbnl\Cloud\Contacts\Transform;
 use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
@@ -23,14 +24,14 @@ use Xgbnl\Cloud\Traits\PropertiesTrait;
  * @property-read Transform|null $transform
  * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
  */
-abstract class Repositories implements Properties
+abstract class Repositories implements Dominator
 {
-    use CallMethodCollection,PropertiesTrait;
+    use CallMethodCollection, PropertiesTrait;
 
     private readonly Factory $factory;
 
-    public function __construct()
+    public function __construct(RepositoryProvider $provider)
     {
-        $this->factory = Provider::bind($this);
+        $this->factory = $provider;
     }
 }

@@ -4,53 +4,71 @@ namespace Xgbnl\Cloud\Providers;
 
 use ReflectionClass;
 use ReflectionException;
-use Xgbnl\Cloud\Contacts\Properties;
-use Xgbnl\Cloud\Contacts\Factory;
+use Xgbnl\Cloud\Contacts\Dominator;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 
-readonly abstract class Provider
+abstract class Provider
 {
-    protected Properties $dominator;
+    protected Dominator $dominator;
 
-    public function __construct(Properties $dominator)
+    protected array $container = [];
+
+    public function __construct(Dominator $dominator)
     {
         $this->dominator = $dominator;
+
+        if (!isset($this->container[Dominator::class])) {
+            $this->container[Dominator::class] = $dominator;
+        }
     }
 
-    final public static function bind(Properties $properties): Factory
-    {
-        return match (true) {
-            self::endWith($properties, 'Controller') => new ControllerProvider($properties),
-            self::endWith($properties, 'Repository') => new RepositoryProvider($properties),
-            self::endWith($properties, 'Service')    => new ServiceProvider($properties),
-            self::endWith($properties, 'Cache')      => new CacheProvider($properties),
-        };
-    }
-
-    private static function endWith(Properties $haystack, string $needle): bool
-    {
-        return str_ends_with(get_class($haystack), $needle);
-    }
-
+    /**
+     * @throws ReflectionException
+     */
     protected function build(string $abstract, array $parameters = []): mixed
     {
         try {
-            $refClass = new ReflectionClass($abstract);
+            $reflector = new ReflectionClass($abstract);
         } catch (ReflectionException $e) {
             throw new FailedResolveException('目标类[' . $abstract . ']不存在:' . $e->getMessage());
         }
 
-        if (!$refClass->isInstantiable()) {
+        if (!$reflector->isInstantiable()) {
+            if (isset($this->container[$reflector->getName()])) {
+                return $this->container[$reflector->getName()];
+            }
+
             throw new FailedResolveException('目标类[' . $abstract . ']无法被实例化');
         }
 
+        $constructor = $reflector->getConstructor();
+
+        if (is_null($constructor)) {
+            return $reflector->newInstance();
+        }
+
+        $dependencies = $this->factory($reflector->getConstructor()->getParameters());
+
         try {
-            $instance = empty($parameters) ? $refClass->newInstance() : $refClass->newInstance(...$parameters);
+            $instance = $reflector->newInstanceArgs($dependencies);
         } catch (ReflectionException $e) {
             throw new FailedResolveException('目标类[' . $abstract . ']实例化失败:' . $e->getMessage());
         }
 
         return $instance;
+    }
+
+    private function factory(array $parameters): array
+    {
+        return array_reduce($parameters, function (array $dependencies, \ReflectionParameter $parameter) {
+            if (is_null($parameter->getType())) {
+                $dependencies[] = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : '0';
+            } else {
+                $dependencies[] = $this->build($parameter->getType()->getName());
+            }
+
+            return $dependencies;
+        }, []);
     }
 
     final protected function splice(string $haystack, string|array $needle): string

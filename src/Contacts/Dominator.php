@@ -2,7 +2,7 @@
 
 namespace Xgbnl\Cloud\Contacts;
 
-interface Properties
+interface Dominator
 {
     public function isNull(): bool;
 

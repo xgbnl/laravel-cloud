@@ -9,7 +9,7 @@ use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Services\Service;
 
-final readonly class ControllerProvider extends Provider implements Factory
+final class ControllerProvider extends Provider implements Factory
 {
     public function make(string $abstract): Service|Repository|Cacheable
     {

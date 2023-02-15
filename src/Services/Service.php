@@ -6,13 +6,14 @@ namespace Xgbnl\Cloud\Services;
 
 use Xgbnl\Cloud\Contacts\Exporter;
 use Xgbnl\Cloud\Contacts\Factory;
-use Xgbnl\Cloud\Contacts\Properties;
+use Xgbnl\Cloud\Contacts\Dominator;
 use Xgbnl\Cloud\Observer\Creator;
 use Xgbnl\Cloud\Observer\Deleter;
 use Xgbnl\Cloud\Observer\Updater;
 use Xgbnl\Cloud\Providers\Provider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Xgbnl\Cloud\Providers\ServiceProvider;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
 use Xgbnl\Cloud\Traits\PropertiesTrait;
 
@@ -22,7 +23,7 @@ use Xgbnl\Cloud\Traits\PropertiesTrait;
  * @property-read EloquentBuilder $query
  * @property-read Exporter $exporter
  */
-abstract class Service implements Properties
+abstract class Service implements Dominator
 {
     use CallMethodCollection, PropertiesTrait;
 
@@ -30,9 +31,9 @@ abstract class Service implements Properties
 
     private readonly Factory $factory;
 
-    final public function __construct()
+    final public function __construct(ServiceProvider $provider)
     {
-        $this->factory = Provider::bind($this);
+        $this->factory = $provider;
 
         $this->configure();
     }
@@ -94,8 +95,8 @@ abstract class Service implements Properties
         return $this->observer;
     }
 
-    final public function export():void
+    final public function export(): void
     {
-       $this->exporter->export();
+        $this->exporter->export();
     }
 }

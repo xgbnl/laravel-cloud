@@ -6,7 +6,7 @@ use Xgbnl\Cloud\Contacts\Factory;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Repositories\Repository;
 
-final readonly class CacheProvider extends Provider implements Factory
+final  class CacheProvider extends Provider implements Factory
 {
     public function make(string $abstract): Repository
     {

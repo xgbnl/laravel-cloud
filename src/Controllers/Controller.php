@@ -5,9 +5,10 @@ namespace Xgbnl\Cloud\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as BaseController;
 use Xgbnl\Cloud\Cache\Cacheable;
-use Xgbnl\Cloud\Contacts\Properties;
+use Xgbnl\Cloud\Contacts\Dominator;
 use Xgbnl\Cloud\Contacts\Factory;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
+use Xgbnl\Cloud\Providers\ControllerProvider;
 use Xgbnl\Cloud\Providers\Provider;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Services\Service;
@@ -21,13 +22,18 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property Service $service
  * @property Cacheable $cache
  */
-abstract class Controller extends BaseController implements Properties
+abstract class Controller extends BaseController implements Dominator
 {
     use  CallMethodCollection, PropertiesTrait;
 
     protected ?Request $request = null;
 
     private readonly Factory|Provider $factory;
+
+    public function __construct(ControllerProvider $factory)
+    {
+        $this->factory = $factory;
+    }
 
     public function callAction($method, $parameters)
     {
@@ -45,11 +51,6 @@ abstract class Controller extends BaseController implements Properties
         }
 
         return parent::callAction($method, $parameters);
-    }
-
-    public function __construct()
-    {
-        $this->factory = Provider::bind($this);
     }
 
     final protected function validatedForm(array $extras = []): array

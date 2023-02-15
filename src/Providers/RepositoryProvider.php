@@ -3,21 +3,22 @@
 namespace Xgbnl\Cloud\Providers;
 
 use Xgbnl\Cloud\Contacts\Factory;
-use Xgbnl\Cloud\Contacts\Properties;
 use Xgbnl\Cloud\Contacts\Transform;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Illuminate\Database\Query\Builder as RawBuilder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Xgbnl\Cloud\Repositories\Repository;
 
-final readonly class RepositoryProvider extends Provider implements Factory
+final  class RepositoryProvider extends Provider implements Factory
 {
     protected QueryBuilderProvider|Factory $queryBuilderProvider;
 
-    public function __construct(Properties $dominator)
+    public function __construct(Repository $dominator, QueryBuilderProvider $queryBuilderProvider)
     {
-        $this->queryBuilderProvider = new QueryBuilderProvider($dominator);
+        $this->queryBuilderProvider = $queryBuilderProvider;
+        $this->dominator = $dominator;
 
-        parent::__construct($dominator);
+        return parent::__construct($dominator);
     }
 
     public function make(string $abstract): RawBuilder|EloquentBuilder|Transform|string|null
@@ -52,7 +53,7 @@ final readonly class RepositoryProvider extends Provider implements Factory
 
         ['namespace' => $ns, 'class' => $class] = $this->explode();
 
-        $class = $this->splice($class,'Repository');
+        $class = $this->splice($class, 'Repository');
 
         $class = $ns . '\\Transforms\\' . $class . ucwords($abstract);
 

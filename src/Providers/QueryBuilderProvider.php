@@ -7,7 +7,7 @@ use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
-final readonly class QueryBuilderProvider extends Provider implements Factory
+final  class QueryBuilderProvider extends Provider implements Factory
 {
 
     public function make(string $abstract): Model|EloquentBuilder|string
