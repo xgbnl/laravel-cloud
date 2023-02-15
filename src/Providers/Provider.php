@@ -4,31 +4,40 @@ namespace Xgbnl\Cloud\Providers;
 
 use ReflectionClass;
 use ReflectionException;
+use ReflectionParameter;
 use Xgbnl\Cloud\Contacts\Dominator;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 
 abstract class Provider
 {
-    protected array $resolved = [];
+    protected array $resolved      = [];
+    protected array $abstractAlias = [];
 
     protected Dominator $dominator;
 
     public function __construct(Dominator $dominator)
     {
         $this->dominator = $dominator;
+
+        $this->abstractAlias[Dominator::class] = $dominator;
     }
 
     protected function build(string $abstract): mixed
     {
+
         try {
             $reflector = new ReflectionClass($abstract);
         } catch (ReflectionException $e) {
             throw new FailedResolveException('目标类[' . $abstract . ']不存在:' . $e->getMessage());
         }
 
+        if (isset($this->resolved[$reflector->getName()])){
+            return $this->resolved[$reflector->getName()];
+        }
+
         if (!$reflector->isInstantiable()) {
-            if (isset($this->resolved[$reflector->getName()])) {
-                return $this->resolved[$reflector->getName()];
+            if (isset($this->abstractAlias[$reflector->getName()])) {
+                return $this->abstractAlias[$reflector->getName()];
             }
 
             throw new FailedResolveException('目标类[' . $abstract . ']无法被实例化');
@@ -40,11 +49,7 @@ abstract class Provider
             return new $abstract;
         }
 
-        if (!empty($parameters)) {
-            $reflector->newInstance(...$parameters);
-        }
-
-        $dependencies = $this->factory($reflector->getConstructor()->getParameters());
+        $dependencies = $this->factory($constructor->getParameters());
 
         try {
             $instance = $reflector->newInstanceArgs($dependencies);
@@ -52,15 +57,22 @@ abstract class Provider
             throw new FailedResolveException('目标类[' . $abstract . ']实例化失败:' . $e->getMessage());
         }
 
-        return $instance;
+        return $this->resolved[$reflector->getName()] = $instance;
+    }
+
+    private function alias(string $abstract): string
+    {
+        if (!isset($this->resolved[$abstract])) {
+            $this->resolved[$abstract] = $this->dominator;
+        }
+
+        return $abstract;
     }
 
     private function factory(array $parameters): array
     {
-        return array_reduce($parameters, function (array $dependencies, \ReflectionParameter $parameter) {
-            if (is_null($parameter->getType())) {
-                $dependencies[] = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : '0';
-            } else {
+        return array_reduce($parameters, function (array $dependencies, ReflectionParameter $parameter) {
+            if (!is_null($parameter->getType())) {
                 $dependencies[] = $this->build($parameter->getType()->getName());
             }
 
