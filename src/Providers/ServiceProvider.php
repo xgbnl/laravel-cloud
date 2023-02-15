@@ -24,7 +24,7 @@ final class ServiceProvider extends QueryBuilderProvider implements Factory
             throw new FailedResolveException('导出类[' . $class . ']未实现接口[' . Exporter::class . ']');
         }
 
-        return $this->build($class, $parameters);
+        return $this->build($class);
     }
 
     public function resolveClass(string $abstract = null): string

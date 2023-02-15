@@ -4,6 +4,7 @@ namespace Xgbnl\Cloud\Providers;
 
 use Xgbnl\Cloud\Cache\Cacheable;
 use Xgbnl\Cloud\Contacts\Factory;
+use Xgbnl\Cloud\Controllers\Controller;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Repositories\Repository;

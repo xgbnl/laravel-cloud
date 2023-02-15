@@ -9,7 +9,6 @@ use Xgbnl\Cloud\Services\Service;
 
 class QueryBuilderProvider extends Provider implements Factory
 {
-
     public function make(string $abstract): mixed
     {
         return match ($abstract) {

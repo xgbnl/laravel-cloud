@@ -9,9 +9,9 @@ use Xgbnl\Cloud\Exceptions\FailedResolveException;
 
 abstract class Provider
 {
-    protected Dominator $dominator;
+    protected array $resolved = [];
 
-    protected array $container = [];
+    protected Dominator $dominator;
 
     public function __construct(Dominator $dominator)
     {
@@ -27,8 +27,8 @@ abstract class Provider
         }
 
         if (!$reflector->isInstantiable()) {
-            if (isset($this->container[$reflector->getName()])) {
-                return $this->container[$reflector->getName()];
+            if (isset($this->resolved[$reflector->getName()])) {
+                return $this->resolved[$reflector->getName()];
             }
 
             throw new FailedResolveException('目标类[' . $abstract . ']无法被实例化');
@@ -37,7 +37,11 @@ abstract class Provider
         $constructor = $reflector->getConstructor();
 
         if (is_null($constructor)) {
-            return $reflector->newInstance();
+            return new $abstract;
+        }
+
+        if (!empty($parameters)) {
+            $reflector->newInstance(...$parameters);
         }
 
         $dependencies = $this->factory($reflector->getConstructor()->getParameters());
