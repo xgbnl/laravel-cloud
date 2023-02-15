@@ -103,6 +103,4 @@ abstract class Provider
     abstract protected function resolve(string $abstract, array $parameters = []): mixed;
 
     abstract public function resolveClass(string $abstract = null): mixed;
-
-    abstract protected function failedResolved(): void;
 }

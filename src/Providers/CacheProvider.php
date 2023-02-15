@@ -39,14 +39,9 @@ final  class CacheProvider extends Provider implements Factory
         $class = $ns . '\\Repositories\\' . $class . ucwords($abstract);
 
         if (!class_exists($class)) {
-            $this->failedResolved($class);
+            throw new FailedResolveException('当前缓存层模型[' . get_called_class() . ']调用的仓库层模型[' . $class . ']不存在');
         }
 
         return $this->dominator->assign($class);
-    }
-
-    protected function failedResolved(?string $class = null): void
-    {
-        throw new FailedResolveException('当前缓存层模型[' . get_called_class() . ']调用的仓库层模型[' . $class . ']不存在');
     }
 }

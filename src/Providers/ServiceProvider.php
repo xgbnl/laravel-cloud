@@ -4,30 +4,15 @@ namespace Xgbnl\Cloud\Providers;
 
 use Xgbnl\Cloud\Contacts\Exporter;
 use Xgbnl\Cloud\Contacts\Factory;
-use Xgbnl\Cloud\Contacts\Dominator;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
-use Xgbnl\Cloud\Services\Service;
 
-final class ServiceProvider extends Provider implements Factory
+final class ServiceProvider extends QueryBuilderProvider implements Factory
 {
-    protected QueryBuilderProvider|Factory $queryBuilderProvider;
-
-    protected Service|Dominator $properties;
-
-    public function __construct(Dominator $dominator, QueryBuilderProvider $provider)
-    {
-        $this->properties = $dominator;
-
-        $this->queryBuilderProvider = $provider;
-
-        parent::__construct($dominator);
-    }
-
-    public function make(string $abstract): mixed
+    public function make(string $abstract): Exporter|Model|EloquentBuilder|string
     {
         return match ($abstract) {
             'exporter' => $this->resolve($abstract, ['service' => $this->dominator]),
-            default    => $this->queryBuilderProvider->make($abstract)
+            default    => self::make($abstract)
         };
     }
 
@@ -44,8 +29,8 @@ final class ServiceProvider extends Provider implements Factory
 
     public function resolveClass(string $abstract = null): string
     {
-        if ($this->properties->getModelName()) {
-            return $this->properties->getModelName();
+        if ($this->dominator->getModelName()) {
+            return $this->dominator->getModelName();
         }
 
         ['namespace' => $ns, 'class' => $class] = $this->explode();
@@ -55,14 +40,9 @@ final class ServiceProvider extends Provider implements Factory
         $class = $ns . '\\Exporters\\' . $class . ucwords($abstract);
 
         if (!class_exists($class)) {
-            $this->failedResolved($class);
+            throw new FailedResolveException('调用导出方法失败,类[' . $class . ']未定义');
         }
 
         return $this->dominator->assign($class);
-    }
-
-    protected function failedResolved(string $class = null): void
-    {
-        throw new FailedResolveException('调用导出方法失败,类[' . $class . ']未定义');
     }
 }

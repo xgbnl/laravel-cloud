@@ -7,26 +7,15 @@ use Xgbnl\Cloud\Contacts\Transform;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Illuminate\Database\Query\Builder as RawBuilder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Xgbnl\Cloud\Repositories\Repository;
 
-final  class RepositoryProvider extends Provider implements Factory
+final  class RepositoryProvider extends QueryBuilderProvider implements Factory
 {
-    protected QueryBuilderProvider|Factory $queryBuilderProvider;
-
-    public function __construct(Repository $dominator, QueryBuilderProvider $queryBuilderProvider)
-    {
-        $this->queryBuilderProvider = $queryBuilderProvider;
-        $this->dominator = $dominator;
-
-        return parent::__construct($dominator);
-    }
-
     public function make(string $abstract): RawBuilder|EloquentBuilder|Transform|string|null
     {
         return match ($abstract) {
-            'rawQuery'  => $this->queryBuilderProvider->make('model')->newQuery(),
             'transform' => $this->resolve($abstract),
-            default     => $this->queryBuilderProvider->make($abstract),
+            'rawQuery'  => self::make('model')->newQuery(),
+            default     => self::make($abstract),
         };
     }
 
@@ -39,7 +28,7 @@ final  class RepositoryProvider extends Provider implements Factory
         }
 
         if (!is_subclass_of($class, Transform::class)) {
-            $this->failedResolved($class);
+            throw new FailedResolveException('Transform模型[' . $class . ']错误,必须实现[' . Transform::class . ']接口');
         }
 
         return $this->build($class);
@@ -58,10 +47,5 @@ final  class RepositoryProvider extends Provider implements Factory
         $class = $ns . '\\Transforms\\' . $class . ucwords($abstract);
 
         return !class_exists($class) ? null : $this->dominator->assign($class);
-    }
-
-    protected function failedResolved(string $class = null, bool $exists = false): void
-    {
-        throw new FailedResolveException('Transform模型[' . $class . ']错误,必须实现[' . Transform::class . ']接口');
     }
 }

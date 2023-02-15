@@ -66,7 +66,7 @@ final class ControllerProvider extends Provider implements Factory
         return $this->dominator->assign($class);
     }
 
-    protected function failedResolved(string $abstract = null, string $controller = null, bool $exists = false): void
+    protected function failedResolved(string $abstract = null, string $controller = null): void
     {
         $modelType = match (true) {
             str_ends_with($abstract, 'Request')    => '验证器',

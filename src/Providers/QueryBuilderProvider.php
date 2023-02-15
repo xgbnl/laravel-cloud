@@ -4,13 +4,13 @@ namespace Xgbnl\Cloud\Providers;
 
 use Xgbnl\Cloud\Contacts\Factory;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Xgbnl\Cloud\Repositories\Repositories;
+use Xgbnl\Cloud\Services\Service;
 
-final  class QueryBuilderProvider extends Provider implements Factory
+class QueryBuilderProvider extends Provider implements Factory
 {
 
-    public function make(string $abstract): Model|EloquentBuilder|string
+    public function make(string $abstract): mixed
     {
         return match ($abstract) {
             'table' => $this->resolve($abstract)->getTable(),
@@ -28,11 +28,7 @@ final  class QueryBuilderProvider extends Provider implements Factory
 
     public function resolveClass(string $abstract = null): mixed
     {
-        if (
-            !$this->dominator->isNull()
-            && (str_ends_with($this->dominator->getModelName(), 'Service')
-                || str_ends_with($this->dominator->getModelName(), 'Repository'))
-        ) {
+        if (!$this->dominator->isNull() && $this->isSubclass()) {
             return $this->dominator->getModelName();
         }
 
@@ -51,6 +47,11 @@ final  class QueryBuilderProvider extends Provider implements Factory
         }
 
         return $this->dominator->assign($class);
+    }
+
+    private function isSubclass(): bool
+    {
+        return is_subclass_of($this->dominator, Service::class) || is_subclass_of($this->dominator, Repositories::class);
     }
 
     protected function failedResolved(string $class = null, bool $exists = false): void
