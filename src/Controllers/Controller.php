@@ -30,9 +30,9 @@ abstract class Controller extends BaseController implements Dominator
 
     private readonly Factory|Provider $factory;
 
-    public function __construct(ControllerProvider $factory)
+    public function __construct()
     {
-        $this->factory = $factory;
+        $this->factory = new ControllerProvider($this);
     }
 
     public function callAction($method, $parameters)
