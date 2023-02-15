@@ -4,7 +4,6 @@ namespace Xgbnl\Cloud\Providers;
 
 use Xgbnl\Cloud\Cache\Cacheable;
 use Xgbnl\Cloud\Contacts\Factory;
-use Xgbnl\Cloud\Controllers\Controller;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Repositories\Repository;
@@ -31,7 +30,7 @@ final class ControllerProvider extends Provider implements Factory
         };
 
         if (!is_subclass_of($class, $parent)) {
-            throw new FailedResolveException('控制器分层' . $name . '模型[ ' . $class . ' ]必须继承[ ' . $parent . ' ]');
+            throw new FailedResolveException('控制器调用[' . $name . ']分层模型[ ' . $class . ' ]必须继承[ ' . $parent . ' ]');
         }
 
         return $this->build($class);
