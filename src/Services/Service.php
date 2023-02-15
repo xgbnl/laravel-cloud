@@ -10,12 +10,11 @@ use Xgbnl\Cloud\Contacts\Dominator;
 use Xgbnl\Cloud\Observer\Creator;
 use Xgbnl\Cloud\Observer\Deleter;
 use Xgbnl\Cloud\Observer\Updater;
-use Xgbnl\Cloud\Providers\Provider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Xgbnl\Cloud\Providers\ServiceProvider;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
-use Xgbnl\Cloud\Traits\PropertiesTrait;
+use Xgbnl\Cloud\Traits\DominatorTrait;
 
 /**
  * @property-read Model $model
@@ -25,7 +24,7 @@ use Xgbnl\Cloud\Traits\PropertiesTrait;
  */
 abstract class Service implements Dominator
 {
-    use CallMethodCollection, PropertiesTrait;
+    use CallMethodCollection, DominatorTrait;
 
     private ?string $observer = null;
 

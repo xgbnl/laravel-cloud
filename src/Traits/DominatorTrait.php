@@ -2,13 +2,13 @@
 
 namespace Xgbnl\Cloud\Traits;
 
-trait PropertiesTrait
+trait DominatorTrait
 {
     private ?string $class = null;
 
     public function __get(string $name)
     {
-        return $this->factory->make($name);
+        return $this->factory->resolve($name);
     }
 
     public function getAlias(): string

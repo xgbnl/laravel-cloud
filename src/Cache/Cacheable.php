@@ -9,7 +9,7 @@ use Xgbnl\Cloud\Contacts\Factory;
 use Xgbnl\Cloud\Contacts\Dominator;
 use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
-use Xgbnl\Cloud\Traits\PropertiesTrait;
+use Xgbnl\Cloud\Traits\DominatorTrait;
 
 /**
  * @method static void destroyCache(string $key = null) 销毁缓存
@@ -20,7 +20,7 @@ use Xgbnl\Cloud\Traits\PropertiesTrait;
  */
 abstract class Cacheable implements Dominator
 {
-    use CallMethodCollection, PropertiesTrait;
+    use CallMethodCollection, DominatorTrait;
 
     protected readonly ?Redis $redis;
 

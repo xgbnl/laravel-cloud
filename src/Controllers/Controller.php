@@ -13,7 +13,7 @@ use Xgbnl\Cloud\Providers\Provider;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Services\Service;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
-use Xgbnl\Cloud\Traits\PropertiesTrait;
+use Xgbnl\Cloud\Traits\DominatorTrait;
 use Xgbnl\Cloud\Validator\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,7 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 abstract class Controller extends BaseController implements Dominator
 {
-    use  CallMethodCollection, PropertiesTrait;
+    use  CallMethodCollection, DominatorTrait;
 
     protected ?Request $request = null;
 

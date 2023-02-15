@@ -7,14 +7,13 @@ namespace Xgbnl\Cloud\Repositories;
 use Illuminate\Database\Eloquent\Model;
 use Xgbnl\Cloud\Contacts\Factory;
 use Xgbnl\Cloud\Contacts\Dominator;
-use Xgbnl\Cloud\Providers\Provider;
 use Xgbnl\Cloud\Providers\RepositoryProvider;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
 use Xgbnl\Cloud\Contacts\Transform;
 use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Xgbnl\Cloud\Traits\PropertiesTrait;
+use Xgbnl\Cloud\Traits\DominatorTrait;
 
 /**
  * @property-read Model $model
@@ -26,7 +25,7 @@ use Xgbnl\Cloud\Traits\PropertiesTrait;
  */
 abstract class Repositories implements Dominator
 {
-    use CallMethodCollection, PropertiesTrait;
+    use CallMethodCollection, DominatorTrait;
 
     private readonly Factory $factory;
 
