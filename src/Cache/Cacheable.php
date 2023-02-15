@@ -35,7 +35,7 @@ abstract class Cacheable implements Dominator
         $this->redis = $redis;
 
         if (!$this->primary) {
-            $class = $this->getCalledClass();
+            $class = $this->getAlias();
 
             $class = str_ends_with($class, 'Cache')
                 ? substr($class, 0, strpos($class, 'Cache'))

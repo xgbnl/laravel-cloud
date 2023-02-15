@@ -92,7 +92,7 @@ abstract class Provider
 
     final protected function explode(): array
     {
-        $splice = explode('\\', $this->dominator->getCalledClass());
+        $splice = explode('\\', $this->dominator->getAlias());
 
         return ['namespace' => array_shift($splice), 'class' => array_pop($splice)];
     }

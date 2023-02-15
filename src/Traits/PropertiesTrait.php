@@ -11,7 +11,7 @@ trait PropertiesTrait
         return $this->factory->make($name);
     }
 
-    public function getCalledClass(): string
+    public function getAlias(): string
     {
         return get_called_class();
     }

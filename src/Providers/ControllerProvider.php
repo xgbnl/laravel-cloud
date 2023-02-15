@@ -43,7 +43,7 @@ final class ControllerProvider extends Provider implements Factory
             return $this->dominator->getModelName();
         }
 
-        $clazz = str_replace('\\http\\Controllers\\', '\\', $this->dominator->getCalledClass());
+        $clazz = str_replace('\\http\\Controllers\\', '\\', $this->dominator->getAlias());
 
         $parts = explode('\\', $clazz);
 

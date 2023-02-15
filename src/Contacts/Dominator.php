@@ -10,5 +10,5 @@ interface Dominator
 
     public function getModelName(): ?string;
 
-    public function getCalledClass(): string;
+    public function getAlias(): string;
 }
