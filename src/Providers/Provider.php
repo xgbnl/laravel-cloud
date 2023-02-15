@@ -18,10 +18,7 @@ abstract class Provider
         $this->dominator = $dominator;
     }
 
-    /**
-     * @throws ReflectionException
-     */
-    protected function build(string $abstract, array $parameters = []): mixed
+    protected function build(string $abstract): mixed
     {
         try {
             $reflector = new ReflectionClass($abstract);
