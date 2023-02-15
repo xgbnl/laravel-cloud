@@ -16,10 +16,6 @@ abstract class Provider
     public function __construct(Dominator $dominator)
     {
         $this->dominator = $dominator;
-
-        if (!isset($this->container[Dominator::class])) {
-            $this->container[Dominator::class] = $dominator;
-        }
     }
 
     /**
