@@ -12,15 +12,15 @@ use Xgbnl\Cloud\Services\Service;
 
 final class ControllerProvider extends Provider implements Factory
 {
-    public function make(string $abstract): Service|Repository|Cacheable
+    public function resolve(string $abstract): Service|Repository|Cacheable
     {
         return match ($abstract) {
-            'repository', 'service', 'cache' => $this->resolve($abstract),
+            'repository', 'service', 'cache' => $this->make($abstract),
             default                          => throw new FailedResolveException('错误的属性调用，或属性[' . $abstract . ']不存在'),
         };
     }
 
-    protected function resolve(string $abstract, array $parameters = []): Service|Repository|Cacheable
+    protected function make(string $abstract): Service|Repository|Cacheable
     {
         $class = $this->resolveClass($abstract);
 

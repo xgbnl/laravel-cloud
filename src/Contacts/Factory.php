@@ -4,5 +4,5 @@ namespace Xgbnl\Cloud\Contacts;
 
 interface Factory
 {
-    public function make(string $abstract): mixed;
+    public function resolve(string $abstract): mixed;
 }

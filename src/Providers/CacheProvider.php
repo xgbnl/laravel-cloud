@@ -8,14 +8,14 @@ use Xgbnl\Cloud\Repositories\Repository;
 
 final  class CacheProvider extends Provider implements Factory
 {
-    public function make(string $abstract): Repository
+    public function resolve(string $abstract): Repository
     {
         return match ($abstract) {
-            'repository' => $this->resolve($abstract),
+            'repository' => $this->make($abstract),
         };
     }
 
-    protected function resolve(string $abstract, array $parameters = []): Repository
+    protected function make(string $abstract): Repository
     {
         $class = $this->resolveClass($abstract);
 

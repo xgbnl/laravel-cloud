@@ -9,16 +9,16 @@ use Xgbnl\Cloud\Services\Service;
 
 class QueryBuilderProvider extends Provider implements Factory
 {
-    public function make(string $abstract): mixed
+    public function resolve(string $abstract): mixed
     {
         return match ($abstract) {
-            'table' => $this->resolve($abstract)->getTable(),
-            'model' => $this->resolve($abstract),
+            'table' => $this->make($abstract)->getTable(),
+            'model' => $this->make($abstract),
             'query' => $this->resolveClass()::query(),
         };
     }
 
-    protected function resolve(string $abstract, array $parameters = []): mixed
+    protected function make(string $abstract): mixed
     {
         $class = $this->resolveClass();
 

@@ -10,16 +10,16 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 final  class RepositoryProvider extends QueryBuilderProvider implements Factory
 {
-    public function make(string $abstract): RawBuilder|EloquentBuilder|Transform|string|null
+    public function resolve(string $abstract): RawBuilder|EloquentBuilder|Transform|string|null
     {
         return match ($abstract) {
-            'transform' => $this->resolve($abstract),
-            'rawQuery'  => self::make('model')->newQuery(),
-            default     => self::make($abstract),
+            'transform' => $this->make($abstract),
+            'rawQuery'  => parent::make('model')->newQuery(),
+            default     => parent::make($abstract),
         };
     }
 
-    protected function resolve(string $abstract, array $parameters = []): mixed
+    protected function make(string $abstract): mixed
     {
         $class = $this->resolveClass($abstract);
 

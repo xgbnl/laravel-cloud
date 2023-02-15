@@ -97,7 +97,7 @@ abstract class Provider
         return ['namespace' => array_shift($splice), 'class' => array_pop($splice)];
     }
 
-    abstract protected function resolve(string $abstract, array $parameters = []): mixed;
+    abstract protected function make(string $abstract): mixed;
 
     abstract public function resolveClass(string $abstract = null): mixed;
 }
