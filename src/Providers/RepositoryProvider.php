@@ -19,7 +19,7 @@ final  class RepositoryProvider extends QueryBuilderProvider implements Factory
         };
     }
 
-    protected function resolve(string $abstract): mixed
+    protected function resolve(string $abstract, array $parameters = []): mixed
     {
         $class = $this->getModel($abstract);
 

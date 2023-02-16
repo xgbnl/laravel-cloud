@@ -19,7 +19,7 @@ final class ControllerProvider extends Provider implements Factory
         };
     }
 
-    protected function resolve(string $abstract): Service|Repository|Cacheable
+    protected function resolve(string $abstract, array $parameters = []): Service|Repository|Cacheable
     {
         $class = $this->getModel($abstract);
 

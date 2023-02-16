@@ -15,7 +15,7 @@ final  class CacheProvider extends Provider implements Factory
         };
     }
 
-    protected function resolve(string $abstract): Repository
+    protected function resolve(string $abstract, array $parameters = []): Repository
     {
         $class = $this->getModel($abstract);
 
