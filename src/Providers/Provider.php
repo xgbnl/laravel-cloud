@@ -10,17 +10,10 @@ use Xgbnl\Cloud\Exceptions\FailedResolveException;
 
 abstract class Provider
 {
-    protected array $resolved      = [];
-    protected array $abstractAlias = [];
+    protected array $resolved = [];
+    protected array $alias    = [];
 
     protected Dominator $dominator;
-
-    public function __construct(Dominator $dominator)
-    {
-        $this->dominator = $dominator;
-
-        $this->abstractAlias[Dominator::class] = $dominator;
-    }
 
     protected function build(string $abstract): mixed
     {
@@ -31,25 +24,13 @@ abstract class Provider
             throw new FailedResolveException('目标类[' . $abstract . ']不存在:' . $e->getMessage());
         }
 
-        if (isset($this->resolved[$reflector->getName()])){
-            return $this->resolved[$reflector->getName()];
-        }
-
-        if (!$reflector->isInstantiable()) {
-            if (isset($this->abstractAlias[$reflector->getName()])) {
-                return $this->abstractAlias[$reflector->getName()];
-            }
-
-            throw new FailedResolveException('目标类[' . $abstract . ']无法被实例化');
-        }
-
         $constructor = $reflector->getConstructor();
 
         if (is_null($constructor)) {
             return new $abstract;
         }
 
-        $dependencies = $this->factory($constructor->getParameters());
+        $dependencies = $this->resolveDependencies($constructor->getParameters());
 
         try {
             $instance = $reflector->newInstanceArgs($dependencies);
@@ -60,16 +41,12 @@ abstract class Provider
         return $this->resolved[$reflector->getName()] = $instance;
     }
 
-    private function alias(string $abstract): string
+    private function getAlias(string $abstract): string
     {
-        if (!isset($this->resolved[$abstract])) {
-            $this->resolved[$abstract] = $this->dominator;
-        }
-
-        return $abstract;
+        return isset($this->alias[$abstract]) ? $this->getAlias($this->alias[$abstract]) : $abstract;
     }
 
-    private function factory(array $parameters): array
+    private function resolveDependencies(array $parameters): array
     {
         return array_reduce($parameters, function (array $dependencies, ReflectionParameter $parameter) {
             if (!is_null($parameter->getType())) {
@@ -109,7 +86,7 @@ abstract class Provider
         return ['namespace' => array_shift($splice), 'class' => array_pop($splice)];
     }
 
-    abstract protected function make(string $abstract): mixed;
+    abstract protected function resolve(string $abstract): mixed;
 
     abstract public function resolveClass(string $abstract = null): mixed;
 }

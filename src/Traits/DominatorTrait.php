@@ -8,7 +8,7 @@ trait DominatorTrait
 
     public function __get(string $name)
     {
-        return $this->factory->resolve($name);
+        return $this->factory->get($name);
     }
 
     public function getAlias(): string

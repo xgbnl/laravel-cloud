@@ -8,15 +8,15 @@ use Xgbnl\Cloud\Exceptions\FailedResolveException;
 
 final class ServiceProvider extends QueryBuilderProvider implements Factory
 {
-    public function resolve(string $abstract): Exporter|Model|EloquentBuilder|string
+    public function get(string $abstract): Exporter|Model|EloquentBuilder|string
     {
         return match ($abstract) {
-            'exporter' => $this->resolve($abstract),
-            default    => parent::make($abstract)
+            'exporter' => $this->get($abstract),
+            default    => parent::resolve($abstract)
         };
     }
 
-    protected function make(string $abstract): mixed
+    protected function resolve(string $abstract): mixed
     {
         $class = $this->resolveClass($abstract);
 
