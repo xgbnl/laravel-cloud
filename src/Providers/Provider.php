@@ -88,5 +88,5 @@ abstract class Provider
 
     abstract protected function resolve(string $abstract): mixed;
 
-    abstract public function resolveClass(string $abstract = null): mixed;
+    abstract public function getModel(string $abstract = null): mixed;
 }

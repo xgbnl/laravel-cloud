@@ -14,18 +14,18 @@ class QueryBuilderProvider extends Provider implements Factory
         return match ($abstract) {
             'table' => $this->resolve($abstract)->getTable(),
             'model' => $this->resolve($abstract),
-            'query' => $this->resolveClass()::query(),
+            'query' => $this->getModel()::query(),
         };
     }
 
     protected function resolve(string $abstract): mixed
     {
-        $class = $this->resolveClass();
+        $class = $this->getModel();
 
         return $this->build($class);
     }
 
-    public function resolveClass(string $abstract = null): mixed
+    public function getModel(string $abstract = null): mixed
     {
         if (!$this->dominator->has() && $this->isSubclass()) {
             return $this->dominator->getModelName();
@@ -38,11 +38,11 @@ class QueryBuilderProvider extends Provider implements Factory
         $class = $ns . '\\Models\\' . $baseName;
 
         if (!class_exists($class)) {
-            $this->failedResolved($class, true);
+            throw new FailedResolveException('缺少模型[ ' . $class . ' ]');
         }
 
         if (!is_subclass_of($class, Model::class)) {
-            $this->failedResolved($class);
+           throw new FailedResolveException('模型文件[' . $class . '必须继承[' . Model::class . ']');
         }
 
         return $this->dominator->assign($class);
@@ -51,10 +51,5 @@ class QueryBuilderProvider extends Provider implements Factory
     private function isSubclass(): bool
     {
         return is_subclass_of($this->dominator, Service::class) || is_subclass_of($this->dominator, Repositories::class);
-    }
-
-    protected function failedResolved(string $class = null, bool $exists = false): void
-    {
-        throw new FailedResolveException($exists ? '缺少模型[ ' . $class . ' ]' : '模型文件[' . $class . '必须继承[' . Model::class . ']');
     }
 }

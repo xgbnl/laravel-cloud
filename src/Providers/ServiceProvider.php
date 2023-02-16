@@ -18,7 +18,7 @@ final class ServiceProvider extends QueryBuilderProvider implements Factory
 
     protected function resolve(string $abstract): mixed
     {
-        $class = $this->resolveClass($abstract);
+        $class = $this->getModel($abstract);
 
         if (!is_subclass_of($class, Exporter::class)) {
             throw new FailedResolveException('导出类[' . $class . ']未实现接口[' . Exporter::class . ']');
@@ -27,7 +27,7 @@ final class ServiceProvider extends QueryBuilderProvider implements Factory
         return $this->build($class);
     }
 
-    public function resolveClass(string $abstract = null): string
+    public function getModel(string $abstract = null): string
     {
         if ($this->dominator->getModelName()) {
             return $this->dominator->getModelName();

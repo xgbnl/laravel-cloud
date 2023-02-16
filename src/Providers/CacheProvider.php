@@ -17,7 +17,7 @@ final  class CacheProvider extends Provider implements Factory
 
     protected function resolve(string $abstract): Repository
     {
-        $class = $this->resolveClass($abstract);
+        $class = $this->getModel($abstract);
 
         if (!is_subclass_of($class, Repository::class)) {
             throw new FailedResolveException('仓库层文件[' . $class . ']必须继承[' . Repository::class);
@@ -26,7 +26,7 @@ final  class CacheProvider extends Provider implements Factory
         return $this->build($class);
     }
 
-    public function resolveClass(string $abstract = null): string
+    public function getModel(string $abstract = null): string
     {
         if (!$this->dominator->has()) {
             $this->build($this->dominator->getModelName());

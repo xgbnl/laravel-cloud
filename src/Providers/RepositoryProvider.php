@@ -21,7 +21,7 @@ final  class RepositoryProvider extends QueryBuilderProvider implements Factory
 
     protected function resolve(string $abstract): mixed
     {
-        $class = $this->resolveClass($abstract);
+        $class = $this->getModel($abstract);
 
         if (is_null($class)) {
             return null;
@@ -34,7 +34,7 @@ final  class RepositoryProvider extends QueryBuilderProvider implements Factory
         return $this->build($class);
     }
 
-    public function resolveClass(string $abstract = null): ?string
+    public function getModel(string $abstract = null): ?string
     {
         if ($this->dominator->has()) {
             return $this->dominator->getModelName();

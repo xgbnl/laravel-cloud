@@ -21,7 +21,7 @@ final class ControllerProvider extends Provider implements Factory
 
     protected function resolve(string $abstract): Service|Repository|Cacheable
     {
-        $class = $this->resolveClass($abstract);
+        $class = $this->getModel($abstract);
 
         [$parent, $name] = match ($abstract) {
             'repository' => [Repositories::class, '仓库'],
@@ -36,7 +36,7 @@ final class ControllerProvider extends Provider implements Factory
         return $this->build($class);
     }
 
-    final public function resolveClass(string $abstract = null): string
+    final public function getModel(string $abstract = null): string
     {
         if (!$this->dominator->has() && str_ends_with($this->dominator->getModelName(), $abstract)) {
             return $this->dominator->getModelName();

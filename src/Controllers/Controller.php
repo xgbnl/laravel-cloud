@@ -81,7 +81,7 @@ abstract class Controller extends BaseController implements Dominator
 
     private function prepareRequest(): void
     {
-        $this->factory->resolveClass('request');
+        $this->factory->getModel('request');
 
         if (!is_subclass_of($this->getModelName(), FormRequest::class)) {
             throw new FailedResolveException('无法验证表单');
