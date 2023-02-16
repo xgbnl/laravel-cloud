@@ -15,13 +15,31 @@ abstract class Provider
 
     protected Dominator $dominator;
 
-    protected function build(string $abstract): mixed
+    protected function factory(string $abstract, array $parameters = []): mixed
     {
 
+        $abstract = $this->getAlias($abstract);
+
+
+
+        return $this->build($abstract, $parameters);
+    }
+
+    private function getAlias(string $abstract): string
+    {
+        return isset($this->alias[$abstract]) ? $this->getAlias($this->alias[$abstract]) : $abstract;
+    }
+
+    protected function build(string $abstract, array $parameters = []): mixed
+    {
         try {
             $reflector = new ReflectionClass($abstract);
         } catch (ReflectionException $e) {
             throw new FailedResolveException('目标类[' . $abstract . ']不存在:' . $e->getMessage());
+        }
+
+        if (!empty($parameters)) {
+            return $this->resolved[$abstract] = $reflector->newInstance(...$parameters);
         }
 
         $constructor = $reflector->getConstructor();
@@ -41,16 +59,11 @@ abstract class Provider
         return $this->resolved[$reflector->getName()] = $instance;
     }
 
-    private function getAlias(string $abstract): string
-    {
-        return isset($this->alias[$abstract]) ? $this->getAlias($this->alias[$abstract]) : $abstract;
-    }
-
     private function resolveDependencies(array $parameters): array
     {
         return array_reduce($parameters, function (array $dependencies, ReflectionParameter $parameter) {
             if (!is_null($parameter->getType())) {
-                $dependencies[] = $this->build($parameter->getType()->getName());
+                $dependencies[] = $this->factory($parameter->getType()->getName());
             }
 
             return $dependencies;
@@ -86,7 +99,7 @@ abstract class Provider
         return ['namespace' => array_shift($splice), 'class' => array_pop($splice)];
     }
 
-    abstract protected function resolve(string $abstract): mixed;
+    abstract protected function resolve(string $abstract, array $parameters = []): mixed;
 
     abstract public function getModel(string $abstract = null): mixed;
 }

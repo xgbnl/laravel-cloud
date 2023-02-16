@@ -31,7 +31,7 @@ final  class RepositoryProvider extends QueryBuilderProvider implements Factory
             throw new FailedResolveException('Transform模型[' . $class . ']错误,必须实现[' . Transform::class . ']接口');
         }
 
-        return $this->build($class);
+        return $this->factory($class);
     }
 
     public function getModel(string $abstract = null): ?string

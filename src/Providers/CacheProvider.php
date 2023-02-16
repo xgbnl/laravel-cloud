@@ -23,13 +23,13 @@ final  class CacheProvider extends Provider implements Factory
             throw new FailedResolveException('仓库层文件[' . $class . ']必须继承[' . Repository::class);
         }
 
-        return $this->build($class);
+        return $this->factory($class);
     }
 
     public function getModel(string $abstract = null): string
     {
         if (!$this->dominator->has()) {
-            $this->build($this->dominator->getModelName());
+            $this->factory($this->dominator->getModelName());
         }
 
         ['namespace' => $ns, 'class' => $class] = $this->explode();

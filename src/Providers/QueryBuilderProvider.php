@@ -18,11 +18,11 @@ class QueryBuilderProvider extends Provider implements Factory
         };
     }
 
-    protected function resolve(string $abstract): mixed
+    protected function resolve(string $abstract, array $parameters = []): mixed
     {
         $class = $this->getModel();
 
-        return $this->build($class);
+        return $this->factory($class);
     }
 
     public function getModel(string $abstract = null): mixed

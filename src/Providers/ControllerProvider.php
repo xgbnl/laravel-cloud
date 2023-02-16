@@ -33,7 +33,7 @@ final class ControllerProvider extends Provider implements Factory
             throw new FailedResolveException('控制器调用[' . $name . ']分层模型[ ' . $class . ' ]必须继承[ ' . $parent . ' ]');
         }
 
-        return $this->build($class);
+        return $this->factory($class);
     }
 
     final public function getModel(string $abstract = null): string

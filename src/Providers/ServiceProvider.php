@@ -11,7 +11,7 @@ final class ServiceProvider extends QueryBuilderProvider implements Factory
     public function get(string $abstract): Exporter|Model|EloquentBuilder|string
     {
         return match ($abstract) {
-            'exporter' => $this->get($abstract),
+            'exporter' => $this->get($abstract,['service']),
             default    => parent::resolve($abstract)
         };
     }
@@ -24,7 +24,7 @@ final class ServiceProvider extends QueryBuilderProvider implements Factory
             throw new FailedResolveException('导出类[' . $class . ']未实现接口[' . Exporter::class . ']');
         }
 
-        return $this->build($class);
+        return $this->factory($class);
     }
 
     public function getModel(string $abstract = null): string
