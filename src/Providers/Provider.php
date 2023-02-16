@@ -11,23 +11,23 @@ use Xgbnl\Cloud\Exceptions\FailedResolveException;
 abstract class Provider
 {
     protected array $resolved = [];
-    protected array $alias    = [];
+    protected array $abstractAlias    = [];
 
     protected Dominator $dominator;
+
+    public function __construct(Dominator $dominator)
+    {
+        $this->dominator = $dominator;
+    }
 
     protected function factory(string $abstract, array $parameters = []): mixed
     {
 
-        $abstract = $this->getAlias($abstract);
-
-
+        if (isset($this->resolved[$abstract])) {
+            return $this->resolved[$abstract];
+        }
 
         return $this->build($abstract, $parameters);
-    }
-
-    private function getAlias(string $abstract): string
-    {
-        return isset($this->alias[$abstract]) ? $this->getAlias($this->alias[$abstract]) : $abstract;
     }
 
     protected function build(string $abstract, array $parameters = []): mixed
