@@ -10,18 +10,17 @@ use Xgbnl\Cloud\Exceptions\FailedResolveException;
 
 abstract class Provider
 {
-    protected array $resolved = [];
-    protected array $abstractAlias    = [];
+    protected array $resolved      = [];
+    protected array $abstractAlias = [];
 
-    protected Dominator $dominator;
-
-    public function __construct(Dominator $dominator)
-    {
-        $this->dominator = $dominator;
-    }
+    protected ?Dominator $dominator = null;
 
     protected function factory(string $abstract, array $parameters = []): mixed
     {
+
+        if (is_subclass_of($abstract, Dominator::class)) {
+            $this->dominator = $abstract;
+        }
 
         if (isset($this->resolved[$abstract])) {
             return $this->resolved[$abstract];
@@ -56,7 +55,7 @@ abstract class Provider
             throw new FailedResolveException('目标类[' . $abstract . ']实例化失败:' . $e->getMessage());
         }
 
-        return $this->resolved[$reflector->getName()] = $instance;
+        return $this->resolved[$abstract] = $instance;
     }
 
     private function resolveDependencies(array $parameters): array

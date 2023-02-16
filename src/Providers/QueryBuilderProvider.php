@@ -2,7 +2,6 @@
 
 namespace Xgbnl\Cloud\Providers;
 
-use ReflectionException;
 use Xgbnl\Cloud\Contacts\Factory;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Repositories\Repositories;
@@ -10,6 +9,7 @@ use Xgbnl\Cloud\Services\Service;
 
 class QueryBuilderProvider extends Provider implements Factory
 {
+
     public function get(string $abstract): mixed
     {
         return match ($abstract) {
@@ -43,7 +43,7 @@ class QueryBuilderProvider extends Provider implements Factory
         }
 
         if (!is_subclass_of($class, Model::class)) {
-           throw new FailedResolveException('模型文件[' . $class . '必须继承[' . Model::class . ']');
+            throw new FailedResolveException('模型文件[' . $class . '必须继承[' . Model::class . ']');
         }
 
         return $this->dominator->assign($class);
