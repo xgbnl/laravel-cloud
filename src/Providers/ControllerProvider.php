@@ -38,7 +38,7 @@ final class ControllerProvider extends Provider implements Factory
 
     final public function resolveClass(string $abstract = null): string
     {
-        if (!$this->dominator->isNull() && str_ends_with($this->dominator->getModelName(), $abstract)) {
+        if (!$this->dominator->has() && str_ends_with($this->dominator->getModelName(), $abstract)) {
             return $this->dominator->getModelName();
         }
 

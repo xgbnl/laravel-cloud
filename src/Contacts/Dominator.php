@@ -4,7 +4,7 @@ namespace Xgbnl\Cloud\Contacts;
 
 interface Dominator
 {
-    public function isNull(): bool;
+    public function has(): bool;
 
     public function assign(string $abstract): string;
 

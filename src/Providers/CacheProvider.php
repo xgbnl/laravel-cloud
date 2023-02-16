@@ -28,7 +28,7 @@ final  class CacheProvider extends Provider implements Factory
 
     public function resolveClass(string $abstract = null): string
     {
-        if (!$this->dominator->isNull()) {
+        if (!$this->dominator->has()) {
             $this->build($this->dominator->getModelName());
         }
 

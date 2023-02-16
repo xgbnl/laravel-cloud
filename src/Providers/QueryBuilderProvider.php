@@ -27,7 +27,7 @@ class QueryBuilderProvider extends Provider implements Factory
 
     public function resolveClass(string $abstract = null): mixed
     {
-        if (!$this->dominator->isNull() && $this->isSubclass()) {
+        if (!$this->dominator->has() && $this->isSubclass()) {
             return $this->dominator->getModelName();
         }
 

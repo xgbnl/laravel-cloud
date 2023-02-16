@@ -36,7 +36,7 @@ final  class RepositoryProvider extends QueryBuilderProvider implements Factory
 
     public function resolveClass(string $abstract = null): ?string
     {
-        if ($this->dominator->isNull()) {
+        if ($this->dominator->has()) {
             return $this->dominator->getModelName();
         }
 

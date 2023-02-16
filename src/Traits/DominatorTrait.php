@@ -16,7 +16,7 @@ trait DominatorTrait
         return get_called_class();
     }
 
-    public function isNull(): bool
+    public function has(): bool
     {
         return is_null($this->class);
     }
