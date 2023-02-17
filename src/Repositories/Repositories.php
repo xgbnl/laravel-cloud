@@ -12,6 +12,8 @@ use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Contacts\Transform;
 use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
 use Xgbnl\Cloud\Kernel\Proxies\RepositoryProxy;
+use Xgbnl\Cloud\Repositories\Providers\Column;
+use Xgbnl\Cloud\Repositories\Providers\Query;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
@@ -29,8 +31,14 @@ abstract class Repositories implements Contextual
 
     private readonly Factory $factory;
 
-    public function __construct(RepositoryProxy $provider)
+    private readonly Query $builder;
+
+    protected array $rules  = [];
+
+    public function __construct(RepositoryProxy $provider,Query $builder)
     {
         $this->factory = $provider;
+
+        $this->builder = $builder;
     }
 }
