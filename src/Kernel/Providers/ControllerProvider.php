@@ -6,8 +6,10 @@ use Xgbnl\Cloud\Cache\Cacheable;
 use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
+use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Services\Service;
+use Xgbnl\Cloud\Validator\Validator;
 
 final class ControllerProvider extends Provider implements Factory
 {
@@ -56,6 +58,11 @@ final class ControllerProvider extends Provider implements Factory
 
     protected function getConcreteParentAccessor(): string
     {
-        return '';
+        return match (true) {
+            str_ends_with($this->getAccessor(), 'Repository') => Repositories::class,
+            str_ends_with($this->getAccessor(), 'Service')    => Service::class,
+            str_ends_with($this->getAccessor(), 'Cache')      => Cacheable::class,
+            str_ends_with($this->getAccessor(), 'Request')    => Validator::class,
+        };
     }
 }
