@@ -8,4 +8,9 @@ trait ContextualTrait
     {
         return $this->factory->get($name);
     }
+
+    public function getAlias(): string
+    {
+        return get_called_class();
+    }
 }
