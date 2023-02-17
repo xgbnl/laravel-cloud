@@ -1,13 +1,13 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Providers;
+namespace Xgbnl\Cloud\Kernel\Proxies;
 
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Kernel\Application;
-use Xgbnl\Cloud\Kernel\Providers\Contacts\Provideable;
+use Xgbnl\Cloud\Kernel\Proxies\Contacts\Proxyable;
 use Xgbnl\Cloud\Kernel\Str;
 
-abstract class Provider implements Provideable
+abstract class Proxies implements Proxyable
 {
     protected ?string $model = null;
 

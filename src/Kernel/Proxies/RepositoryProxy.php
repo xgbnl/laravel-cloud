@@ -1,14 +1,14 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Providers;
+namespace Xgbnl\Cloud\Kernel\Proxies;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as RawBuilder;
 use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Contacts\Transform;
-use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
 
-final  class RepositoryProvider extends QueryBuilderProvider implements Factory
+final  class RepositoryProxy extends QueryBuilderProxy implements Factory
 {
     public function get(Contextual $contextual, string $name): RawBuilder|EloquentBuilder|Transform|string|null
     {

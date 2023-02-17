@@ -1,14 +1,14 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Providers;
+namespace Xgbnl\Cloud\Kernel\Proxies;
 
 use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Contacts\Exporter;
-use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
 use Xgbnl\Cloud\Providers\EloquentBuilder;
 use Xgbnl\Cloud\Providers\Model;
 
-final class ServiceProvider extends QueryBuilderProvider implements Factory
+final class ServiceProxy extends QueryBuilderProxy implements Factory
 {
     public function get(Contextual $contextual, string $name): Exporter|Model|EloquentBuilder|string
     {

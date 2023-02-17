@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Contacts\Exporter;
-use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
-use Xgbnl\Cloud\Kernel\Providers\ServiceProvider;
+use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Proxies\ServiceProxy;
 use Xgbnl\Cloud\Observer\Creator;
 use Xgbnl\Cloud\Observer\Deleter;
 use Xgbnl\Cloud\Observer\Updater;
@@ -30,7 +30,7 @@ abstract class Service implements Contextual
 
     private readonly Factory $factory;
 
-    final public function __construct(ServiceProvider $provider)
+    final public function __construct(ServiceProxy $provider)
     {
         $this->factory = $provider;
 

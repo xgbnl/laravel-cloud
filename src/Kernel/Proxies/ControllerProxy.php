@@ -1,17 +1,17 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Providers;
+namespace Xgbnl\Cloud\Kernel\Proxies;
 
 use Xgbnl\Cloud\Cache\Cacheable;
 use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
-use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Services\Service;
 use Xgbnl\Cloud\Validator\Validator;
 
-final class ControllerProvider extends Provider implements Factory
+final class ControllerProxy extends Proxies implements Factory
 {
     public function get(Contextual $contextual, string $name): Service|Repository|Cacheable
     {

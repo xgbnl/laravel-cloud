@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Contacts\Transform;
-use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
-use Xgbnl\Cloud\Kernel\Providers\RepositoryProvider;
+use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Proxies\RepositoryProxy;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
@@ -29,7 +29,7 @@ abstract class Repositories implements Contextual
 
     private readonly Factory $factory;
 
-    public function __construct(RepositoryProvider $provider)
+    public function __construct(RepositoryProxy $provider)
     {
         $this->factory = $provider;
     }

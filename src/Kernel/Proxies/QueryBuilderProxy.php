@@ -1,14 +1,14 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Providers;
+namespace Xgbnl\Cloud\Kernel\Proxies;
 
 use Illuminate\Database\Eloquent\Model;
 use Xgbnl\Cloud\Contacts\Contextual;
-use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Services\Service;
 
-class QueryBuilderProvider extends Provider implements Factory
+class QueryBuilderProxy extends Proxies implements Factory
 {
     public function get(Contextual $contextual, string $name): mixed
     {

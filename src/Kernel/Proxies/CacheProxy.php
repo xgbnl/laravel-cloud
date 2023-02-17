@@ -1,12 +1,12 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Providers;
+namespace Xgbnl\Cloud\Kernel\Proxies;
 
 use Xgbnl\Cloud\Contacts\Contextual;
-use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
 use Xgbnl\Cloud\Repositories\Repository;
 
-final  class CacheProvider extends Provider implements Factory
+final  class CacheProxy extends Proxies implements Factory
 {
     public function get(Contextual $contextual, string $name): Repository
     {

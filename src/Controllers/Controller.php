@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use Xgbnl\Cloud\Cache\Cacheable;
 use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
-use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
-use Xgbnl\Cloud\Kernel\Providers\ControllerProvider;
+use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Proxies\ControllerProxy;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Services\Service;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
@@ -29,7 +29,7 @@ abstract class Controller extends BaseController implements Contextual
 
     private readonly Factory $factory;
 
-    public function __construct(ControllerProvider $factory)
+    public function __construct(ControllerProxy $factory)
     {
         $this->factory = $factory;
     }
