@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Xgbnl\Cloud\Services;
 
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Model;
 use Xgbnl\Cloud\Contacts\Exporter;
-use Xgbnl\Cloud\Contacts\Factory;
-use Xgbnl\Cloud\Contacts\Dominator;
+use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Providers\ServiceProvider;
 use Xgbnl\Cloud\Observer\Creator;
 use Xgbnl\Cloud\Observer\Deleter;
 use Xgbnl\Cloud\Observer\Updater;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Xgbnl\Cloud\Providers\ServiceProvider;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
-use Xgbnl\Cloud\Traits\DominatorTrait;
+use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
  * @property-read Model $model
@@ -22,9 +21,9 @@ use Xgbnl\Cloud\Traits\DominatorTrait;
  * @property-read EloquentBuilder $query
  * @property-read Exporter $exporter
  */
-abstract class Service implements Dominator
+abstract class Service implements ContextualTrait
 {
-    use CallMethodCollection, DominatorTrait;
+    use CallMethodCollection, ContextualTrait;
 
     private ?string $observer = null;
 

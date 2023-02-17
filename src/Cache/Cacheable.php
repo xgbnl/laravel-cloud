@@ -2,14 +2,13 @@
 
 namespace Xgbnl\Cloud\Cache;
 
-use Redis;
 use HttpException;
+use Redis;
 use RedisException;
-use Xgbnl\Cloud\Contacts\Factory;
-use Xgbnl\Cloud\Contacts\Dominator;
+use Xgbnl\Cloud\Contacts\Contextual;
+use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
 use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
-use Xgbnl\Cloud\Traits\DominatorTrait;
 
 /**
  * @method static void destroyCache(string $key = null) 销毁缓存
@@ -18,9 +17,9 @@ use Xgbnl\Cloud\Traits\DominatorTrait;
  * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
  * @property Repository $repository
  */
-abstract class Cacheable implements Dominator
+abstract class Cacheable implements Contextual
 {
-    use CallMethodCollection, DominatorTrait;
+    use CallMethodCollection, Contextual;
 
     protected readonly ?Redis $redis;
 

@@ -2,37 +2,37 @@
 
 namespace Xgbnl\Cloud\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as BaseController;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Xgbnl\Cloud\Cache\Cacheable;
-use Xgbnl\Cloud\Contacts\Dominator;
-use Xgbnl\Cloud\Contacts\Factory;
+use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
-use Xgbnl\Cloud\Providers\ControllerProvider;
-use Xgbnl\Cloud\Providers\Provider;
+use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Providers\ControllerProvider;
+use Xgbnl\Cloud\Kernel\Providers\Provider;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Services\Service;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
-use Xgbnl\Cloud\Traits\DominatorTrait;
+use Xgbnl\Cloud\Traits\ContextualTrait;
 use Xgbnl\Cloud\Validator\Validator;
-use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @property Repositories $repository
  * @property Service $service
  * @property Cacheable $cache
  */
-abstract class Controller extends BaseController implements Dominator
+abstract class Controller extends BaseController implements Contextual
 {
-    use  CallMethodCollection, DominatorTrait;
+    use  CallMethodCollection, ContextualTrait;
 
     protected ?Request $request = null;
 
-    private readonly Factory|Provider $factory;
+    private readonly Factory $factory;
 
-    public function __construct()
+    public function __construct(ControllerProvider $factory)
     {
-        $this->factory = new ControllerProvider($this);
+        $this->factory = $factory;
     }
 
     public function callAction($method, $parameters)
@@ -59,31 +59,31 @@ abstract class Controller extends BaseController implements Dominator
 
         if (!empty($extras)) {
             $this->request->merge($extras);
-            return app($this->getModelName())->all();
+            return app($this->factory->getAccessor())->all();
         }
 
-        return app($this->getModelName())->validated();
+        return app($this->factory->getAccessor())->validated();
     }
 
     final protected function validator(bool $autoValidate = true): Validator
     {
         $this->prepareRequest();
 
-        return app($this->getModelName(), ['autoValidate' => $autoValidate]);
+        return app($this->factory->getAccessor(), ['autoValidate' => $autoValidate]);
     }
 
     final public function refresh(string $abstract = null): static
     {
-        $this->assign($abstract);
+        $this->factory->refresh($abstract);
 
         return $this;
     }
 
     private function prepareRequest(): void
     {
-        $this->factory->getModel('request');
+        $this->factory->getModel($this->getAlias(), 'request');
 
-        if (!is_subclass_of($this->getModelName(), FormRequest::class)) {
+        if (!is_subclass_of($this->factory->getAccessor(), FormRequest::class)) {
             throw new FailedResolveException('无法验证表单');
         }
     }

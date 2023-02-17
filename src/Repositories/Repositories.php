@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Xgbnl\Cloud\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
-use Xgbnl\Cloud\Contacts\Factory;
-use Xgbnl\Cloud\Contacts\Dominator;
-use Xgbnl\Cloud\Providers\RepositoryProvider;
-use Xgbnl\Cloud\Traits\CallMethodCollection;
-use Xgbnl\Cloud\Contacts\Transform;
 use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Xgbnl\Cloud\Traits\DominatorTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Xgbnl\Cloud\Contacts\Transform;
+use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Providers\RepositoryProvider;
+use Xgbnl\Cloud\Traits\CallMethodCollection;
+use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
  * @property-read Model $model
@@ -23,9 +22,9 @@ use Xgbnl\Cloud\Traits\DominatorTrait;
  * @property-read Transform|null $transform
  * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
  */
-abstract class Repositories implements Dominator
+abstract class Repositories implements ContextualTrait
 {
-    use CallMethodCollection, DominatorTrait;
+    use CallMethodCollection, ContextualTrait;
 
     private readonly Factory $factory;
 
