@@ -13,13 +13,9 @@ abstract class Provider implements Provideable
 
     protected Str $str;
 
-    protected Application $application;
-
     public function __construct(Str $str)
     {
         $this->str = $str;
-
-        $this->application = Application::getInstance();
     }
 
     final public function has(): bool
@@ -49,7 +45,7 @@ abstract class Provider implements Provideable
             $this->inheritedOrImplementFail($concrete);
         }
 
-        return $this->application->make($concrete, $parameters);
+        return Application::getInstance()->make($concrete, $parameters);
     }
 
     final protected function split(string $haystack): string
