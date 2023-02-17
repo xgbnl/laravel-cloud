@@ -6,6 +6,7 @@ namespace Xgbnl\Cloud\Services;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
+use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Contacts\Exporter;
 use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
 use Xgbnl\Cloud\Kernel\Providers\ServiceProvider;
@@ -21,7 +22,7 @@ use Xgbnl\Cloud\Traits\ContextualTrait;
  * @property-read EloquentBuilder $query
  * @property-read Exporter $exporter
  */
-abstract class Service implements ContextualTrait
+abstract class Service implements Contextual
 {
     use CallMethodCollection, ContextualTrait;
 

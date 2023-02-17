@@ -8,6 +8,7 @@ use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Contacts\Transform;
 use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
 use Xgbnl\Cloud\Kernel\Providers\RepositoryProvider;
@@ -22,7 +23,7 @@ use Xgbnl\Cloud\Traits\ContextualTrait;
  * @property-read Transform|null $transform
  * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
  */
-abstract class Repositories implements ContextualTrait
+abstract class Repositories implements Contextual
 {
     use CallMethodCollection, ContextualTrait;
 

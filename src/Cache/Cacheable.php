@@ -9,6 +9,7 @@ use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
 use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
+use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
  * @method static void destroyCache(string $key = null) 销毁缓存
@@ -19,7 +20,7 @@ use Xgbnl\Cloud\Traits\CallMethodCollection;
  */
 abstract class Cacheable implements Contextual
 {
-    use CallMethodCollection, Contextual;
+    use CallMethodCollection, ContextualTrait;
 
     protected readonly ?Redis $redis;
 
