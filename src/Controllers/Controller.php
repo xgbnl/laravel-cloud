@@ -10,7 +10,6 @@ use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Kernel\Providers\Contacts\Factory;
 use Xgbnl\Cloud\Kernel\Providers\ControllerProvider;
-use Xgbnl\Cloud\Kernel\Providers\Provider;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Services\Service;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
@@ -72,7 +71,7 @@ abstract class Controller extends BaseController implements Contextual
         return app($this->factory->getAccessor(), ['autoValidate' => $autoValidate]);
     }
 
-    final public function refresh(string $abstract = null): static
+    final protected function refresh(string $abstract = null): static
     {
         $this->factory->refresh($abstract);
 
