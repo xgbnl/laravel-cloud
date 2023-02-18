@@ -2,10 +2,24 @@
 
 namespace Xgbnl\Cloud\Repositories\Providers;
 
-final readonly class Column
+use Xgbnl\Cloud\Repositories\Contacts\RelationContact;
+
+final class Column implements RelationContact
 {
-    public function resolve(mixed $columns):array
+    protected string|array $columns = [];
+
+    public function splitColumn(mixed $columns): array
     {
-        return is_string($columns) ? explode(',',$columns) : $columns;
+        return is_string($columns) ? explode(',', $columns) : $columns;
+    }
+
+    public function store(mixed $data): void
+    {
+        $this->columns = $this->splitColumn($data);
+    }
+
+    public function resources(): array
+    {
+        return $this->columns;
     }
 }

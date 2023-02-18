@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Xgbnl\Cloud\Repositories;
 
-use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Contacts\Transform;
 use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
 use Xgbnl\Cloud\Kernel\Proxies\RepositoryProxy;
-use Xgbnl\Cloud\Repositories\Providers\Column;
-use Xgbnl\Cloud\Repositories\Providers\Query;
-use Xgbnl\Cloud\Traits\CallMethodCollection;
+use Xgbnl\Cloud\Proxy\Proxies;
+use Xgbnl\Cloud\Repositories\Providers\Eloquent;
 use Xgbnl\Cloud\Traits\ContextualTrait;
+use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property-read Model $model
@@ -23,22 +22,34 @@ use Xgbnl\Cloud\Traits\ContextualTrait;
  * @property-read EloquentBuilder $query
  * @property-read QueryBuilder $rawQuery
  * @property-read Transform|null $transform
- * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
+ * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children')
+ * @method self select(string|array $columns);
+ * @method self relation(array $with);
+ * @method self transform(string $call = null);
  */
 abstract class Repositories implements Contextual
 {
-    use CallMethodCollection, ContextualTrait;
+    use ContextualTrait;
 
     private readonly Factory $factory;
 
-    private readonly Query $builder;
+    protected readonly Eloquent $eloquent;
 
-    protected array $rules  = [];
+    private readonly Proxies $proxies;
 
-    public function __construct(RepositoryProxy $provider,Query $builder)
+    protected array $rules = [];
+
+    final public function __construct(RepositoryProxy $provider, Eloquent $eloquent)
     {
         $this->factory = $provider;
+        $this->eloquent = $eloquent;
+    }
 
-        $this->builder = $builder;
+    public function __call(string $method, array $parameters)
+    {
+        if (property_exists($this->eloquent, $method) && method_exists($this->eloquent->{$method}, $method)) {
+            $this->eloquent->{$method}(...$parameters);
+            return $this;
+        }
     }
 }
