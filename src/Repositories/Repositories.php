@@ -45,10 +45,10 @@ abstract class Repositories implements Contextual
         $this->eloquent = $eloquent;
     }
 
-    public function __call(string $method, array $parameters)
+    public function __call(string $method, array $parameters):mixed
     {
         if (property_exists($this->eloquent, $method) && method_exists($this->eloquent->{$method}, $method)) {
-            $this->eloquent->{$method}(...$parameters);
+            $this->eloquent->{$method}->store(...$parameters);
             return $this;
         }
     }
