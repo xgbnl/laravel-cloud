@@ -2,6 +2,7 @@
 
 namespace Xgbnl\Cloud\Kernel;
 
+use Closure;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionParameter;
@@ -12,7 +13,8 @@ final class Application
 
     protected array $resolved = [];
 
-    protected static ?self $instance = null;
+    protected array        $instances = [];
+    protected static ?self $instance  = null;
 
     private function __construct()
     {
@@ -76,6 +78,11 @@ final class Application
 
             return $result;
         }, []);
+    }
+
+    public function singleton(string $abstract, Closure $closure): void
+    {
+        $this->instances[$abstract] = $closure;
     }
 
     public static function getInstance(): self

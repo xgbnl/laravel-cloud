@@ -10,6 +10,8 @@ use Xgbnl\Cloud\Commands\MakeObserverCommand;
 use Xgbnl\Cloud\Commands\MakeRepositoryCommand;
 use Xgbnl\Cloud\Commands\MakeServiceCommand;
 use Xgbnl\Cloud\Commands\MakeTransformCommand;
+use Xgbnl\Cloud\Kernel\Application;
+use Xgbnl\Cloud\Proxy\Proxies;
 
 class CloudServiceProvider extends ServiceProvider
 {
@@ -27,5 +29,12 @@ class CloudServiceProvider extends ServiceProvider
     {
         $this->publishes([__DIR__ . '/Commands/Stubs/BaseController.stub' => app_path('Http/Controllers/BaseController.php')]);
         $this->commands($this->commands);
+
+        $this->register();
+    }
+
+    public function register(): void
+    {
+        Application::getInstance()->singleton('proxy', fn() => new Proxies());
     }
 }

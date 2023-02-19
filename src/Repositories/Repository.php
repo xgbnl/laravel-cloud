@@ -11,8 +11,6 @@ use Xgbnl\Cloud\Repositories\Providers\Column;
 
 abstract class Repository extends Repositories
 {
-    private Column $column;
-
     final public function find(
         mixed        $value,
         array|string $columns = ['*'],
