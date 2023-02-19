@@ -13,9 +13,17 @@ abstract class Proxies implements Proxyable
 
     protected Str $str;
 
+    protected Application $app;
+
     public function __construct(Str $str)
     {
         $this->str = $str;
+        $this->app = Application::getInstance();
+    }
+
+    public function app(): Application
+    {
+        return $this->app;
     }
 
     final public function has(): bool

@@ -8,19 +8,17 @@ use RedisException;
 use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
 use Xgbnl\Cloud\Repositories\Repository;
-use Xgbnl\Cloud\Traits\CallMethodCollection;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
  * @method static void destroyCache(string $key = null) 销毁缓存
  * @method static void storeCache(mixed ...$params) 存储缓存
  * @method static mixed resourcesCache(string $key = null) 获取缓存
- * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children') 为列表生成树结构
  * @property Repository $repository
  */
 abstract class Cacheable implements Contextual
 {
-    use CallMethodCollection, ContextualTrait;
+    use  ContextualTrait;
 
     protected readonly ?Redis $redis;
 

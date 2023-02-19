@@ -6,6 +6,7 @@ use Closure;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionParameter;
+use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 
 final class Application
@@ -83,6 +84,20 @@ final class Application
     public function singleton(string $abstract, Closure $closure): void
     {
         $this->instances[$abstract] = $closure;
+    }
+
+    protected function getConcrete(string $abstract): Closure
+    {
+        return $this->instances[$abstract];
+    }
+
+    public function callAction(Contextual $contextual, string $method, array $parameters)
+    {
+        if (method_exists($this->getConcrete('proxies')(), $method)) {
+            return $this->getConcrete('proxies')()->{$method}(...$parameters);
+        }
+
+        throw new FailedResolveException('Method ' . $contextual->getAlias() . '::' . $method . 'does not exist.');
     }
 
     public static function getInstance(): self

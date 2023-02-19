@@ -24,16 +24,16 @@ final readonly class Proxies
         return new JsonResponse($r);
     }
 
-    public function paginator(array $list): Paginator
+    public function paginator(array $data): Paginator
     {
         $pageNum = (int)request()->get('pageNum', 1);
         $pageSize = (int)request()->get('pageSize', 10);
 
         $offset = ($pageNum * $pageSize) - $pageSize;
 
-        $items = array_slice($list, $offset, $pageSize, true);
+        $items = array_slice($data, $offset, $pageSize, true);
 
-        $total = count($list);
+        $total = count($data);
 
         return new Paginator($items, $total, $pageSize, $pageNum, [
             'path'     => Paginator::resolveCurrentPath(),

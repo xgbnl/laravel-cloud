@@ -35,6 +35,6 @@ class CloudServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        Application::getInstance()->singleton('proxy', fn() => new Proxies());
+        Application::getInstance()->singleton('proxies', fn() => new Proxies());
     }
 }

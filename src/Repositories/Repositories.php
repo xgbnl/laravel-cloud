@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Contacts\Transform;
+use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
 use Xgbnl\Cloud\Kernel\Proxies\RepositoryProxy;
 use Xgbnl\Cloud\Traits\ContextualTrait;
@@ -22,6 +23,7 @@ use Xgbnl\Cloud\Traits\ContextualTrait;
  * @property-read Transform|null $transform
  * @method self select(string|array $columns)
  * @method self relation(array $with)
+ * @method self query(array $params)
  * @method self transform(string $call = null)
  * @method self chunk(int $count)
  * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children')
@@ -36,9 +38,9 @@ abstract class Repositories implements Contextual
 
     protected array $rules = [];
 
-    final public function __construct(RepositoryProxy $provider, Eloquent $eloquent)
+    final public function __construct(RepositoryProxy $proxy, Eloquent $eloquent)
     {
-        $this->factory  = $provider;
+        $this->factory  = $proxy;
         $this->eloquent = $eloquent;
     }
 
@@ -46,6 +48,9 @@ abstract class Repositories implements Contextual
     {
         if (property_exists($this->eloquent, $method)) {
             $this->eloquent->store($method, ...$parameters);
+            return $this;
         }
+
+        return $this->factory->app()->callAction($this, $method, $parameters);
     }
 }

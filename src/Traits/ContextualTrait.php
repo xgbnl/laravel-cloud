@@ -6,7 +6,7 @@ trait ContextualTrait
 {
     public function __get(string $name)
     {
-        return $this->factory->get($this,$name);
+        return $this->factory->get($this, $name);
     }
 
     public function getAlias(): string

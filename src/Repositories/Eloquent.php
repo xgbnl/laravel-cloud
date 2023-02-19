@@ -10,12 +10,13 @@ final class Eloquent
 
     protected array $relation = [];
 
+    protected array $query = [];
+
     protected bool $chunk = false;
+    protected int  $count = 200;
 
-    protected int  $count     = 200;
-    protected bool $transform = false;
-
-    protected ?string $call = null;
+    protected bool    $transform = false;
+    protected ?string $call      = null;
 
     public function store(string $name, mixed $value): void
     {
@@ -25,6 +26,9 @@ final class Eloquent
                 break;
             case 'relation':
                 $this->relation = $value;
+                break;
+            case 'query':
+                $this->query = $value;
                 break;
             case 'chunk':
                 $this->chunk = true;

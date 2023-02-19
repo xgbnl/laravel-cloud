@@ -13,7 +13,6 @@ use Xgbnl\Cloud\Kernel\Proxies\ServiceProxy;
 use Xgbnl\Cloud\Observer\Creator;
 use Xgbnl\Cloud\Observer\Deleter;
 use Xgbnl\Cloud\Observer\Updater;
-use Xgbnl\Cloud\Traits\CallMethodCollection;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
@@ -21,10 +20,11 @@ use Xgbnl\Cloud\Traits\ContextualTrait;
  * @property-read string|null $table
  * @property-read EloquentBuilder $query
  * @property-read Exporter $exporter
+ * @method mixed endpoint(mixed $needle, string $domain, bool $replace = false)
  */
 abstract class Service implements Contextual
 {
-    use CallMethodCollection, ContextualTrait;
+    use ContextualTrait;
 
     private ?string $observer = null;
 
@@ -97,5 +97,10 @@ abstract class Service implements Contextual
     final public function export(): void
     {
         $this->exporter->export();
+    }
+
+    public function __call(string $method, array $parameters)
+    {
+        return $this->factory->app()->callAction($this, $method, $parameters);
     }
 }
