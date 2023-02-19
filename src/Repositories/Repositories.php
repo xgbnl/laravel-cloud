@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Xgbnl\Cloud\Contacts\Contextual;
 use Xgbnl\Cloud\Contacts\Transform;
-use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
 use Xgbnl\Cloud\Kernel\Proxies\RepositoryProxy;
 use Xgbnl\Cloud\Traits\ContextualTrait;
@@ -27,6 +26,7 @@ use Xgbnl\Cloud\Traits\ContextualTrait;
  * @method self transform(string $call = null)
  * @method self chunk(int $count)
  * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children')
+ * @method mixed endpoint(mixed $needle, string $domain, bool $replace = false)
  */
 abstract class Repositories implements Contextual
 {
