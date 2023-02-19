@@ -2,9 +2,10 @@
 
 namespace Xgbnl\Cloud\Kernel\Proxies;
 
+use Xgbnl\Cloud\Contacts\Controller\Contextual;
+use Xgbnl\Cloud\Contacts\Proxy\Proxyable;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Kernel\Application;
-use Xgbnl\Cloud\Kernel\Proxies\Contacts\Proxyable;
 use Xgbnl\Cloud\Kernel\Str;
 
 abstract class Proxies implements Proxyable
@@ -19,11 +20,6 @@ abstract class Proxies implements Proxyable
     {
         $this->str = $str;
         $this->app = Application::getInstance();
-    }
-
-    public function app(): Application
-    {
-        return $this->app;
     }
 
     final public function has(): bool
@@ -83,6 +79,20 @@ abstract class Proxies implements Proxyable
     final protected function modelNotExistsFail(string $concrete): void
     {
         throw new FailedResolveException('Missing class [' . $concrete . ']');
+    }
+
+    final public function proxy(): Proxies
+    {
+        return $this->app->getConcrete('proxies')();
+    }
+
+    final public function callAction(Contextual $contextual, string $method, array $parameters)
+    {
+        if (method_exists($this->proxy(), $method)) {
+            return $this->proxy()->{$method}(...$parameters);
+        }
+
+        throw new FailedResolveException('Method ' . $contextual->getAlias() . '::' . $method . 'does not exist.');
     }
 
     abstract public function getModel(string $abstract, string $final): mixed;

@@ -3,8 +3,8 @@
 namespace Xgbnl\Cloud\Kernel\Proxies;
 
 use Illuminate\Database\Eloquent\Model;
-use Xgbnl\Cloud\Contacts\Contextual;
-use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
+use Xgbnl\Cloud\Contacts\Controller\Contextual;
+use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Services\Service;
 

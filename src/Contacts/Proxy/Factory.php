@@ -1,8 +1,8 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Proxies\Contacts;
+namespace Xgbnl\Cloud\Contacts\Proxy;
 
-use Xgbnl\Cloud\Contacts\Contextual;
+use Xgbnl\Cloud\Contacts\Controller\Contextual;
 
 interface Factory extends Proxyable
 {

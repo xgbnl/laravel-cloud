@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Vtiful\Kernel\Excel;
+use Xgbnl\Cloud\Contacts\Exporter\Exporter as ExporterContact;
 use Xgbnl\Cloud\Services\Service;
 use Xgbnl\Cloud\Traits\CallMethodCollection;
-use Xgbnl\Cloud\Contacts\Exporter as ExporterContact;
 
 /**
  * @method static void execute()

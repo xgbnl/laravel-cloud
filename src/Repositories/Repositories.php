@@ -8,9 +8,9 @@ use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Xgbnl\Cloud\Contacts\Contextual;
-use Xgbnl\Cloud\Contacts\Transform;
-use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
+use Xgbnl\Cloud\Contacts\Controller\Contextual;
+use Xgbnl\Cloud\Contacts\Proxy\Factory;
+use Xgbnl\Cloud\Contacts\Transform\Transform;
 use Xgbnl\Cloud\Kernel\Proxies\RepositoryProxy;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
@@ -51,6 +51,6 @@ abstract class Repositories implements Contextual
             return $this;
         }
 
-        return $this->factory->app()->callAction($this, $method, $parameters);
+        return $this->factory->callAction($this, $method, $parameters);
     }
 }

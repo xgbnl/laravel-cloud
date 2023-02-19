@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Xgbnl\Cloud\Proxy;
+namespace Xgbnl\Cloud\Kernel;
 
 use Illuminate\Http\JsonResponse;
 use InvalidArgumentException;
 use Xgbnl\Cloud\Decorates\Factory\DecorateFactory;
-use Xgbnl\Cloud\Proxy\Paginator\Paginator;
+use Xgbnl\Cloud\Kernel\Paginator\Paginator;
 
 final readonly class Proxies
 {

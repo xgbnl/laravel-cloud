@@ -1,6 +1,6 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Proxies\Contacts;
+namespace Xgbnl\Cloud\Contacts\Proxy;
 
 interface Proxyable
 {

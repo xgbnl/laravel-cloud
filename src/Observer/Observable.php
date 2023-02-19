@@ -3,7 +3,7 @@
 namespace Xgbnl\Cloud\Observer;
 
 use Illuminate\Database\Eloquent\Model;
-use Xgbnl\Cloud\Contacts\Observer;
+use Xgbnl\Cloud\Contacts\Observer\Observer;
 use Xgbnl\Cloud\Services\Service;
 
 abstract class Observable

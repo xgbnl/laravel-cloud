@@ -4,9 +4,9 @@ namespace Xgbnl\Cloud\Kernel\Proxies;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as RawBuilder;
-use Xgbnl\Cloud\Contacts\Contextual;
-use Xgbnl\Cloud\Contacts\Transform;
-use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
+use Xgbnl\Cloud\Contacts\Controller\Contextual;
+use Xgbnl\Cloud\Contacts\Proxy\Factory;
+use Xgbnl\Cloud\Contacts\Transform\Transform;
 
 final  class RepositoryProxy extends QueryBuilderProxy implements Factory
 {

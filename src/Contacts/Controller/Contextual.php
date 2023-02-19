@@ -1,6 +1,6 @@
 <?php
 
-namespace Xgbnl\Cloud\Contacts;
+namespace Xgbnl\Cloud\Contacts\Controller;
 
 interface Contextual
 {

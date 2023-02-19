@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Xgbnl\Cloud\Proxy\Paginator;
+namespace Xgbnl\Cloud\Kernel\Paginator;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 

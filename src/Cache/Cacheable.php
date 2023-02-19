@@ -5,8 +5,8 @@ namespace Xgbnl\Cloud\Cache;
 use HttpException;
 use Redis;
 use RedisException;
-use Xgbnl\Cloud\Contacts\Contextual;
-use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
+use Xgbnl\Cloud\Contacts\Controller\Contextual;
+use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 

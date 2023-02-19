@@ -1,6 +1,6 @@
 <?php
 
-namespace Xgbnl\Cloud\Contacts;
+namespace Xgbnl\Cloud\Contacts\Exporter;
 
 interface Exporter
 {

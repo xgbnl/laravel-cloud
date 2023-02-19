@@ -3,9 +3,9 @@
 namespace Xgbnl\Cloud\Kernel\Proxies;
 
 use Xgbnl\Cloud\Cache\Cacheable;
-use Xgbnl\Cloud\Contacts\Contextual;
+use Xgbnl\Cloud\Contacts\Controller\Contextual;
+use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
-use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Services\Service;

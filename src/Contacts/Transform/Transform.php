@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Xgbnl\Cloud\Contacts;
+namespace Xgbnl\Cloud\Contacts\Transform;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -2,7 +2,7 @@
 
 namespace Xgbnl\Cloud\Traits;
 
-use Xgbnl\Cloud\Contacts\Enumerable;
+use Xgbnl\Cloud\Contacts\Enum\Enumerable;
 
 trait EnumerableTrait
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Xgbnl\Cloud\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Xgbnl\Cloud\Proxy\Paginator\Paginator;
+use Xgbnl\Cloud\Kernel\Paginator\Paginator;
 
 /**
  * @method JsonResponse json(mixed $data = null, int $code = 200) 自定义Json返回

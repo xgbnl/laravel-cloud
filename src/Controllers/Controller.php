@@ -5,11 +5,11 @@ namespace Xgbnl\Cloud\Controllers;
 use App\Http\Controllers\Controller as BaseController;
 use Illuminate\Http\Request;
 use Xgbnl\Cloud\Cache\Cacheable;
-use Xgbnl\Cloud\Contacts\Contextual;
+use Xgbnl\Cloud\Contacts\Controller\Contextual;
+use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
-use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
+use Xgbnl\Cloud\Kernel\Paginator\Paginator;
 use Xgbnl\Cloud\Kernel\Proxies\ControllerProxy;
-use Xgbnl\Cloud\Proxy\Paginator\Paginator;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Services\Service;
 use Xgbnl\Cloud\Traits\ContextualTrait;
@@ -90,6 +90,10 @@ abstract class Controller extends BaseController implements Contextual
 
     public function __call(string $method, array $parameters)
     {
-        return $this->factory->app()->callAction($this, $method, $parameters);
+        if (method_exists($this->factory->proxy(), $method)) {
+            return $this->factory->proxy()->{$method};
+        }
+
+        return parent::__call($method, $parameters);
     }
 }

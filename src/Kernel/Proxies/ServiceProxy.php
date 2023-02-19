@@ -2,9 +2,9 @@
 
 namespace Xgbnl\Cloud\Kernel\Proxies;
 
-use Xgbnl\Cloud\Contacts\Contextual;
-use Xgbnl\Cloud\Contacts\Exporter;
-use Xgbnl\Cloud\Kernel\Proxies\Contacts\Factory;
+use Xgbnl\Cloud\Contacts\Controller\Contextual;
+use Xgbnl\Cloud\Contacts\Exporter\Exporter;
+use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Providers\EloquentBuilder;
 use Xgbnl\Cloud\Providers\Model;
 
