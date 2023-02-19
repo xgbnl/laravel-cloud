@@ -91,7 +91,7 @@ abstract class Controller extends BaseController implements Contextual
     public function __call($method, $parameters)
     {
         if (method_exists($this->factory->proxy(), $method)) {
-            return $this->factory->proxy()->{$method};
+            return $this->factory->proxy()->{$method}();
         }
 
         return parent::__call($method, $parameters);
