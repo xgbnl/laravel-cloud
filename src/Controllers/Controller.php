@@ -9,7 +9,7 @@ use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Kernel\Paginator\Paginator;
-use Xgbnl\Cloud\Kernel\Proxies\ControllerProxy;
+use Xgbnl\Cloud\Kernel\Proxy\ControllerProxy;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Services\Service;
 use Xgbnl\Cloud\Traits\ContextualTrait;

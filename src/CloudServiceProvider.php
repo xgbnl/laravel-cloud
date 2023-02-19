@@ -11,7 +11,7 @@ use Xgbnl\Cloud\Commands\MakeRepositoryCommand;
 use Xgbnl\Cloud\Commands\MakeServiceCommand;
 use Xgbnl\Cloud\Commands\MakeTransformCommand;
 use Xgbnl\Cloud\Kernel\Application;
-use Xgbnl\Cloud\Kernel\Proxies;
+use Xgbnl\Cloud\Kernel\Proxy;
 
 class CloudServiceProvider extends ServiceProvider
 {

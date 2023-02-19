@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\JoinClause;
-use Xgbnl\Cloud\Kernel\Proxies\RepositoryProxy;
+use Xgbnl\Cloud\Kernel\Proxy\RepositoryProxy;
 use Xgbnl\Cloud\Repositories\Providers\Column;
 
 abstract class Repository extends Repositories

@@ -1,14 +1,15 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Proxies;
+namespace Xgbnl\Cloud\Kernel\Proxy;
 
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Proxyable;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Kernel\Application;
+use Xgbnl\Cloud\Kernel\Proxies;
 use Xgbnl\Cloud\Kernel\Str;
 
-abstract class Proxies implements Proxyable
+abstract class Proxy implements Proxyable
 {
     protected ?string $model = null;
 

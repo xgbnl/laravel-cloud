@@ -1,6 +1,6 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Proxies;
+namespace Xgbnl\Cloud\Kernel\Proxy;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as RawBuilder;

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Exporter\Exporter;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
-use Xgbnl\Cloud\Kernel\Proxies\ServiceProxy;
+use Xgbnl\Cloud\Kernel\Proxy\ServiceProxy;
 use Xgbnl\Cloud\Observer\Creator;
 use Xgbnl\Cloud\Observer\Deleter;
 use Xgbnl\Cloud\Observer\Updater;
