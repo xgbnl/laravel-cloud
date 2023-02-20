@@ -22,13 +22,12 @@ final class Application
 
     private function __clone(): void
     {
-        // TODO: Implement __clone() method.
     }
 
     /**
      * @throws ReflectionException
      */
-    public function make(string $abstract, array $parameters = []): mixed
+    public function make(string $abstract, array $parameters = []): object
     {
 
         $concrete = $this->getConcrete($abstract);
@@ -43,7 +42,7 @@ final class Application
     /**
      * @throws ReflectionException
      */
-    public function build(string $abstract, array $parameters = []): mixed
+    public function build(string $abstract, array $parameters = []): object
     {
         try {
             $reflector = new ReflectionClass($abstract);
@@ -102,7 +101,7 @@ final class Application
         }, []);
     }
 
-    protected function getConcrete(string $abstract): mixed
+    protected function getConcrete(string $abstract): ?object
     {
         return $this->resolved[$abstract] ?? null;
     }
