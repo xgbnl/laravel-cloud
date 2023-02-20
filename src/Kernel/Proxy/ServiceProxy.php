@@ -14,7 +14,7 @@ final class ServiceProxy extends QueryBuilderProxy implements Factory
     {
         return match ($name) {
             'exporter' => $this->getConcrete($contextual->getAlias(), $name, ['service' => $contextual]),
-            default    => parent::getConcrete($contextual->getAlias(), $name)
+            default    => parent::get($contextual, $name)
         };
     }
 

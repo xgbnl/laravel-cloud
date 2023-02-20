@@ -15,7 +15,7 @@ final  class RepositoryProxy extends QueryBuilderProxy implements Factory
         return match ($name) {
             'transform' => $this->getConcrete($contextual->getAlias(), $name),
             'rawQuery'  => parent::getConcrete($contextual->getAlias(), 'model')->newQuery(),
-            default     => parent::getConcrete($contextual->getAlias(), $name),
+            default     => parent::get($contextual, $name),
         };
     }
 
