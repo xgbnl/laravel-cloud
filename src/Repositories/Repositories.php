@@ -23,7 +23,7 @@ use Xgbnl\Cloud\Traits\ContextualTrait;
  * @method self select(string|array $columns)
  * @method self relation(array $with)
  * @method self query(array $params)
- * @method self transform(string $call = null)
+ * @method self transform(string $call = 'transform')
  * @method self chunk(int $count)
  * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children')
  * @method mixed endpoint(mixed $needle, string $domain, bool $replace = false)
@@ -40,7 +40,7 @@ abstract class Repositories implements Contextual
 
     final public function __construct(RepositoryProxy $proxy, Eloquent $eloquent)
     {
-        $this->factory  = $proxy;
+        $this->factory = $proxy;
         $this->eloquent = $eloquent;
     }
 
@@ -51,6 +51,6 @@ abstract class Repositories implements Contextual
             return $this;
         }
 
-        return $this->factory->callAction($this, $name,... $arguments);
+        return $this->factory->callAction($this, $name, ... $arguments);
     }
 }
