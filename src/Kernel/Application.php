@@ -75,24 +75,30 @@ final class Application
     /**
      * @throws ReflectionException
      */
-    protected function resolveDependencies(array $dependencies): array
+    protected function resolveDependencies(array $parameters): array
     {
-        return array_reduce($dependencies, function (array $result, ReflectionParameter $parameter) {
-            if (is_null($parameter->getType())) {
-                $result[] = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null;
-            } else {
-                if ($parameter->isDefaultValueAvailable()) {
-                    $result [] = $parameter->getDefaultValue();
-                } else {
-                    $instance = $this->make($parameter->getType()->getName(), $parameter->getDefaultValue());
+        return array_reduce($parameters, function (array $dependencies, ReflectionParameter $parameter) {
 
-                    $result[] = $instance;
+            if (!$parameter->hasType()) {
+                $dependencies[] = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null;
+            }
+
+            if ($parameter->hasType()) {
+
+                if ($parameter->getType()->isBuiltin()) {
+                    $dependencies[] = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null;
+                } else {
+                    $instance = $parameter->isDefaultValueAvailable()
+                        ? $this->make($parameter->getType()->getName(), $parameter->getDefaultValue())
+                        : $this->make($parameter->getType()->getName());
+
+                    $dependencies [] = $instance;
 
                     $this->store($parameter->getType()->getName(), $instance);
                 }
             }
 
-            return $result;
+            return $dependencies;
         }, []);
     }
 
