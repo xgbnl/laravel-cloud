@@ -8,13 +8,15 @@ use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Providers\EloquentBuilder;
 use Xgbnl\Cloud\Providers\Model;
 
-final class ServiceProxy extends QueryBuilderProxy implements Factory
+final class ServiceProxy extends Proxy implements Factory
 {
+    protected QueryBuilderProxy $builderProxy;
+
     public function get(Contextual $contextual, string $name): Exporter|Model|EloquentBuilder|string
     {
         return match ($name) {
             'exporter' => $this->getConcrete($contextual->getAlias(), $name, ['service' => $contextual]),
-            default    => parent::get($contextual, $name)
+            default    => $this->builderProxy->get($contextual, $name)
         };
     }
 

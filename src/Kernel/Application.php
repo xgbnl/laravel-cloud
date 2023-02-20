@@ -31,6 +31,10 @@ final class Application
     public function make(string $abstract, array $parameters = []): mixed
     {
 
+        if (isset($this->resolved[$abstract])) {
+            return $this->resolved[$abstract];
+        }
+
         return $this->build($abstract, $parameters);
     }
 
@@ -76,7 +80,13 @@ final class Application
             if (is_null($parameter->getType())) {
                 $result[] = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null;
             } else {
-                $result[] = $this->build($parameter->getType()->getName());
+                $instance = $parameter->isDefaultValueAvailable() ?
+                    $this->make($parameter->getType()->getName(), $parameter->getDefaultValue())
+                    : $this->make($parameter->getType()->getName());
+
+                $result[] = $instance;
+
+                $this->resolved[$parameter->getType()->getName()] = $instance;
             }
 
             return $result;

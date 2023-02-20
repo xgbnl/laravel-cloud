@@ -7,15 +7,24 @@ use Illuminate\Database\Query\Builder as RawBuilder;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Contacts\Transform\Transform;
+use Xgbnl\Cloud\Kernel\Str;
 
 final  class RepositoryProxy extends QueryBuilderProxy implements Factory
 {
+    protected QueryBuilderProxy $builderProxy;
+
+    public function __construct(Str $str, QueryBuilderProxy $builderProxy)
+    {
+        $this->builderProxy = $builderProxy;
+        parent::__construct($str);
+    }
+
     public function get(Contextual $contextual, string $name): RawBuilder|EloquentBuilder|Transform|string|null
     {
         return match ($name) {
             'transform' => $this->getConcrete($contextual->getAlias(), $name),
-            'rawQuery'  => parent::getConcrete($contextual->getAlias(), 'model')->newQuery(),
-            default     => parent::get($contextual, $name),
+            'rawQuery'  => $this->builderProxy->getConcrete($contextual->getAlias(), 'model')->newQuery(),
+            default     => $this->builderProxy->get($contextual, $name),
         };
     }
 
