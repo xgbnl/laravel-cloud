@@ -31,8 +31,10 @@ final class Application
     public function make(string $abstract, array $parameters = []): mixed
     {
 
-        if (isset($this->resolved[$abstract])) {
-            return $this->resolved[$abstract];
+        $concrete = $this->getConcrete($abstract);
+
+        if (!is_null($concrete)) {
+            return $concrete;
         }
 
         return $this->build($abstract, $parameters);
@@ -76,18 +78,17 @@ final class Application
     protected function resolveDependencies(array $dependencies): array
     {
         return array_reduce($dependencies, function (array $result, ReflectionParameter $parameter) {
-
             if (is_null($parameter->getType())) {
                 $result[] = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null;
             } else {
-                $instance = $parameter->isDefaultValueAvailable() ?
-                    $this->make($parameter->getType()->getName(), $parameter->getDefaultValue())
-                    : $this->make($parameter->getType()->getName());
+                if ($parameter->isDefaultValueAvailable()) {
+                    $result [] = $parameter->getDefaultValue();
+                } else {
+                    $instance = $this->make($parameter->getType()->getName(), $parameter->getDefaultValue());
 
-                $result[] = $instance;
+                    $result[] = $instance;
 
-                if (!array_key_exists($parameter->getType()->getName(), $this->resolved)) {
-                    $this->resolved[$parameter->getType()->getName()] = $instance;
+                    $this->store($parameter->getType()->getName(), $instance);
                 }
             }
 
@@ -95,12 +96,24 @@ final class Application
         }, []);
     }
 
+    protected function getConcrete(string $abstract): mixed
+    {
+        return $this->resolved[$abstract] ?? null;
+    }
+
+    protected function store(string $abstract, mixed $concrete): void
+    {
+        if (!array_key_exists($abstract, $this->resolved)) {
+            $this->resolved[$abstract] = $concrete;
+        }
+    }
+
     public function singleton(string $abstract, Closure $closure): void
     {
         $this->instances[$abstract] = $closure;
     }
 
-    public function getConcrete(string $abstract): Closure
+    public function getSingleton(string $abstract): Closure
     {
         return $this->instances[$abstract];
     }

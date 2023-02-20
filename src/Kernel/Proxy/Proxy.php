@@ -84,7 +84,7 @@ abstract class Proxy implements Proxyable
 
     final public function proxy(): Proxies
     {
-        return $this->app->getConcrete('proxies')();
+        return $this->app->getSingleton('proxies')();
     }
 
     final public function callAction(Contextual $contextual, string $name, array $arguments)
