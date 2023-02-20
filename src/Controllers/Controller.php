@@ -77,7 +77,7 @@ abstract class Controller extends BaseController implements Contextual
         foreach ($parameters as $p) {
             if ($p instanceof Request) {
                 $this->request = $p;
-                $injected      = true;
+                $injected = true;
             }
         }
 
@@ -88,12 +88,12 @@ abstract class Controller extends BaseController implements Contextual
         return parent::callAction($method, $parameters);
     }
 
-    public function __call($method, $parameters)
+    public function __call($name, $arguments)
     {
-        if (method_exists($this->factory->proxy(), $method)) {
-            return $this->factory->proxy()->{$method}(...$parameters);
+        if (method_exists($this->factory->proxy(), $name)) {
+            return $this->factory->proxy()->{$name}(...$arguments);
         }
 
-        return parent::__call($method, $parameters);
+        return parent::__call($name, ...$arguments);
     }
 }

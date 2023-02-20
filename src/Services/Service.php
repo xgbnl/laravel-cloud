@@ -99,8 +99,8 @@ abstract class Service implements Contextual
         $this->exporter->export();
     }
 
-    public function __call(string $method, array $parameters)
+    public function __call(string $name, array $arguments)
     {
-        return $this->factory->callAction($this, $method, $parameters);
+        return $this->factory->callAction($this, $name, ... $arguments);
     }
 }

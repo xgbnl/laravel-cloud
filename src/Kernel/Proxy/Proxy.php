@@ -87,13 +87,13 @@ abstract class Proxy implements Proxyable
         return $this->app->getConcrete('proxies')();
     }
 
-    final public function callAction(Contextual $contextual, string $method, array $parameters)
+    final public function callAction(Contextual $contextual, string $name, array $arguments)
     {
-        if (method_exists($this->proxy(), $method)) {
-            return $this->proxy()->{$method}(...$parameters);
+        if (method_exists($this->proxy(), $name)) {
+            return $this->proxy()->{$name}(...$arguments);
         }
 
-        throw new FailedResolveException('Method ' . $contextual->getAlias() . '::' . $method . 'does not exist.');
+        throw new FailedResolveException('Method ' . $contextual->getAlias() . '::' . $name . 'does not exist.');
     }
 
     abstract public function getModel(string $abstract, string $final): mixed;
