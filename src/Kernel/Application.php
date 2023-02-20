@@ -73,7 +73,7 @@ final class Application
     /**
      * @throws ReflectionException
      */
-    private function resolveDependencies(array $dependencies): array
+    protected function resolveDependencies(array $dependencies): array
     {
         return array_reduce($dependencies, function (array $result, ReflectionParameter $parameter) {
 
@@ -86,7 +86,9 @@ final class Application
 
                 $result[] = $instance;
 
-                $this->resolved[$parameter->getType()->getName()] = $instance;
+                if (!array_key_exists($parameter->getType()->getName(), $this->resolved)) {
+                    $this->resolved[$parameter->getType()->getName()] = $instance;
+                }
             }
 
             return $result;
