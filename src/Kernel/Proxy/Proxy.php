@@ -58,11 +58,11 @@ abstract class Proxy implements Proxyable
         return $this->str->split($haystack, $this->registerAccessor());
     }
 
-    final protected function splice(string $abstract, string $namespace, ?string $suffix = null): string
+    final protected function splice(string $abstract, string $levelName, ?string $suffix = null): string
     {
-        [$ns, $concrete] = $this->str->explode($abstract);
+        ['namespace' => $ns, 'class' => $concrete] = $this->str->explode($abstract);
 
-        $class = $ns . '\\' . $namespace . '\\' . $this->split($concrete);
+        $class = $ns . '\\' . $levelName . '\\' . $this->split($concrete);
 
         return $suffix ? $class : $class . ucwords($suffix);
     }

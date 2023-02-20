@@ -2,6 +2,8 @@
 
 namespace Xgbnl\Cloud\Kernel;
 
+use Xgbnl\Cloud\Exceptions\FailedResolveException;
+
 final readonly class Str
 {
     public function split(string $haystack, string|array $needle): string
@@ -28,6 +30,10 @@ final readonly class Str
     public function explode(string $class): array
     {
         $splice = explode('\\', $class);
+
+        if (empty($splice) || count($splice) < 2) {
+            throw new FailedResolveException('Failed while cutting class.[' . $class . ']');
+        }
 
         return ['namespace' => reset($splice), 'class' => end($splice)];
     }
