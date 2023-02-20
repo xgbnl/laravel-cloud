@@ -25,13 +25,13 @@ class QueryBuilderProxy extends Proxy implements Factory
             return $this->model;
         }
 
-        $class = $this->splice($abstract, 'Models', $final);
+        $contact = $this->splice($abstract, 'Models', $final);
 
-        if (!class_exists($class)) {
-            $this->modelNotExistsFail($class);
+        if (!class_exists($contact)) {
+            $this->modelNotExistsFail($contact);
         }
 
-        return $this->refresh($abstract);
+        return $this->refresh($contact);
     }
 
     private function subClassOf(string $abstract): bool
