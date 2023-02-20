@@ -72,7 +72,10 @@ final class Application
     private function resolveDependencies(array $dependencies): array
     {
         return array_reduce($dependencies, function (array $result, ReflectionParameter $parameter) {
-            if (!is_null($parameter->getType())) {
+
+            if (is_null($parameter->getType())) {
+                $result[] = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null;
+            } else {
                 $result[] = $this->build($parameter->getType()->getName());
             }
 
