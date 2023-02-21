@@ -4,6 +4,7 @@ namespace Xgbnl\Cloud\Controllers;
 
 use App\Http\Controllers\Controller as BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Xgbnl\Cloud\Cache\Cacheable;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
