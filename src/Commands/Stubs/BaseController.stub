@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Xgbnl\Cloud\Controllers\CrudController;
+use Xgbnl\Cloud\Controllers\Controller;
 
-abstract class BaseController extends CrudController
+abstract class BaseController extends Controller
 {
 
 }
