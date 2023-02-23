@@ -23,7 +23,7 @@ final class ControllerProxy extends Proxy implements Factory
 
     final public function getModel(string $abstract, string $final): string
     {
-        if (!$this->has() && str_ends_with($this->model, ucwords($final))) {
+        if ($this->has() && str_ends_with($this->model, ucwords($final))) {
             return $this->model;
         }
 
