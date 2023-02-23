@@ -5,12 +5,20 @@ namespace Xgbnl\Cloud\Kernel\Proxy;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Exporter\Exporter;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
+use Xgbnl\Cloud\Kernel\Str;
 use Xgbnl\Cloud\Providers\EloquentBuilder;
 use Xgbnl\Cloud\Providers\Model;
 
 final class ServiceProxy extends Proxy implements Factory
 {
     protected QueryBuilderProxy $builderProxy;
+
+    public function __construct(Str $str, QueryBuilderProxy $builderProxy)
+    {
+        $this->builderProxy = $builderProxy;
+
+        parent::__construct($str);
+    }
 
     public function get(Contextual $contextual, string $name): Exporter|Model|EloquentBuilder|string
     {
