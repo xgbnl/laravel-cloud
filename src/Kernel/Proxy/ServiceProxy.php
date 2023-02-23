@@ -6,8 +6,8 @@ use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Exporter\Exporter;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Kernel\Str;
-use Xgbnl\Cloud\Providers\EloquentBuilder;
-use Xgbnl\Cloud\Providers\Model;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 final class ServiceProxy extends Proxy implements Factory
 {
