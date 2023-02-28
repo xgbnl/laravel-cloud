@@ -33,8 +33,6 @@ abstract class Service implements Contextual
     final public function __construct(ServiceProvider $provider)
     {
         $this->factory = $provider;
-
-        $this->configure();
     }
 
     /**
@@ -71,27 +69,6 @@ abstract class Service implements Contextual
     {
         return is_array($value) ? Deleter::make($this)->batchDelete($value, $by)
             : Deleter::make($this)->delete($value, $by);
-    }
-
-    abstract protected function configure(): void;
-
-    /**
-     * 为服务注册观察者模型
-     * @param string $class
-     * @return void
-     */
-    final protected function registerObserver(string $class): void
-    {
-        $this->observer = $class;
-    }
-
-    /**
-     * 获取观察者模型
-     * @return string|null
-     */
-    final public function getObserver(): ?string
-    {
-        return $this->observer;
     }
 
     final public function export(): void
