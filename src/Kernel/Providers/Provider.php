@@ -1,15 +1,16 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Proxy;
+namespace Xgbnl\Cloud\Kernel\Providers;
 
+use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Proxyable;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Kernel\Application;
-use Xgbnl\Cloud\Kernel\Proxies;
-use Xgbnl\Cloud\Kernel\Str;
+use Xgbnl\Cloud\Support\Constant;
+use Xgbnl\Cloud\Support\Str;
 
-abstract class Proxy implements Proxyable
+abstract class Provider implements Proxyable
 {
     protected ?string $model = null;
 
@@ -38,12 +39,15 @@ abstract class Proxy implements Proxyable
         return $this->model;
     }
 
+    /**
+     * @throws ReflectionException
+     */
     final protected function getConcrete(string $abstract, string $final, array $parameters = []): mixed
     {
         $concrete = $this->getModel($abstract, $final);
 
         if (is_null($concrete)) {
-            return $concrete;
+            return null;
         }
 
         if ($this->notInherited($concrete)) {
@@ -82,15 +86,15 @@ abstract class Proxy implements Proxyable
         throw new FailedResolveException('Missing class [' . $concrete . ']');
     }
 
-    final public function proxy(): Proxies
+    final public function getConstant(): Constant
     {
-        return $this->app->getSingleton('proxies')();
+        return $this->app->getSingleton('constant')();
     }
 
     final public function callAction(Contextual $contextual, string $name, array $arguments)
     {
-        if (method_exists($this->proxy(), $name)) {
-            return $this->proxy()->{$name}(...$arguments);
+        if (method_exists($this->getConstant(), $name)) {
+            return $this->getConstant()->{$name}(...$arguments);
         }
 
         throw new FailedResolveException('Method ' . $contextual->getAlias() . '::' . $name . 'does not exist.');

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Contacts\Transform\Transform;
-use Xgbnl\Cloud\Kernel\Proxy\RepositoryProxy;
+use Xgbnl\Cloud\Kernel\Providers\RepositoryProvider;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
@@ -38,7 +38,7 @@ abstract class Repositories implements Contextual
 
     protected array $rules = [];
 
-    final public function __construct(RepositoryProxy $proxy, Eloquent $eloquent)
+    final public function __construct(RepositoryProvider $proxy, Eloquent $eloquent)
     {
         $this->factory = $proxy;
         $this->eloquent = $eloquent;

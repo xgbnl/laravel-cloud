@@ -1,15 +1,19 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Proxy;
+namespace Xgbnl\Cloud\Kernel\Providers;
 
 use Illuminate\Database\Eloquent\Model;
+use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Services\Service;
 
-class QueryBuilderProxy extends Proxy implements Factory
+class QueryBuilderProvider extends Provider implements Factory
 {
+    /**
+     * @throws ReflectionException
+     */
     public function get(Contextual $contextual, string $name): mixed
     {
         return match ($name) {

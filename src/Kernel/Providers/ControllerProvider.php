@@ -1,6 +1,6 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Proxy;
+namespace Xgbnl\Cloud\Kernel\Providers;
 
 use Xgbnl\Cloud\Cache\Cacheable;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
@@ -11,7 +11,7 @@ use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Services\Service;
 use Xgbnl\Cloud\Validator\Validator;
 
-final class ControllerProxy extends Proxy implements Factory
+final class ControllerProvider extends Provider implements Factory
 {
     public function get(Contextual $contextual, string $name): Service|Repository|Cacheable
     {

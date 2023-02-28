@@ -1,25 +1,29 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Proxy;
+namespace Xgbnl\Cloud\Kernel\Providers;
 
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Model;
+use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Exporter\Exporter;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
-use Xgbnl\Cloud\Kernel\Str;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Xgbnl\Cloud\Support\Str;
 
-final class ServiceProxy extends Proxy implements Factory
+final class ServiceProvider extends Provider implements Factory
 {
-    protected QueryBuilderProxy $builderProxy;
+    protected QueryBuilderProvider $builderProxy;
 
-    public function __construct(Str $str, QueryBuilderProxy $builderProxy)
+    public function __construct(Str $str, QueryBuilderProvider $builderProxy)
     {
         $this->builderProxy = $builderProxy;
 
         parent::__construct($str);
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function get(Contextual $contextual, string $name): Exporter|Model|EloquentBuilder|string
     {
         return match ($name) {

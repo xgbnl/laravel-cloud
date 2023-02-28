@@ -10,7 +10,7 @@ use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Kernel\Paginator\Paginator;
-use Xgbnl\Cloud\Kernel\Proxy\ControllerProxy;
+use Xgbnl\Cloud\Kernel\Providers\ControllerProvider;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Services\Service;
 use Xgbnl\Cloud\Traits\ContextualTrait;
@@ -31,7 +31,7 @@ abstract class Controller extends BaseController implements Contextual
 
     private readonly Factory $factory;
 
-    public function __construct(ControllerProxy $factory)
+    public function __construct(ControllerProvider $factory)
     {
         $this->factory = $factory;
     }
@@ -91,8 +91,8 @@ abstract class Controller extends BaseController implements Contextual
 
     public function __call($name, $arguments)
     {
-        if (method_exists($this->factory->proxy(), $name)) {
-            return $this->factory->proxy()->{$name}(...$arguments);
+        if (method_exists($this->factory->getConstant(), $name)) {
+            return $this->factory->getConstant()->{$name}(...$arguments);
         }
 
         return parent::__call($name, ...$arguments);

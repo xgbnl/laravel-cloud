@@ -1,13 +1,17 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Proxy;
+namespace Xgbnl\Cloud\Kernel\Providers;
 
+use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Repositories\Repository;
 
-final  class CacheProxy extends Proxy implements Factory
+final  class CacheProvider extends Provider implements Factory
 {
+    /**
+     * @throws ReflectionException
+     */
     public function get(Contextual $contextual, string $name): Repository
     {
         return match ($name) {

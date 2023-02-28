@@ -11,7 +11,7 @@ use Xgbnl\Cloud\Commands\MakeRepositoryCommand;
 use Xgbnl\Cloud\Commands\MakeServiceCommand;
 use Xgbnl\Cloud\Commands\MakeTransformCommand;
 use Xgbnl\Cloud\Kernel\Application;
-use Xgbnl\Cloud\Kernel\Proxies;
+use Xgbnl\Cloud\Support\Constant;
 
 class CloudServiceProvider extends ServiceProvider
 {
@@ -35,6 +35,6 @@ class CloudServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        Application::getInstance()->singleton('proxies', fn() => new Proxies());
+        Application::getInstance()->singleton('constant', fn() => new Constant());
     }
 }

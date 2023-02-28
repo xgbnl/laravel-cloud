@@ -1,24 +1,28 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel\Proxy;
+namespace Xgbnl\Cloud\Kernel\Providers;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as RawBuilder;
+use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Contacts\Transform\Transform;
-use Xgbnl\Cloud\Kernel\Str;
+use Xgbnl\Cloud\Support\Str;
 
-final  class RepositoryProxy extends QueryBuilderProxy implements Factory
+final  class RepositoryProvider extends QueryBuilderProvider implements Factory
 {
-    protected QueryBuilderProxy $builderProxy;
+    protected QueryBuilderProvider $builderProxy;
 
-    public function __construct(Str $str, QueryBuilderProxy $builderProxy)
+    public function __construct(Str $str, QueryBuilderProvider $builderProxy)
     {
         $this->builderProxy = $builderProxy;
         parent::__construct($str);
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function get(Contextual $contextual, string $name): RawBuilder|EloquentBuilder|Transform|string|null
     {
         return match ($name) {
