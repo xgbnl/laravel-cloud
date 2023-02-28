@@ -3,6 +3,7 @@
 namespace Xgbnl\Cloud\Exceptions;
 
 use http\Exception\RuntimeException;
+use Throwable;
 
 class FailedResolveException extends RuntimeException
 {

@@ -2,7 +2,6 @@
 
 namespace Xgbnl\Cloud\Cache;
 
-use HttpException;
 use HttpRuntimeException;
 use Redis;
 use RedisException;
@@ -11,6 +10,7 @@ use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
 use Xgbnl\Cloud\Kernel\Application;
 use Xgbnl\Cloud\Repositories\Repository;
+use Xgbnl\Cloud\Support\Str;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
@@ -51,22 +51,35 @@ abstract readonly class Cacheable implements Contextual
 
     final public function getIdentifier(): string
     {
-
+        return 'cacheable:' . self::split(static::class);
     }
 
     /**
-     * @throws HttpException
      * @throws ReflectionException
      */
-    public static function __callStatic(string $method, mixed $parameters): mixed
+    public static function __callStatic(string $name, array $arguments)
     {
-        if (str_ends_with($method, 'Cache')) {
-            $method = substr($method, 0, -strlen('Cache'));
-        }
-        return Application::getInstance()->make(static::class)->{$method}(...$parameters);
+        $method = self::split($name);
+
+        return Application::getInstance()->make(static::class)->{$method}(...$arguments);
     }
 
+    private static function split(string $name = null): string
+    {
+        return Application::getInstance()->make(Str::class)->split($name, 'Cache');
+    }
+
+    /**
+     * Get cache resources.
+     * @param string|null $key
+     * @return mixed
+     */
     abstract public function resources(string $key = null): mixed;
 
+    /**
+     * Store cache resources.
+     * @param mixed ...$params
+     * @return void
+     */
     abstract public function store(mixed ...$params): void;
 }
