@@ -1,6 +1,6 @@
 <?php
 
-namespace Xgbnl\Cloud\Kernel;
+namespace Xgbnl\Cloud\Support;
 
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 

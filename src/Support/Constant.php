@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Xgbnl\Cloud\Kernel;
+namespace Xgbnl\Cloud\Support;
 
 use Illuminate\Http\JsonResponse;
-use InvalidArgumentException;
 use Xgbnl\Cloud\Decorates\Factory\DecorateFactory;
 use Xgbnl\Cloud\Kernel\Paginator\Paginator;
 
-final readonly class Proxies
+final readonly class Constant
 {
     public function json(mixed $data = null, int $code = 200): JsonResponse
     {
@@ -39,11 +38,6 @@ final readonly class Proxies
             'path'     => Paginator::resolveCurrentPath(),
             'pageName' => 'pageNum',
         ]);
-    }
-
-    public function abort(int $code, string $message): void
-    {
-        throw new InvalidArgumentException($message, $code);
     }
 
      public function endpoint(mixed $needle, string $domain = null, bool $replace = false): array|string
