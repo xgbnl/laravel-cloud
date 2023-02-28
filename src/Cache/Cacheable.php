@@ -14,9 +14,9 @@ use Xgbnl\Cloud\Support\Str;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
- * @method static void destroyCache(string $key = null)
- * @method static void storeCache(mixed ...$params)
- * @method static mixed resourcesCache(string $key = null)
+ * @method static void destroy(string $key = null)
+ * @method static void store(mixed ...$params)
+ * @method static mixed resources(string $key = null)
  * @property Repository $repository
  */
 abstract readonly class Cacheable implements Contextual
@@ -25,12 +25,15 @@ abstract readonly class Cacheable implements Contextual
 
     protected ?Redis $redis;
 
-    protected Factory $factory;
+    private Factory $factory;
 
-    final public function __construct(Factory $factory, Redis $redis)
+    private Str $str;
+
+    final public function __construct(Factory $factory, Redis $redis, Str $str)
     {
         $this->factory = $factory;
         $this->redis = $redis;
+        $this->str = $str;
     }
 
     /**
@@ -51,7 +54,7 @@ abstract readonly class Cacheable implements Contextual
 
     final public function getIdentifier(): string
     {
-        return 'cacheable:' . self::split(static::class);
+        return 'cacheable:' . $this->str->split(static::class, 'Cache');
     }
 
     /**
@@ -59,14 +62,7 @@ abstract readonly class Cacheable implements Contextual
      */
     public static function __callStatic(string $name, array $arguments)
     {
-        $method = self::split($name);
-
-        return Application::getInstance()->make(static::class)->{$method}(...$arguments);
-    }
-
-    private static function split(string $name = null): string
-    {
-        return Application::getInstance()->make(Str::class)->split($name, 'Cache');
+        return Application::getInstance()->make(static::class)->{$name}(...$arguments);
     }
 
     /**

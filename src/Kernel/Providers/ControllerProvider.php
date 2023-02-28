@@ -2,6 +2,7 @@
 
 namespace Xgbnl\Cloud\Kernel\Providers;
 
+use ReflectionException;
 use Xgbnl\Cloud\Cache\Cacheable;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Proxy\Factory;
@@ -13,6 +14,9 @@ use Xgbnl\Cloud\Validator\Validator;
 
 final class ControllerProvider extends Provider implements Factory
 {
+    /**
+     * @throws ReflectionException
+     */
     public function get(Contextual $contextual, string $name): Service|Repository|Cacheable
     {
         return match ($name) {
