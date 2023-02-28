@@ -2,21 +2,17 @@
 
 namespace Xgbnl\Cloud\Exporter;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use ReflectionException;
 use Vtiful\Kernel\Excel;
-use Xgbnl\Cloud\Contacts\Exporter\Exporter as ExporterContact;
+use Xgbnl\Cloud\Kernel\Application;
 use Xgbnl\Cloud\Services\Service;
-use Xgbnl\Cloud\Traits\CallMethodCollection;
 
 /**
- * @method static void execute()
+ * @method static void export()
  */
 abstract class Exporter
 {
-    use CallMethodCollection;
-
     protected string $outputDir = 'exports';
 
     protected readonly Service $service;
@@ -34,9 +30,12 @@ abstract class Exporter
 
         $excel = new Excel(['path' => Storage::path($this->outputDir)]);
 
-        return $excel->fileName(Str::random(32) . '.xlsx', $this->outputDir)->header($this->headers());
+        return $excel->fileName(date('YmdHis') . rand(100000, 999999) . '.xlsx', $this->outputDir)->header($this->headers());
     }
 
+    /**
+     * @throws \HttpRuntimeException
+     */
     final protected function setHeader(mixed $filePath, string $outputName): void
     {
         if (is_file($filePath) && is_readable($filePath)) {
@@ -57,23 +56,16 @@ abstract class Exporter
 
             @unlink($filePath);
         } else {
-            $message = '[导出' . $outputName . '] 导出失败，文件不存在或不可读';
-
-            Log::error($message);
-            $this->abort(500, $message);
+            throw new \HttpRuntimeException('export [' . $outputName . '] fail,file read fail or not exists.', 500);
         }
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public static function __callStatic(string $name, array $arguments): void
     {
-        if ($name === 'execute') {
-            self::exporter()->export();
-        }
-    }
-
-    private static function exporter(): ExporterContact
-    {
-        return new static();
+        Application::getInstance()->make(static::class)->{$name}();
     }
 
     abstract protected function headers(): array;
