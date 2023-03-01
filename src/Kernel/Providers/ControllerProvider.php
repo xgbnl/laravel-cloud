@@ -5,7 +5,7 @@ namespace Xgbnl\Cloud\Kernel\Providers;
 use ReflectionException;
 use Xgbnl\Cloud\Cache\Cacheable;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
-use Xgbnl\Cloud\Contacts\Proxy\Factory;
+use Xgbnl\Cloud\Contacts\Providers\Factory;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Repositories\Repository;

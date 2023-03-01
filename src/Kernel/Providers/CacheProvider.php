@@ -4,7 +4,7 @@ namespace Xgbnl\Cloud\Kernel\Providers;
 
 use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
-use Xgbnl\Cloud\Contacts\Proxy\Factory;
+use Xgbnl\Cloud\Contacts\Providers\Factory;
 use Xgbnl\Cloud\Repositories\Repository;
 
 final  class CacheProvider extends Provider implements Factory

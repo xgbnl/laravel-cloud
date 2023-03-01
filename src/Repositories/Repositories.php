@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
-use Xgbnl\Cloud\Contacts\Proxy\Factory;
+use Xgbnl\Cloud\Contacts\Providers\Factory;
 use Xgbnl\Cloud\Contacts\Transform\Transform;
 use Xgbnl\Cloud\Kernel\Providers\RepositoryProvider;
 use Xgbnl\Cloud\Traits\ContextualTrait;

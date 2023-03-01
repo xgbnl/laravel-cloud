@@ -1,8 +1,8 @@
 <?php
 
-namespace Xgbnl\Cloud\Contacts\Proxy;
+namespace Xgbnl\Cloud\Contacts\Providers;
 
-interface Proxyable
+interface Provided
 {
     /**
      * Setting or reset current proxy class name.

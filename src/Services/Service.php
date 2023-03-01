@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Exporter\Exporter;
-use Xgbnl\Cloud\Contacts\Proxy\Factory;
+use Xgbnl\Cloud\Contacts\Providers\Factory;
+use Xgbnl\Cloud\Contacts\Services\FillContact;
 use Xgbnl\Cloud\Kernel\Providers\ServiceProvider;
-use Xgbnl\Cloud\Observer\Creator;
-use Xgbnl\Cloud\Observer\Deleter;
-use Xgbnl\Cloud\Observer\Updater;
+use Xgbnl\Cloud\Services\Process\Deleter\Deleter;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
@@ -26,49 +25,32 @@ abstract class Service implements Contextual
 {
     use ContextualTrait;
 
-    private ?string $observer = null;
+    private readonly Factory     $factory;
+    private readonly FillContact $common;
+    private readonly FillContact $transactional;
 
-    private readonly Factory $factory;
+    private readonly Deleter $deleter;
 
-    final public function __construct(ServiceProvider $provider)
+    final public function __construct(ServiceProvider $provider, FillContact $common, FillContact $transactional, Deleter $deleter)
     {
         $this->factory = $provider;
+        $this->common = $common;
+        $this->transactional = $transactional;
+        $this->deleter = $deleter;
     }
 
-    /**
-     * 创建或更新数据
-     *
-     * @param array $data 插入或更新的数据
-     * @param string $by 根据此字段更新
-     * @param bool $transaction 默认开启事务,用户可关闭自行设置事务
-     * @return Model
-     */
-    final public function createOrUpdate(array $data, string $by = 'id', bool $transaction = true): Model
+    final public function createOrUpdate(array $data, string $by = 'id', bool $transaction = true): Model|EloquentBuilder
     {
-        if ($byValue = ($data[$by] ?? null)) {
-            if ($by === 'id') {
-                unset($data[$by]);
-            }
-
-            return $transaction
-                ? Updater::make($this)->transactionUpdate($data, [$by => $byValue])
-                : Updater::make($this)->update($data, [$by => $byValue]);
-        }
-
-        return $transaction ? Creator::make($this)->transactionCreate($data) : Creator::make($this)->create($data);
+        return $transaction
+            ? $this->transactional->createOrUpdate($data, $by, $this->query)
+            : $this->common->createOrUpdate($data, $by, $this->query);
     }
 
-    /**
-     * 销毁数据
-     * 单独销毁数据可触发观察者
-     * @param int|array $value 数组情况下触发批量删除
-     * @param string $by 根据给定字段进行删除
-     * @return int|bool
-     */
-    final public function destroy(int|array $value, string $by = 'id'): int|bool
+    final public function destroy(mixed $value, string $by = 'id'): int|bool
     {
-        return is_array($value) ? Deleter::make($this)->batchDelete($value, $by)
-            : Deleter::make($this)->delete($value, $by);
+        return is_array($value)
+            ? $this->deleter->batch($value, $by, $this->query)
+            : $this->deleter->single($value, $by, $this->query);
     }
 
     final public function export(): void

@@ -4,13 +4,13 @@ namespace Xgbnl\Cloud\Kernel\Providers;
 
 use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
-use Xgbnl\Cloud\Contacts\Proxy\Proxyable;
+use Xgbnl\Cloud\Contacts\Providers\Provided;
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 use Xgbnl\Cloud\Kernel\Application;
 use Xgbnl\Cloud\Support\Constant;
 use Xgbnl\Cloud\Support\Str;
 
-abstract class Provider implements Proxyable
+abstract class Provider implements Provided
 {
     protected ?string $model = null;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Xgbnl\Cloud\Contacts\Proxy;
+namespace Xgbnl\Cloud\Contacts\Providers;
 
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 
-interface Factory extends Proxyable
+interface Factory extends Provided
 {
     /**
      * Get dynamic proxy object.

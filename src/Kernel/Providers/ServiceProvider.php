@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Exporter\Exporter;
-use Xgbnl\Cloud\Contacts\Proxy\Factory;
+use Xgbnl\Cloud\Contacts\Providers\Factory;
 use Xgbnl\Cloud\Support\Str;
 
 final class ServiceProvider extends Provider implements Factory

@@ -7,7 +7,7 @@ use Redis;
 use RedisException;
 use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
-use Xgbnl\Cloud\Contacts\Proxy\Factory;
+use Xgbnl\Cloud\Contacts\Providers\Factory;
 use Xgbnl\Cloud\Kernel\Application;
 use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Support\Str;
