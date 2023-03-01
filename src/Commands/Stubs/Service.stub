@@ -8,10 +8,5 @@ use Xgbnl\Cloud\Services\Service;
 
 class DummyClass extends Service
 {
-
-    final protected function configure(): void
-    {
-        // TODO: Implement configure() method.
-    }
-
+    // TODO
 }

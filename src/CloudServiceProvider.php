@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use Xgbnl\Cloud\Commands\InstallCommand;
 use Xgbnl\Cloud\Commands\MakeCacheCommand;
 use Xgbnl\Cloud\Commands\MakeExporterCommand;
-use Xgbnl\Cloud\Commands\MakeObserverCommand;
 use Xgbnl\Cloud\Commands\MakeRepositoryCommand;
 use Xgbnl\Cloud\Commands\MakeServiceCommand;
 use Xgbnl\Cloud\Commands\MakeTransformCommand;
@@ -20,7 +19,6 @@ class CloudServiceProvider extends ServiceProvider
         MakeCacheCommand::class,
         MakeRepositoryCommand::class,
         MakeTransformCommand::class,
-        MakeObserverCommand::class,
         MakeServiceCommand::class,
         MakeExporterCommand::class,
     ];
