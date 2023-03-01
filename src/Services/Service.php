@@ -12,6 +12,8 @@ use Xgbnl\Cloud\Contacts\Providers\Factory;
 use Xgbnl\Cloud\Contacts\Services\FillContact;
 use Xgbnl\Cloud\Kernel\Providers\ServiceProvider;
 use Xgbnl\Cloud\Services\Process\Deleter\Deleter;
+use Xgbnl\Cloud\Services\Process\fillable\CommonFillable;
+use Xgbnl\Cloud\Services\Process\fillable\TransactionalFillable;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
@@ -31,7 +33,7 @@ abstract class Service implements Contextual
 
     private readonly Deleter $deleter;
 
-    final public function __construct(ServiceProvider $provider, FillContact $common, FillContact $transactional, Deleter $deleter)
+    final public function __construct(ServiceProvider $provider, CommonFillable $common, TransactionalFillable $transactional, Deleter $deleter)
     {
         $this->factory = $provider;
         $this->common = $common;
