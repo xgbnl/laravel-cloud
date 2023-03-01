@@ -118,4 +118,24 @@ abstract class Validator extends FormRequest
 
         return $rules;
     }
+
+    /**
+     * The current attributes key is convert as a scene value.
+     * @param array|string|null $extra
+     * @return array
+     */
+    final protected function toScenes(array|string $extra = null): array
+    {
+        $fields = array_keys($this->attributes());
+
+        if (is_string($extra)) {
+            $fields[] = $extra;
+        }
+
+        if (is_array($extra)) {
+            $fields = array_merge($fields, $extra);
+        }
+
+        return $fields;
+    }
 }
