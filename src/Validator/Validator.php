@@ -122,9 +122,10 @@ abstract class Validator extends FormRequest
     /**
      * The current attributes key is convert as a scene value.
      * @param array|string|null $extra
+     * @param array $options
      * @return array
      */
-    final protected function toScenes(array|string $extra = null): array
+    final protected function toScenes(array|string $extra = null, array $options = []): array
     {
         $fields = array_keys($this->attributes());
 
@@ -136,6 +137,17 @@ abstract class Validator extends FormRequest
             $fields = array_merge($fields, $extra);
         }
 
-        return $fields;
+        if (empty($options)) {
+            return $fields;
+        }
+
+        $option = array_key_first($fields);
+
+        return array_filter(
+            $fields,
+            fn(string $field) => $option === 'only'
+                ? in_array($field, $fields[$option])
+                : !in_array($field, $fields[$option])
+        );
     }
 }
