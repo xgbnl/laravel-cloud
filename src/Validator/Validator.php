@@ -86,12 +86,7 @@ abstract class Validator extends FormRequest
 
     final public function validator(Factory $factory): \Illuminate\Validation\Validator
     {
-        return $factory->make(
-            data: $this->validationData(),
-            rules: $this->prepareRules(),
-            messages: $this->messages(),
-            customAttributes: $this->attributes(),
-        );
+        return $factory->make($this->validationData(), $this->prepareRules(), $this->messages(), $this->attributes());
     }
 
     private function prepareRules(): array
