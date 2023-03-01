@@ -16,7 +16,7 @@ final readonly class Deleter
     {
         $query = $builder->where($by, $value);
 
-        if (!(clone $query->exists())) {
+        if (!(clone $query)->exists()) {
             throw new HttpRuntimeException('Delete single data fail,model not exists.');
         }
 
