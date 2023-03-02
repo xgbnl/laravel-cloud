@@ -131,7 +131,7 @@ abstract class Validator extends FormRequest
      */
     final protected function toScenes(array|string $extra = null, array $options = []): array
     {
-        $fields = array_keys($this->attributes());
+        $fields = array_keys($this->rules());
 
         if (is_string($extra)) {
             $fields[] = $extra;
