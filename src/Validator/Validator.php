@@ -147,12 +147,9 @@ abstract class Validator extends FormRequest
 
         $option = array_key_first($options);
 
-        return array_filter(
-            $fields,
-            fn(string $field) => $option === 'only'
-                ? in_array($field, $fields[$option])
-                : !in_array($field, $fields[$option])
-        );
+        $scenes = $options[$option];
+
+        return array_filter($fields, fn(string $field) => $option === 'only' ? in_array($field, $scenes) : !in_array($field, $scenes));
     }
 
     /**
