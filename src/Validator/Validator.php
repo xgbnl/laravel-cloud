@@ -13,6 +13,8 @@ abstract class Validator extends FormRequest
 {
     protected array $scenes = [];
 
+    protected bool $replace = false;
+
     private array   $extendRules  = [];
     private ?string $currentScene = null;
 
@@ -35,14 +37,14 @@ abstract class Validator extends FormRequest
         return true;
     }
 
-    final public function scene(string $scene): static
+    final public function scene(string $scene): self
     {
         $this->currentScene = $scene;
 
         return $this;
     }
 
-    final public function with(array|string $rule): static
+    final public function with(array|string $rule): self
     {
         if (is_array($rule)) {
             $this->extendRules = array_merge(
@@ -102,10 +104,12 @@ abstract class Validator extends FormRequest
             }
         }
 
-        if ($this->currentScene && isset($this->scenes[$this->currentScene])) {
-            $sceneFields = is_array($this->scenes[$this->currentScene])
-                ? $this->scenes[$this->currentScene]
-                : explode(',', $this->scenes[$this->currentScene]);
+        $scenes = $this->replace ? $this->scenes() : $this->scenes;
+
+        if ($this->currentScene && isset($scenes[$this->currentScene])) {
+            $sceneFields = is_array($scenes[$this->currentScene])
+                ? $scenes[$this->currentScene]
+                : explode(',', $scenes[$this->currentScene]);
 
             return array_reduce($sceneFields, function (mixed $carry, $field) use ($rules) {
                 if (array_key_exists($field, $rules)) {
@@ -149,5 +153,14 @@ abstract class Validator extends FormRequest
                 ? in_array($field, $fields[$option])
                 : !in_array($field, $fields[$option])
         );
+    }
+
+    /**
+     * Define validate scenes.
+     * @return array
+     */
+    protected function scenes(): array
+    {
+        return [];
     }
 }
