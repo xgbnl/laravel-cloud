@@ -123,7 +123,7 @@ abstract class Validator extends FormRequest
      * The current attributes key is convert as a scene value.
      * @param array|string|null $extra
      * @param array $options
-     * @return array
+     * @return array<string>
      */
     final protected function toScenes(array|string $extra = null, array $options = []): array
     {
@@ -141,7 +141,7 @@ abstract class Validator extends FormRequest
             return $fields;
         }
 
-        $option = array_key_first($fields);
+        $option = array_key_first($options);
 
         return array_filter(
             $fields,
