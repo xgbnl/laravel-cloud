@@ -14,9 +14,9 @@ use Xgbnl\Cloud\Support\Str;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
- * @method static void destroy(string $key = null)
- * @method static void store(mixed ...$params)
- * @method static mixed resources(string $key = null)
+ * @method static void destroyCache(string $key = null)
+ * @method static void storeCache(mixed ...$params)
+ * @method static mixed resourcesCache(string $key = null)
  * @property Repository $repository
  */
 abstract readonly class Cacheable implements Contextual
@@ -62,7 +62,8 @@ abstract readonly class Cacheable implements Contextual
      */
     public static function __callStatic(string $name, array $arguments)
     {
-        return Application::getInstance()->make(static::class)->{$name}(...$arguments);
+        $method = substr($name, 0, -strlen('Cache'));
+        return Application::getInstance()->make(static::class)->{$method}(...$arguments);
     }
 
     /**
