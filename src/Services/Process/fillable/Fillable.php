@@ -2,7 +2,7 @@
 
 namespace Xgbnl\Cloud\Services\Process\fillable;
 
-use HttpRuntimeException;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Xgbnl\Cloud\Contacts\Services\FillContact;
@@ -30,10 +30,10 @@ abstract class Fillable implements FillContact
     abstract protected function create(array $data, Builder $builder): Model|Builder;
 
     /**
-     * @throws HttpRuntimeException
+     * @throws Exception
      */
     final protected function fillFailException(): void
     {
-        throw new HttpRuntimeException('Create or update model fail.');
+        throw new Exception('Create or update model fail.',500);
     }
 }
