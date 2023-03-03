@@ -38,7 +38,8 @@ final  class RepositoryProvider extends QueryBuilderProvider implements Factory
             return $this->model;
         }
 
-        $concrete = $this->splice($abstract, 'Transforms', $final);
+        $concrete = $this->splice($abstract, 'Transforms');
+        $concrete = $concrete . ucwords($final);
 
         return !class_exists($concrete) ? null : $this->refresh($concrete);
     }
