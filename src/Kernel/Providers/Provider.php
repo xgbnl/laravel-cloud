@@ -2,6 +2,7 @@
 
 namespace Xgbnl\Cloud\Kernel\Providers;
 
+use BadMethodCallException;
 use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Providers\Provided;
@@ -97,7 +98,7 @@ abstract class Provider implements Provided
             return $this->getConstant()->{$name}(...$arguments);
         }
 
-        throw new FailedResolveException('Method ' . $contextual->getAlias() . '::' . $name . 'does not exist.');
+        throw new BadMethodCallException('Method ' . $contextual->getAlias() . '::' . $name . 'does not exist.');
     }
 
     abstract public function getModel(string $abstract, string $final): mixed;

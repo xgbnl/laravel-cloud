@@ -51,6 +51,6 @@ abstract class Repositories implements Contextual
             return $this;
         }
 
-        return $this->factory->callAction($this, $name, ... $arguments);
+        return $this->factory->callAction($this, $name, $arguments);
     }
 }

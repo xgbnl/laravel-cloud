@@ -31,7 +31,7 @@ class CloudServiceProvider extends ServiceProvider
         $this->register();
     }
 
-    public function register(): void
+    protected function register(): void
     {
         Application::getInstance()->singleton('constant', fn() => new Constant());
     }

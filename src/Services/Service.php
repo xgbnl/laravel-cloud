@@ -62,6 +62,6 @@ abstract class Service implements Contextual
 
     public function __call(string $name, array $arguments)
     {
-        return $this->factory->callAction($this, $name, ... $arguments);
+        return $this->factory->callAction($this, $name, $arguments);
     }
 }

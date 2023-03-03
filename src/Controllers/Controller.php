@@ -95,6 +95,6 @@ abstract class Controller extends BaseController implements Contextual
             return $this->factory->getConstant()->{$name}(...$arguments);
         }
 
-        return parent::__call($name, ...$arguments);
+        return parent::__call($name, $arguments);
     }
 }

@@ -2,13 +2,14 @@
 
 namespace Xgbnl\Cloud\Cache;
 
-use HttpRuntimeException;
+use Exception;
 use Redis;
 use RedisException;
 use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Providers\Factory;
 use Xgbnl\Cloud\Kernel\Application;
+use Xgbnl\Cloud\Kernel\Providers\CacheProvider;
 use Xgbnl\Cloud\Repositories\Repository;
 use Xgbnl\Cloud\Support\Str;
 use Xgbnl\Cloud\Traits\ContextualTrait;
@@ -29,7 +30,7 @@ abstract readonly class Cacheable implements Contextual
 
     private Str $str;
 
-    final public function __construct(Factory $factory, Redis $redis, Str $str)
+    final public function __construct(CacheProvider $factory, Redis $redis, Str $str)
     {
         $this->factory = $factory;
         $this->redis = $redis;
@@ -37,7 +38,7 @@ abstract readonly class Cacheable implements Contextual
     }
 
     /**
-     * @throws HttpRuntimeException
+     * @throws Exception
      */
     final public function destroy(string $key = null): void
     {
@@ -48,13 +49,13 @@ abstract readonly class Cacheable implements Contextual
                 $this->redis->del($identifier);
             }
         } catch (RedisException $e) {
-            throw new HttpRuntimeException('destroy cache fail or cache:[' . $this->getIdentifier() . ' not exists.]', 500);
+            throw new Exception('Delete cache fail or cache:[' . $this->getIdentifier() . ' not exists.]', 500);
         }
     }
 
     final public function getIdentifier(): string
     {
-        return 'cacheable:' . $this->str->split(static::class, 'Cache');
+        return 'cacheable:' . $this->getSupport()->split(static::class, 'Cache');
     }
 
     /**
@@ -62,19 +63,27 @@ abstract readonly class Cacheable implements Contextual
      */
     public static function __callStatic(string $name, array $arguments)
     {
-        $method = substr($name, 0, -strlen('Cache'));
-        return Application::getInstance()->make(static::class)->{$method}(...$arguments);
+        $self = Application::getInstance()->make(static::class);
+
+        $method = $self->getSupport($name, 'Cache');
+
+        return $self->{$method}(...$arguments);
+    }
+
+    final public function getSupport(): Str
+    {
+        return $this->str;
     }
 
     /**
-     * Get cache resources.
+     * Get cache.
      * @param string|null $key
      * @return mixed
      */
     abstract public function resources(string $key = null): mixed;
 
     /**
-     * Store cache resources.
+     * Store cache.
      * @param mixed ...$params
      * @return void
      */
