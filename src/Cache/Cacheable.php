@@ -30,7 +30,7 @@ abstract readonly class Cacheable implements Contextual
 
     private Str $str;
 
-    final public function __construct(CacheProvider $factory, Redis $redis, Str $str)
+    final public function __construct(CacheProvider $factory, Str $str, Redis $redis)
     {
         $this->factory = $factory;
         $this->redis = $redis;
@@ -65,7 +65,7 @@ abstract readonly class Cacheable implements Contextual
     {
         $self = Application::getInstance()->make(static::class);
 
-        $method = $self->getSupport($name, 'Cache');
+        $method = $self->getSupport()->split($name, 'Cache');
 
         return $self->{$method}(...$arguments);
     }
