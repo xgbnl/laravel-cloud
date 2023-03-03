@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DummyNamespace;
 
-use Xgbnl\Cloud\Contacts\Transform;
+use Xgbnl\Cloud\Contacts\Transform\Transform;
 use Illuminate\Database\Eloquent\Model;
 
 class DummyClass implements Transform
