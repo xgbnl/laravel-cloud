@@ -28,11 +28,6 @@ class CloudServiceProvider extends ServiceProvider
         $this->publishes([__DIR__ . '/Commands/Stubs/BaseController.stub' => app_path('Http/Controllers/BaseController.php')]);
         $this->commands($this->commands);
 
-        $this->register();
-    }
-
-    protected function register(): void
-    {
         Application::getInstance()->singleton('constant', fn() => new Constant());
     }
 }
