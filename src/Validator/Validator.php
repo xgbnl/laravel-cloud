@@ -13,6 +13,10 @@ abstract class Validator extends FormRequest
 {
     protected array $scenes = [];
 
+    /**
+     * Whether to replace the default scenes array with a functional call.
+     * @var bool
+     */
     protected bool $replace = false;
 
     private array   $extendRules  = [];
