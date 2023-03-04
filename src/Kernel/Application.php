@@ -30,6 +30,10 @@ final class Application
     public function make(string $abstract, array $parameters = []): object
     {
 
+        if (array_key_exists($abstract, $this->instances)) {
+            return $this->getSingleton($abstract)();
+        }
+
         $concrete = $this->getConcrete($abstract);
 
         if (!is_null($concrete)) {

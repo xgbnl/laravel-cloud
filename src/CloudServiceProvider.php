@@ -2,6 +2,7 @@
 
 namespace Xgbnl\Cloud;
 
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\ServiceProvider;
 use Xgbnl\Cloud\Commands\InstallCommand;
 use Xgbnl\Cloud\Commands\MakeCacheCommand;
@@ -25,9 +26,21 @@ class CloudServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->publishes([__DIR__ . '/Commands/Stubs/BaseController.stub' => app_path('Http/Controllers/BaseController.php')]);
+        $this->publishes([
+            __DIR__ . '/Commands/Stubs/BaseController.stub' => app_path('Http/Controllers/BaseController.php'),
+            __DIR__ . '/Commands/Config/laravel-cloud.php'  => base_path('config/laravel-cloud.php')
+        ]);
         $this->commands($this->commands);
 
-        Application::getInstance()->singleton('constant', fn() => new Constant());
+        $this->register();
+    }
+
+    public function register(): void
+    {
+        $app = Application::getInstance();
+
+        $app->singleton('constant', fn() => new Constant());
+
+        $app->singleton(\Redis::class, fn() => Redis::connection(config('laravel-cloud.cacheable'))->client());
     }
 }
