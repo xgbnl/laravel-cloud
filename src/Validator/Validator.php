@@ -127,33 +127,19 @@ abstract class Validator extends FormRequest
         return $rules;
     }
 
-    /**
-     * The current attributes key is convert as a scene value.
-     * @param array|string|null $extra
-     * @param array $options
-     * @return array<string>
-     */
-    final protected function toScenes(array|string $extra = null, array $options = []): array
+    final protected function only(array $fields): array
     {
-        $fields = array_keys($this->rules());
+        return array_filter($fields, fn(string $field) => in_array($field, $this->getFields()));
+    }
 
-        if (is_string($extra)) {
-            $fields[] = $extra;
-        }
+    final protected function except(array $fields): array
+    {
+        return array_filter($fields, fn(string $field) => !in_array($field, $this->getFields()));
+    }
 
-        if (is_array($extra)) {
-            $fields = array_merge($fields, $extra);
-        }
-
-        if (empty($options)) {
-            return $fields;
-        }
-
-        $option = array_key_first($options);
-
-        $scenes = $options[$option];
-
-        return array_filter($fields, fn(string $field) => $option === 'only' ? in_array($field, $scenes) : !in_array($field, $scenes));
+    final protected function getFields(): array
+    {
+        return array_keys($this->rules());
     }
 
     /**
