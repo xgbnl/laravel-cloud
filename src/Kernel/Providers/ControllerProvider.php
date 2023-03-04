@@ -39,7 +39,7 @@ final class ControllerProvider extends Provider implements Factory
             'service'    => array_shift($parts) . '\\Services\\',
             'repository' => array_shift($parts) . '\\Repositories\\',
             'request'    => array_shift($parts) . '\\Http\\Requests\\',
-            'cache'      => array_shift($parts) . '\\Cache\\',
+            'cache'      => array_shift($parts) . '\\Caches\\',
         };
 
         $controller = end($parts);
