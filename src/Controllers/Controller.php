@@ -22,6 +22,7 @@ use Xgbnl\Cloud\Validator\Validator;
  * @property Cacheable $cache
  * @method JsonResponse json(mixed $data = null, int $code = 200)
  * @method Paginator paginator(array $data)
+ * @method mixed endpoint(mixed $needle, string $domain, bool $replace = false)
  */
 abstract class Controller extends BaseController implements Contextual
 {
