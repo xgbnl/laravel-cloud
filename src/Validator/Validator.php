@@ -127,14 +127,14 @@ abstract class Validator extends FormRequest
         return $rules;
     }
 
-    final protected function scenesOnly(array $fields): array
+    final protected function scenesOnly(array $only): array
     {
-        return array_filter($fields, fn(string $field) => in_array($field, $this->getFields()));
+        return array_filter($this->getFields(), fn(string $field) => in_array($field, $only));
     }
 
-    final protected function scenesExcept(array $fields): array
+    final protected function scenesExcept(array $excepts): array
     {
-        return array_filter($fields, fn(string $field) => !in_array($field, $this->getFields()));
+        return array_filter($this->getFields(), fn(string $field) => !in_array($field, $excepts));
     }
 
     final protected function getFields(): array
