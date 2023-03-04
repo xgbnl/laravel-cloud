@@ -66,7 +66,7 @@ abstract class Validator extends FormRequest
     {
         $validatedData = $this->resolveValidator()->validated();
 
-        return empty($extra) ? $validatedData : array_merge($validatedData, $extra);
+        return empty($extras) ? $validatedData : array_merge($validatedData, $extras);
     }
 
     final public function validateResolved(): void
