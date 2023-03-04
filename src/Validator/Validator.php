@@ -150,4 +150,6 @@ abstract class Validator extends FormRequest
     {
         return [];
     }
+
+    abstract public function rules(): array;
 }
