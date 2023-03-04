@@ -18,7 +18,7 @@ class TransactionalFillable extends Fillable
         } catch (\Exception $e) {
             DB::rollBack();
 
-            $this->fillFailException();
+            $this->fillFailException($e);
         }
 
         return $this->model;
@@ -33,7 +33,7 @@ class TransactionalFillable extends Fillable
         } catch (\Exception $e) {
             DB::rollBack();
 
-            $this->fillFailException();
+            $this->fillFailException($e);
         }
 
         return $this->model;

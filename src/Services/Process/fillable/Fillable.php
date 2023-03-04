@@ -32,8 +32,8 @@ abstract class Fillable implements FillContact
     /**
      * @throws Exception
      */
-    final protected function fillFailException(): void
+    final protected function fillFailException(\Throwable $e): void
     {
-        throw new Exception('Create or update model fail.',500);
+        throw new Exception('Create or update model fail,' . $e->getMessage(), 500);
     }
 }

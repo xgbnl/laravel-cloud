@@ -14,7 +14,7 @@ class CommonFillable extends Fillable
         try {
             $this->model = $builder->updateOrCreate($attributes, $data);
         } catch (Exception $e) {
-            $this->fillFailException();
+            $this->fillFailException($e);
         }
 
         return $this->model;
@@ -25,7 +25,7 @@ class CommonFillable extends Fillable
         try {
             $this->model = $builder->create($data);
         } catch (Exception $e) {
-            $this->fillFailException();
+            $this->fillFailException($e);
         }
 
         return $this->model;
