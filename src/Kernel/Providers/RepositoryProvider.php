@@ -5,12 +5,13 @@ namespace Xgbnl\Cloud\Kernel\Providers;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as RawBuilder;
 use ReflectionException;
+use Illuminate\Database\Eloquent\Model;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Providers\Factory;
 use Xgbnl\Cloud\Contacts\Transform\Transform;
 use Xgbnl\Cloud\Support\Str;
 
-final  class RepositoryProvider extends QueryBuilderProvider implements Factory
+final  class RepositoryProvider extends Provider implements Factory
 {
     protected QueryBuilderProvider $builderProxy;
 
@@ -23,7 +24,7 @@ final  class RepositoryProvider extends QueryBuilderProvider implements Factory
     /**
      * @throws ReflectionException
      */
-    public function get(Contextual $contextual, string $name): RawBuilder|EloquentBuilder|Transform|string|null
+    public function get(Contextual $contextual, string $name): RawBuilder|EloquentBuilder|Transform|Model|string|null
     {
         return match ($name) {
             'transform' => $this->getConcrete($contextual->getAlias(), $name),
