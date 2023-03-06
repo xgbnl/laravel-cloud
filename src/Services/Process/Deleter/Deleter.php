@@ -17,14 +17,14 @@ final readonly class Deleter
         $query = $builder->where($by, $value);
 
         if (!(clone $query)->exists()) {
-            throw new Exception('Delete single data fail,model not exists.', 500);
+            throw new Exception('The model does not exist or has been deleted.', 500);
         }
 
         $model = $query->first();
 
         try {
             $model->delete();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new Exception('Delete model fail.[' . $e->getMessage() . ']', 500);
         }
 

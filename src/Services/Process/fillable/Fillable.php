@@ -12,11 +12,18 @@ abstract class Fillable implements FillContact
 
     protected Model|Builder $model;
 
+    /**
+     * @throws Exception
+     */
     final public function createOrUpdate(mixed $data, string $by, Builder $builder): Builder|Model
     {
         if ($byValue = ($data[$by] ?? null)) {
             if ($by === 'id') {
                 unset($data[$by]);
+            }
+
+            if (!(clone $builder)->where($by,$byValue)->exists()) {
+                throw new Exception('The model does not exist and cannot be updated.');
             }
 
             return $this->update([$by => $byValue], $data, $builder);
