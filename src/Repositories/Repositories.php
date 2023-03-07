@@ -38,9 +38,9 @@ abstract class Repositories implements Contextual
 
     private readonly Factory $provider;
 
-    protected readonly Scope $scope;
+    private readonly Scope $scope;
 
-    protected readonly Eloquent $eloquent;
+    private readonly Eloquent $eloquent;
 
     protected array $rules = [];
 
