@@ -90,20 +90,14 @@ abstract class Validator extends FormRequest
         return $instance;
     }
 
-    final public function validator(Factory $factory): \Illuminate\Validation\Validator
-    {
-        return $factory->make($this->validationData(), $this->prepareRules(), $this->messages(), $this->attributes());
-    }
-
     private function prepareRules(): array
     {
-        $rules = $this->container->call([$this, 'rules']);
+        $rules = $this->rules();
 
         if (!empty($this->extendRules)) {
-            $extendRules = array_reverse($this->extendRules);
-            foreach ($extendRules as $extendRule) {
-                if (method_exists($this, "{$extendRule}Rules")) {
-                    $rules = array_merge($rules, $this->container->call([$this, "{$extendRule}Rules"]));
+            foreach ($this->extendRules as $extend) {
+                if (method_exists($this, $extendRules = "{$extend}Rules")) {
+                    $rules = array_merge($rules, $this->{$extendRules}());
                 }
             }
         }
@@ -140,6 +134,11 @@ abstract class Validator extends FormRequest
     final protected function getFields(): array
     {
         return array_keys($this->rules());
+    }
+
+    final public function validator(Factory $factory): \Illuminate\Validation\Validator
+    {
+        return $factory->make($this->validationData(), $this->prepareRules(), $this->messages(), $this->attributes());
     }
 
     /**
