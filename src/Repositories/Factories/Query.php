@@ -4,8 +4,14 @@ namespace Xgbnl\Cloud\Repositories\Factories;
 
 use Xgbnl\Cloud\Contacts\Eloquent\Eloquent;
 
-class Query implements Eloquent
+readonly class Query implements Eloquent
 {
+    protected Scope $scope;
+
+    public function __construct(Scope $scope)
+    {
+        $this->scope = $scope;
+    }
 
     public function values(): mixed
     {
