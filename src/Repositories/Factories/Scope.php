@@ -1,12 +1,14 @@
 <?php
 
-namespace Xgbnl\Cloud\Repositories;
+namespace Xgbnl\Cloud\Repositories\Factories;
 
 use Xgbnl\Cloud\Exceptions\FailedResolveException;
 
-final class Eloquent
+final class Scope
 {
-    protected mixed $select = ['*'];
+    protected array|string|null $select = null;
+
+    protected array|string|null $except = null;
 
     protected array $relation = [];
 
@@ -24,6 +26,9 @@ final class Eloquent
             case 'select':
                 $this->select = $this->splitColumn($value);
                 break;
+            case 'except':
+                $this->except = $this->splitColumn($value);
+                break;
             case 'relation':
                 $this->relation = $value;
                 break;
@@ -36,7 +41,7 @@ final class Eloquent
                 break;
             case 'transform':
                 $this->transform = true;
-                $this->call      = $value;
+                $this->call = $value;
                 break;
             default:
                 throw new FailedResolveException('Call undefined method [' . $name . ']');
