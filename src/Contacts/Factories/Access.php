@@ -1,8 +1,8 @@
 <?php
 
-namespace Xgbnl\Cloud\Contacts\Eloquent;
+namespace Xgbnl\Cloud\Contacts\Factories;
 
-interface Eloquent
+interface Access
 {
     public function values(): mixed;
 

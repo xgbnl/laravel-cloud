@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
-use Xgbnl\Cloud\Contacts\Eloquent\Eloquent;
+use Xgbnl\Cloud\Contacts\Factories\Access;
 use Xgbnl\Cloud\Contacts\Providers\Factory;
 use Xgbnl\Cloud\Contacts\Transform\Transform;
 use Xgbnl\Cloud\Kernel\Providers\RepositoryProvider;
@@ -40,7 +40,7 @@ abstract class Repositories implements Contextual
 
     private readonly Scope $scope;
 
-    private readonly Eloquent $eloquent;
+    private readonly Access $eloquent;
 
     protected array $rules = [];
 
