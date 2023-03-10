@@ -63,8 +63,11 @@ abstract readonly class Cacheable implements Contextual
 
     final public function getIdentifier(): string
     {
-        $name = substr(static::class, strrpos(class_exists(static::class), '\\') + 1);
-        return 'cacheable:' . $this->getSupport()->split($name, 'Cache');
+        $name = substr(static::class, strrpos(static::class, '\\') + 1);
+
+        $name = $this->getSupport()->split($name, 'Cache');
+
+        return 'cacheable:'.strtolower($name) ;
     }
 
     /**
