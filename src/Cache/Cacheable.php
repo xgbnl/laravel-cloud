@@ -58,6 +58,11 @@ abstract readonly class Cacheable implements Contextual
         return 'cacheable:' . $this->getSupport()->split(static::class, 'Cache');
     }
 
+    final protected function exists(): bool
+    {
+        return $this->redis->exists($this->getIdentifier());
+    }
+
     /**
      * @throws ReflectionException
      */
