@@ -36,7 +36,7 @@ abstract class Repositories implements Contextual
 {
     use ContextualTrait;
 
-    private readonly Factory $provider;
+    private readonly Factory $factory;
 
     private readonly Scope $scope;
 
@@ -46,7 +46,7 @@ abstract class Repositories implements Contextual
 
     final public function __construct(RepositoryProvider $provider, Scope $scope, Query $eloquent)
     {
-        $this->provider = $provider;
+        $this->factory = $provider;
         $this->scope = $scope;
         $this->eloquent = $eloquent;
     }
