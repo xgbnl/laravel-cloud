@@ -26,6 +26,7 @@ final  class CacheProvider extends Provider implements Factory
         }
 
         $concrete = $this->splice($abstract, 'Repositories');
+        $concrete = $concrete . ucwords($final);
 
         if (!class_exists($concrete)) {
             $this->modelNotExistsFail($concrete);
