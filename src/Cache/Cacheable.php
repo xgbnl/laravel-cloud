@@ -84,8 +84,8 @@ abstract readonly class Cacheable implements Contextual
 
     /**
      * Store cache.
-     * @param mixed ...$params
+     * @param mixed|null $values
      * @return void
      */
-    abstract public function store(mixed ...$params): void;
+    abstract public function store(mixed $values = null): void;
 }

@@ -6,14 +6,14 @@ namespace DummyNamespace;
 
 use Xgbnl\Cloud\Cache\Cacheable;
 
-class DummyClass extends Cacheable
+readonly class DummyClass extends Cacheable
 {
     public function resources(string $key = null): mixed
     {
         // TODO: Implement resources() method.
     }
 
-    public function store(...$params): void
+    public function store(mixed $values = null): void
     {
         // TODO: Implement store() method.
     }
