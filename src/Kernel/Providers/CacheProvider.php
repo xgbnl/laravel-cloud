@@ -21,11 +21,11 @@ final  class CacheProvider extends Provider implements Factory
 
     public function getModel(string $abstract, string $final): string
     {
-        if (!$this->has()) {
+        if ($this->has()) {
             return $this->model;
         }
 
-        $concrete = $this->splice($abstract, 'Repositories', $final);
+        $concrete = $this->splice($abstract, 'Repositories');
 
         if (!class_exists($concrete)) {
             $this->modelNotExistsFail($concrete);

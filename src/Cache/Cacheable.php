@@ -2,12 +2,12 @@
 
 namespace Xgbnl\Cloud\Cache;
 
-use Exception;
 use Redis;
 use RedisException;
 use ReflectionException;
 use Xgbnl\Cloud\Contacts\Controller\Contextual;
 use Xgbnl\Cloud\Contacts\Providers\Factory;
+use Xgbnl\Cloud\Exceptions\CacheException;
 use Xgbnl\Cloud\Kernel\Application;
 use Xgbnl\Cloud\Kernel\Providers\CacheProvider;
 use Xgbnl\Cloud\Repositories\Repository;
@@ -37,9 +37,6 @@ abstract readonly class Cacheable implements Contextual
         $this->str = $str;
     }
 
-    /**
-     * @throws Exception
-     */
     final public function destroy(string $key = null): void
     {
         $identifier = $key ?? $this->getIdentifier();
@@ -49,18 +46,25 @@ abstract readonly class Cacheable implements Contextual
                 $this->redis->del($identifier);
             }
         } catch (RedisException $e) {
-            throw new Exception('Delete cache fail or cache:[' . $this->getIdentifier() . ' not exists.]', 500);
+            throw new CacheException('Destroy cache fail.', 500);
         }
-    }
-
-    final public function getIdentifier(): string
-    {
-        return 'cacheable:' . $this->getSupport()->split(static::class, 'Cache');
     }
 
     final protected function exists(): bool
     {
-        return $this->redis->exists($this->getIdentifier());
+        try {
+            $exists = $this->redis->exists($this->getIdentifier());
+        } catch (RedisException $e) {
+            throw new CacheException($e->getMessage(), 500);
+        }
+
+        return $exists;
+    }
+
+    final public function getIdentifier(): string
+    {
+        $name = substr(static::class, strrpos(class_exists(static::class), '\\') + 1);
+        return 'cacheable:' . $this->getSupport()->split($name, 'Cache');
     }
 
     /**
