@@ -51,16 +51,6 @@ abstract class Repositories implements Contextual
         $this->eloquent = $eloquent;
     }
 
-    final protected function values(): array
-    {
-        return $this->eloquent->values();
-    }
-
-    final protected function value(): array
-    {
-        return $this->eloquent->value();
-    }
-
     public function __call(string $name, array $arguments)
     {
         if (property_exists($this->scope, $name)) {
