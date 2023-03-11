@@ -23,6 +23,8 @@ use Xgbnl\Cloud\Traits\ContextualTrait;
  * @property-read RawQuery $rawQuery
  * @property-read Transform|null $transform
  * @method self select(string|array $columns)
+ * @method self only(array $columns)
+ * @method self except(array $columns)
  * @method self relation(array $with)
  * @method self query(array $params)
  * @method self transform(string $call = 'transform')
