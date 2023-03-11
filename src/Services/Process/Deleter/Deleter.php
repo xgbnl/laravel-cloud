@@ -2,30 +2,27 @@
 
 namespace Xgbnl\Cloud\Services\Process\Deleter;
 
-use Exception;
+use Xgbnl\Cloud\Exceptions\ServiceException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 final readonly class Deleter
 {
-    /**
-     * @throws Exception
-     */
     public function single(int|string $value, string $by, Builder $builder): bool
     {
         $query = $builder->where($by, $value);
 
         if (!(clone $query)->exists()) {
-            throw new Exception('The model does not exist or has been deleted.', 500);
+            throw new ServiceException('The model does not exist or has been deleted.', 500);
         }
 
         $model = $query->first();
 
         try {
             $model->delete();
-        } catch (Exception $e) {
-            throw new Exception('Delete model fail.[' . $e->getMessage() . ']', 500);
+        } catch (\Exception $e) {
+            throw new ServiceException('Delete model fail.[' . $e->getMessage() . ']', 500);
         }
 
         return true;

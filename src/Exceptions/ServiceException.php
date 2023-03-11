@@ -2,7 +2,7 @@
 
 namespace Xgbnl\Cloud\Exceptions;
 
-class CacheException extends Exception
+class ServiceException extends Exception
 {
 
 }
