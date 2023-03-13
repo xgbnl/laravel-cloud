@@ -18,6 +18,8 @@ final class Scope implements Accessor
 
     protected Repositories $repositories;
 
+    protected array $outPutter = [];
+
     public function __construct(Select $select, Relation $relation, Filter $filter)
     {
         $this->relation = $relation;

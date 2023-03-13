@@ -3,7 +3,6 @@
 namespace Xgbnl\Cloud\Repositories\Supports\Resources;
 
 use Xgbnl\Cloud\Repositories\Supports\Contacts\Resolver;
-use Xgbnl\Cloud\Repositories\Supports\Contacts\Resourceful;
 
 class Filter implements Resolver
 {
