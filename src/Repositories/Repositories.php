@@ -13,7 +13,7 @@ use Xgbnl\Cloud\Contacts\Providers\Factory;
 use Xgbnl\Cloud\Contacts\Transform\Transform;
 use Xgbnl\Cloud\Kernel\Providers\RepositoryProvider;
 use Xgbnl\Cloud\Repositories\Supports\Contacts\Accessor;
-use Xgbnl\Cloud\Repositories\Supports\Scope;
+use Xgbnl\Cloud\Repositories\Supports\Resources\OutPutter\Scope;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**

@@ -4,7 +4,7 @@ namespace Xgbnl\Cloud\Repositories\Supports\Resources;
 
 use Xgbnl\Cloud\Repositories\Supports\Contacts\Resolver;
 
-class Select implements Resolver
+class Selector implements Resolver
 {
     protected array $columns = ['*'];
 

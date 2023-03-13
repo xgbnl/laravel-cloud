@@ -1,30 +1,34 @@
 <?php
 
-namespace Xgbnl\Cloud\Repositories\Supports;
+namespace Xgbnl\Cloud\Repositories\Supports\Resources\OutPutter;
 
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Repositories\Supports\Contacts\Accessor;
+use Xgbnl\Cloud\Repositories\Supports\Contacts\OutPutter;
 use Xgbnl\Cloud\Repositories\Supports\Contacts\Resolver;
 use Xgbnl\Cloud\Repositories\Supports\Resources\Filter;
 use Xgbnl\Cloud\Repositories\Supports\Resources\Relation;
-use Xgbnl\Cloud\Repositories\Supports\Resources\Select;
+use Xgbnl\Cloud\Repositories\Supports\Resources\Selector;
 
 final class Scope implements Accessor
 {
     protected readonly Resolver $select;
     protected readonly Resolver $relation;
-
     protected readonly Resolver $filter;
+
+    protected readonly OutPutter $transform;
+    protected readonly OutPutter $chunk;
 
     protected Repositories $repositories;
 
-    protected array $outPutter = [];
-
-    public function __construct(Select $select, Relation $relation, Filter $filter)
+    public function __construct(Selector $select, Relation $relation, Filter $filter, Transform $transform, Chunkable $chunk)
     {
         $this->relation = $relation;
-        $this->select = $select;
-        $this->filter = $filter;
+        $this->select   = $select;
+        $this->filter   = $filter;
+
+        $this->chunk     = $chunk;
+        $this->transform = $transform;
     }
 
     public function includes(string $value): bool
@@ -57,7 +61,8 @@ final class Scope implements Accessor
                 break;
             case 'transform':
             case 'chunk':
-
+                $this->{$name}->store(...$values);
+                break;
         }
     }
 }

@@ -10,7 +10,7 @@ final class Relation implements Resolver
 
     protected array $relations = [];
 
-    public function __construct(Select $resolver)
+    public function __construct(Selector $resolver)
     {
         $this->resolver = $resolver;
     }
