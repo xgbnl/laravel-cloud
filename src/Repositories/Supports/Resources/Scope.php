@@ -1,14 +1,13 @@
 <?php
 
-namespace Xgbnl\Cloud\Repositories\Supports\Resources\OutPutter;
+namespace Xgbnl\Cloud\Repositories\Supports\Resources;
 
 use Xgbnl\Cloud\Repositories\Repositories;
 use Xgbnl\Cloud\Repositories\Supports\Contacts\Accessor;
 use Xgbnl\Cloud\Repositories\Supports\Contacts\OutPutter;
 use Xgbnl\Cloud\Repositories\Supports\Contacts\Resolver;
-use Xgbnl\Cloud\Repositories\Supports\Resources\Filter;
-use Xgbnl\Cloud\Repositories\Supports\Resources\Relation;
-use Xgbnl\Cloud\Repositories\Supports\Resources\Selector;
+use Xgbnl\Cloud\Repositories\Supports\Resources\OutPutter\Chunkable;
+use Xgbnl\Cloud\Repositories\Supports\Resources\OutPutter\Transform;
 
 final class Scope implements Accessor
 {
@@ -34,12 +33,6 @@ final class Scope implements Accessor
     public function includes(string $value): bool
     {
         return in_array($value, ['select', 'transform', 'chunk', 'query', 'relation']);
-    }
-
-    public function inject(Repositories $repositories): self
-    {
-        $this->repositories = $repositories;
-        return $this;
     }
 
     public function store(string $name, mixed $values): void

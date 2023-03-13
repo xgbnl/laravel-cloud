@@ -13,7 +13,9 @@ use Xgbnl\Cloud\Contacts\Providers\Factory;
 use Xgbnl\Cloud\Contacts\Transform\Transform;
 use Xgbnl\Cloud\Kernel\Providers\RepositoryProvider;
 use Xgbnl\Cloud\Repositories\Supports\Contacts\Accessor;
-use Xgbnl\Cloud\Repositories\Supports\Resources\OutPutter\Scope;
+use Xgbnl\Cloud\Repositories\Supports\Contacts\Query;
+use Xgbnl\Cloud\Repositories\Supports\Querier;
+use Xgbnl\Cloud\Repositories\Supports\Resources\Scope;
 use Xgbnl\Cloud\Traits\ContextualTrait;
 
 /**
@@ -27,12 +29,12 @@ use Xgbnl\Cloud\Traits\ContextualTrait;
  * @method self except(array $columns)
  * @method self relation(array $with)
  * @method self query(array $params)
- * @method self transform(string $call = 'transform')
+ * @method self transform(?string $call = null)
  * @method self chunk(int $count)
  * @method array tree(array $list, string $id = 'id', string $pid = 'pid', string $son = 'children')
  * @method mixed endpoint(mixed $needle, string $domain, bool $replace = false)
  */
-abstract class Repositories implements Contextual
+abstract class Repositories implements Contextual, Query
 {
     use ContextualTrait;
 
@@ -40,18 +42,30 @@ abstract class Repositories implements Contextual
 
     private readonly Accessor $scope;
 
-    protected array $rules = [];
+    private readonly Query $querier;
 
-    final public function __construct(RepositoryProvider $provider, Scope $scope)
+    final public function __construct(RepositoryProvider $provider, Scope $scope, Querier $querier)
     {
         $this->factory = $provider;
-        $this->scope = $scope;
+        $this->scope   = $scope;
+
+        $this->querier = $querier;
+    }
+
+    public function values(): array
+    {
+        return $this->querier->values();
+    }
+
+    public function value(): array
+    {
+        return $this->querier->value();
     }
 
     public function __call(string $name, array $arguments)
     {
         if ($this->scope->includes($name)) {
-            $this->scope->inject($this)->store($name, $arguments);
+            $this->scope->store($name, $arguments);
             return $this;
         }
 
